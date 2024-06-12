@@ -1,0 +1,13 @@
+[workspace]
+members = [
+    "crates/zk-commit-core"
+    ]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+homepage = "https://github.com/okx/pay-2-zk-commitment.git"
+repository = "https://github.com/okx/pay-2-zk-commitment.git"
+keywords = ["crypto", "pay", "SNARK", "plonky2"]
+categories = ["pay"]

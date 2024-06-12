@@ -1,0 +1,31 @@
+[package]
+name = "zk-commit-core"
+description = "zk commitment core logic"
+version = "0.2.0"
+authors = [
+]
+readme = "README.md"
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[features]
+
+
+[dependencies]
+
+
+[build-dependencies]
+bindgen = { version = "0.68.1" }
+
+[dev-dependencies]
+criterion = { version = "0.5.1", default-features = false }
+
+[target.'cfg(not(target_os = "macos"))'.dev-dependencies]
+jemallocator = "0.5.0"
+
+
+
