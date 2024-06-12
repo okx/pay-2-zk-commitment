@@ -1,0 +1,19 @@
+[package]
+name = "zk-commit-service"
+description = "zk commitment service"
+version = "0.2.0"
+authors = [
+]
+readme = "README.md"
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[features]
+
+
+[dependencies]
+plonky2={workspace=true}

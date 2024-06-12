@@ -16,7 +16,8 @@ categories.workspace = true
 
 
 [dependencies]
-
+plonky2={workspace=true}
+anyhow={workspace=true}
 
 [build-dependencies]
 bindgen = { version = "0.68.1" }
