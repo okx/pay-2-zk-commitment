@@ -1,0 +1,21 @@
+[package]
+name = "zk-commit-mobile"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+uniffi = { version = "0.28.0", features = ["cli"] }
+thiserror = { workspace = true }
+zk-commit-core = { path = "../zk-commit-core" }
+
+[lib]
+crate-type = ["cdylib"]
+
+[[bin]]
+name = "uniffi-bindgen"
+path = "bin/uniffi-bindgen.rs"
