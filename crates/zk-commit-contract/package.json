@@ -1,5 +1,5 @@
 {
-    "name": "zkpay-plonky2-contract",
+    "name": "pay-2-zk-commitment",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -9,19 +9,18 @@
       "postbuild": "",
       "test": "echo \"Error: no test specified\" && exit 1",
       "contract-types": "rimraf './generated/contracts/*' || true && yarn type-openzeppelin",
-      "type-openzeppelin": "typechain --target=ethers-v6  --out-dir ./generated/contracts/openzeppelin ./node_modules/@openzeppelin/contracts/build/contracts/*.json",
-      "type-zkpay": "typechain --target=ethers-v6  --out-dir ./generated/contracts/zkpay ./artifacts/contracts/**/*[!dbg].json"
+      "type-openzeppelin": "typechain --target=ethers-v6  --out-dir ./generated/contracts/openzeppelin ./node_modules/@openzeppelin/contracts/build/contracts/*.json"
     },
     "repository": {
       "type": "git",
-      "url": "git+https://github.com/okx/zkpay-plonky2-contract.git"
+      "url": "git+https://github.com/okx/pay-2-zk-commitment.git"
     },
     "author": "",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/okx/zkpay-plonky2-contract/issues"
+      "url": "https://github.com/okx/pay-2-zk-commitment/issues"
     },
-    "homepage": "https://github.com/okx/zkpay-plonky2-contract#readme",
+    "homepage": "https://github.com/okx/pay-2-zk-commitment#readme",
     "devDependencies": {
       "@nomicfoundation/hardhat-chai-matchers": "^2.0.6",
       "@nomicfoundation/hardhat-ethers": "^3.0.5",
