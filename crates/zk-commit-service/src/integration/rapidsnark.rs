@@ -56,10 +56,7 @@ impl RapidSnark {
             .build()
             .expect("unable to build http client");
 
-        Self {
-            client,
-            prover_url: prover_url.to_string(),
-        }
+        Self { client, prover_url: prover_url.to_string() }
     }
 
     pub fn get_status(&self) -> StatusResponse {
