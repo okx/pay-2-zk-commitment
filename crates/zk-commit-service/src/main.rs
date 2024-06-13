@@ -1,5 +1,5 @@
 use actix_web::{web, App, HttpServer};
-use std::sync::Arc;
+
 use zk_commit_service::{build_app, controllers::*, AppState};
 
 pub fn init_logger() {

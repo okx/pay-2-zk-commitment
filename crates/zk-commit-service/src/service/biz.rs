@@ -11,7 +11,7 @@ use crate::{
 
 pub(crate) async fn wrap_groth16(
     body: WrapGroth16ReqBody,
-    app_state: Data<AppState>,
+    _app_state: Data<AppState>,
 ) -> Result<WrapGroth16ResBody, ServiceError> {
     println!("receive  wrap_groth16 request: {:?}", body);
     let rapidsnark = RapidSnark::new("http://localhost:3000");
