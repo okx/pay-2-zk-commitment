@@ -1,0 +1,53 @@
+{
+    "name": "zkpay-plonky2-contract",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "prebuild": "rimraf dist",
+      "build": "npx hardhat compile",
+      "postbuild": "",
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "contract-types": "rimraf './generated/contracts/*' || true && yarn type-openzeppelin",
+      "type-openzeppelin": "typechain --target=ethers-v6  --out-dir ./generated/contracts/openzeppelin ./node_modules/@openzeppelin/contracts/build/contracts/*.json",
+      "type-zkpay": "typechain --target=ethers-v6  --out-dir ./generated/contracts/zkpay ./artifacts/contracts/**/*[!dbg].json"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/okx/zkpay-plonky2-contract.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/okx/zkpay-plonky2-contract/issues"
+    },
+    "homepage": "https://github.com/okx/zkpay-plonky2-contract#readme",
+    "devDependencies": {
+      "@nomicfoundation/hardhat-chai-matchers": "^2.0.6",
+      "@nomicfoundation/hardhat-ethers": "^3.0.5",
+      "@nomicfoundation/hardhat-ignition": "^0.15.2",
+      "@nomicfoundation/hardhat-ignition-ethers": "^0.15.2",
+      "@nomicfoundation/hardhat-network-helpers": "^1.0.10",
+      "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+      "@nomicfoundation/hardhat-verify": "^2.0.6",
+      "@nomicfoundation/ignition-core": "^0.15.2",
+      "@nomiclabs/hardhat-etherscan": "^3.1.2",
+      "@openzeppelin/contracts": "^5.0.2",
+      "@typechain/ethers-v6": "^0.5.1",
+      "@typechain/hardhat": "^9.1.0",
+      "@types/chai": "^4.3.16",
+      "@types/mocha": "^10.0.6",
+      "chai": "^4.4.1",
+      "ethers": "^6.12.1",
+      "hardhat": "^2.22.4",
+      "hardhat-gas-reporter": "^1.0.10",
+      "solidity-coverage": "^0.8.12",
+      "ts-node": "^10.9.2",
+      "typechain": "^8.3.2",
+      "typescript": "^5.4.5"
+    },
+    "dependencies": {
+      "bignumber.js": "^9.1.2"
+    }
+  }
+  
