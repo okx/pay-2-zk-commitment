@@ -1,6 +1,6 @@
 use plonky2::{hash::{hash_types::HashOutTarget, poseidon::PoseidonHash}, iop::target::Target, plonk::circuit_builder::CircuitBuilder};
 
-use crate::{circuit_config::{COMMITMENT_TREE_DEPTH, D, NUM_LEAVES_MERKLE_TREE}, types::F};
+use crate::{circuit_config::{D, NUM_LEAVES_MERKLE_TREE}, types::F};
 
 
 
