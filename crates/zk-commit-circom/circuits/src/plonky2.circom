@@ -4,7 +4,6 @@ pragma circom 2.1.0;
 include "./challenges.circom";
 include "./plonk.circom";
 include "./fri.circom";
-include "./finalproof.circom";
 include "./utils.circom";
 
 template VerifyPlonky2Proof() {
