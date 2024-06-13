@@ -1,9 +1,6 @@
 use actix_web::{web, App, HttpServer};
 use std::sync::Arc;
-use zk_commit_service::{
-    build_app,
-    {controllers::*, AppState},
-};
+use zk_commit_service::{build_app, controllers::*, AppState};
 
 pub fn init_logger() {
     // let _ = try_init_from_env(Env::default().filter_or(DEFAULT_FILTER_ENV, "info"));
@@ -19,12 +16,9 @@ pub fn init_logger() {
         .init();
 }
 
-
-
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     init_logger();
-
 
     let app_state = web::Data::new(AppState::new());
     let server = HttpServer::new(move || {

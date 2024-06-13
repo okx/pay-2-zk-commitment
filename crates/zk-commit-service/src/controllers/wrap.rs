@@ -1,8 +1,6 @@
 use actix_web::{post, web, Responder};
 
-use crate::{
-    error::ServiceError, models::bodies::WrapGroth16ReqBody, service::biz, AppState,
-};
+use crate::{error::ServiceError, models::bodies::WrapGroth16ReqBody, service::biz, AppState};
 
 /// register_user
 #[post("/groth16")]

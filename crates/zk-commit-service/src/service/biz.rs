@@ -1,14 +1,12 @@
+use crate::{
+    integration::rapidsnark::{Groth16ProofWithPublicData, RapidSnark},
+    AppState,
+};
 use actix_web::web::Data;
-use crate::integration::rapidsnark::{Groth16ProofWithPublicData, RapidSnark};
-use crate::AppState;
 
 use crate::{
-
     error::ServiceError,
-    models::bodies::{
-        WrapGroth16ReqBody,
-        WrapGroth16ResBody
-    },
+    models::bodies::{WrapGroth16ReqBody, WrapGroth16ResBody},
 };
 
 pub(crate) async fn wrap_groth16(

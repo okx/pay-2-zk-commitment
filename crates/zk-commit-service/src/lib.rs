@@ -1,20 +1,15 @@
-
 pub mod controllers;
 pub mod error;
+pub mod integration;
 pub mod models;
 pub mod service;
-pub mod integration;
 
 #[derive(Debug, Clone)]
-pub struct AppState {
-
-}
+pub struct AppState {}
 
 impl AppState {
     pub fn new() -> Self {
-        Self {
-            
-        }
+        Self {}
     }
 }
 
