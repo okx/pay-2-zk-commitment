@@ -18,9 +18,14 @@ categories.workspace = true
 [dependencies]
 plonky2={workspace=true}
 anyhow={workspace=true}
+ethers={workspace=true}
+serde={workspace=true}
+serde_json={workspace=true}
+plonky2_field={workspace=true}
 
 [build-dependencies]
 bindgen = { version = "0.68.1" }
+ethers = { version = "2.0.0", features = ["ws"] }
 
 [dev-dependencies]
 criterion = { version = "0.5.1", default-features = false }

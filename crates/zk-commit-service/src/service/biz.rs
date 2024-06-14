@@ -1,8 +1,6 @@
-use crate::{
-    integration::rapidsnark::{Groth16ProofWithPublicData, RapidSnark},
-    AppState,
-};
+use crate::{integration::rapidsnark::RapidSnark, AppState};
 use actix_web::web::Data;
+use zk_commit_core::groth16::Groth16ProofWithPublicData;
 
 use crate::{
     error::ServiceError,

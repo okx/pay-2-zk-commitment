@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
-
-use crate::integration::rapidsnark::Groth16ProofWithPublicData;
+use zk_commit_core::groth16::Groth16ProofWithPublicData;
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct WrapGroth16ReqBody {

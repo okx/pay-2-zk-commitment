@@ -16,6 +16,7 @@ categories.workspace = true
 
 
 [dependencies]
+zk-commit-core={path="../zk-commit-core"}
 plonky2={workspace=true}
 serde={workspace=true}
 serde_json={workspace=true}

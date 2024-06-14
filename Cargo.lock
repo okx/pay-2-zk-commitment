@@ -4779,8 +4779,12 @@ dependencies = [
  "anyhow",
  "bindgen",
  "criterion",
+ "ethers",
  "jemallocator",
  "plonky2",
+ "plonky2_field",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -4798,6 +4802,7 @@ dependencies = [
  "serde_json",
  "thiserror",
  "tokio",
+ "zk-commit-core",
 ]
 
 [[package]]
