@@ -4,3 +4,4 @@ artifacts/
 cache/
 typechain-types/
 .idea
+ios/
