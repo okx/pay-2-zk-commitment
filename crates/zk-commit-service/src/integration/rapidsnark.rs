@@ -1,7 +1,7 @@
 use std::time::Duration;
 
 use reqwest::{blocking::Client, header};
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 
 pub struct RapidSnark {
     prover_url: String,

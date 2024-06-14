@@ -5,7 +5,7 @@ use plonky2::{
 };
 
 use crate::{
-    circuit_config::{COMMITMENT_TREE_DEPTH, D, NUM_LEAVES_MERKLE_TREE},
+    circuit_config::{D, NUM_LEAVES_MERKLE_TREE},
     types::F,
 };
 
