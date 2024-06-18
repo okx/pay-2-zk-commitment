@@ -28,6 +28,7 @@ pub struct ClaimProofResponse {
 fn set_up(distrubutions: Vec<AmountSecretPair>) -> CommitmentTree; 
 
 /// deposit to contract; rust sdk will compose tx and return to mobile end; mobile end will do rpc [NEXT ITERATION]
+/// How do we verify the amount ios equal to the sum of the distributions? @Cliff 
 fn deposit_usdc(commitment: [u8;32], amount: u64, private_key: [u8;32]) 
 
 /// Generate the proof of the claim and return the proof along with the amount (public input) that was claimed
