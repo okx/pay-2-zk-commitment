@@ -13,5 +13,5 @@ keywords = ["crypto", "pay", "SNARK", "plonky2"]
 categories = ["pay"]
 
 [workspace.dependencies]
-plonky2 = { git = "https://github.com/okx/plonky2" }
+plonky2 = { git = "https://github.com/okx/plonky2", branch = "dev"}
 anyhow = { version = "1.0.40", default-features = false }

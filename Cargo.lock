@@ -588,7 +588,7 @@ checksum = "19b17cddbe7ec3f8bc800887bab5e717348c95ea2ca0b1bf0837fb964dc67099"
 [[package]]
 name = "plonky2"
 version = "0.2.0"
-source = "git+https://github.com/okx/plonky2#9c3f6f03c23ae756d286584e2f5a481f8e9ad286"
+source = "git+https://github.com/okx/plonky2?branch=dev#d99fe3bbc3c5b148f03c0f5af1d4f76d5fac902f"
 dependencies = [
  "ahash",
  "anyhow",
@@ -614,7 +614,7 @@ dependencies = [
 [[package]]
 name = "plonky2_field"
 version = "0.2.0"
-source = "git+https://github.com/okx/plonky2#9c3f6f03c23ae756d286584e2f5a481f8e9ad286"
+source = "git+https://github.com/okx/plonky2?branch=dev#d99fe3bbc3c5b148f03c0f5af1d4f76d5fac902f"
 dependencies = [
  "anyhow",
  "itertools 0.11.0",
@@ -633,7 +633,7 @@ dependencies = [
 [[package]]
 name = "plonky2_maybe_rayon"
 version = "0.2.0"
-source = "git+https://github.com/okx/plonky2#9c3f6f03c23ae756d286584e2f5a481f8e9ad286"
+source = "git+https://github.com/okx/plonky2?branch=dev#d99fe3bbc3c5b148f03c0f5af1d4f76d5fac902f"
 dependencies = [
  "rayon",
 ]
@@ -641,7 +641,7 @@ dependencies = [
 [[package]]
 name = "plonky2_util"
 version = "0.2.0"
-source = "git+https://github.com/okx/plonky2#9c3f6f03c23ae756d286584e2f5a481f8e9ad286"
+source = "git+https://github.com/okx/plonky2?branch=dev#d99fe3bbc3c5b148f03c0f5af1d4f76d5fac902f"
 
 [[package]]
 name = "ppv-lite86"
