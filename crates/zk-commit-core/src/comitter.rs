@@ -7,7 +7,7 @@ pub struct Commitment {
 }
 
 impl Commitment {
-    /// Get the claim for a given index within the committment tree. A claim includes the amount-secret pair, the commitment root and the merkle proof of inclusion of the 
+    /// Get the claim for a given index within the committment tree. A claim includes the amount-secret pair, the commitment root and the merkle proof of inclusion of the
     /// specific index (siblings).
     pub fn get_claim(&self, index: usize) -> Claim {
         assert!(index < self.distribution.len());
@@ -23,12 +23,15 @@ impl Commitment {
 mod test {
     use std::borrow::Borrow;
 
-    use crate::{commitment_tree::{self, CommitmentTree}, types::F, utils::AmountSecretPairing};
+    use crate::{
+        commitment_tree::{self, CommitmentTree},
+        types::F,
+        utils::AmountSecretPairing,
+    };
 
     use plonky2::field::types::Field;
 
     use super::Commitment;
-
 
     #[test]
     fn test_get_claim() {
@@ -68,13 +71,19 @@ mod test {
         ];
 
         let commitment_tree = CommitmentTree::new_from_distribution(distribution.borrow());
-        let commitment = Commitment{
+        let commitment = Commitment {
             commitment_tree,
             distribution: distribution.clone(),
         };
 
-        let claim =  commitment.get_claim(0);
-        assert_eq!(claim.pair.get_amount(), distribution.get(0).unwrap().get_amount());
-        assert_eq!(claim.pair.get_secret(), distribution.get(0).unwrap().get_secret());
+        let claim = commitment.get_claim(0);
+        assert_eq!(
+            claim.pair.get_amount(),
+            distribution.get(0).unwrap().get_amount()
+        );
+        assert_eq!(
+            claim.pair.get_secret(),
+            distribution.get(0).unwrap().get_secret()
+        );
     }
 }

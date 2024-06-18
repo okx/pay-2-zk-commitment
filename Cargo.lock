@@ -1110,5 +1110,6 @@ dependencies = [
  "bindgen",
  "criterion",
  "jemallocator",
+ "log",
  "plonky2",
 ]
