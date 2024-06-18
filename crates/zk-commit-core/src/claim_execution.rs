@@ -5,7 +5,7 @@ use crate::{types::F, utils::AmountSecretPairing};
 pub struct ClaimProvingInputs {
     pub pair: AmountSecretPairing,
     pub commitment: HashOut<F>,
-    pub siblings: Vec<HashOut<F>>,
+    pub commitment_merkle_proof: Vec<HashOut<F>>,
     pub nullifier_hash: HashOut<F>,
     pub own_leaf_hash: HashOut<F>,
 }
@@ -13,7 +13,7 @@ pub struct ClaimProvingInputs {
 pub struct Claim {
     pub pair: AmountSecretPairing,
     pub commitment: HashOut<F>,
-    pub siblings: Vec<HashOut<F>>,
+    pub commitment_merkle_proof: Vec<HashOut<F>>,
 }
 
 impl Claim {
@@ -32,7 +32,7 @@ pub fn execute_claim(claim: Claim) -> ClaimProvingInputs {
     ClaimProvingInputs {
         pair: claim.pair,
         commitment: claim.commitment,
-        siblings: claim.siblings,
+        commitment_merkle_proof: claim.commitment_merkle_proof,
         nullifier_hash,
         own_leaf_hash,
     }
