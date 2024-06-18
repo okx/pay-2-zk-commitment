@@ -7,13 +7,14 @@ pub struct Commitment {
 }
 
 impl Commitment {
-    /// Get the claim for a given index within the committment tree
+    /// Get the claim for a given index within the committment tree. A claim includes the amount-secret pair, the commitment root and the merkle proof of inclusion of the 
+    /// specific index (siblings).
     pub fn get_claim(&self, index: usize) -> Claim {
         assert!(index < self.distribution.len());
         Claim {
             pair: *self.distribution.get(index).unwrap(),
             commitment: self.commitment_tree.get_root(),
-            siblings: self.commitment_tree.get_siblings(index),
+            commitment_merkle_proof: self.commitment_tree.get_siblings(index),
         }
     }
 }

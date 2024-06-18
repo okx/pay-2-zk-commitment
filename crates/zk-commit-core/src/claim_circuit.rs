@@ -94,14 +94,14 @@ pub fn set_claim_circuit(
 
     assert_eq!(claim_targets.siblings.len(), COMMITMENT_TREE_DEPTH - 1);
     assert_eq!(
-        claim_proving_inputs.siblings.len(),
+        claim_proving_inputs.commitment_merkle_proof.len(),
         COMMITMENT_TREE_DEPTH - 1
     );
 
     for i in 0..COMMITMENT_TREE_DEPTH - 1 {
         pw.set_hash_target(
             *claim_targets.siblings.get(i).unwrap(),
-            *claim_proving_inputs.siblings.get(i).unwrap(),
+            *claim_proving_inputs.commitment_merkle_proof.get(i).unwrap(),
         );
     }
 }
