@@ -8,3 +8,4 @@ pub mod fibonacci;
 pub mod prover;
 pub mod types;
 pub mod utils;
+pub mod api;
