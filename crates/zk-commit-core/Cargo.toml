@@ -13,11 +13,12 @@ keywords.workspace = true
 categories.workspace = true
 
 [features]
-
+default = []
 
 [dependencies]
 plonky2={workspace=true}
 anyhow={workspace=true}
+log = "0.4.17"
 
 [build-dependencies]
 bindgen = { version = "0.68.1" }

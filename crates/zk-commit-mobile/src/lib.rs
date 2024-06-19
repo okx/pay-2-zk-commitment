@@ -1,14 +1,14 @@
 use std::time::{Duration, Instant};
-use zk_commit_core::fibonacci;
 
 uniffi::setup_scaffolding!();
+
+use zk_commit_core::fibonacci::fibonacci;
 
 #[derive(uniffi::Error, Debug, thiserror::Error)]
 pub enum ProveError {
     #[error("Failed to execute Fibonacci Proof")]
     FibonacciError,
 }
-
 
 #[derive(uniffi::Record)]
 pub struct ProofResult {
@@ -23,8 +23,8 @@ pub fn fibonacci_mobile() -> Result<ProofResult, ProveError> {
     let start = Instant::now();
     match fibonacci() {
         Ok(result) => Ok(ProofResult {
-            first_input: result.input.0.0,
-            second_input: result.input.1.0,
+            first_input: result.input.0 .0,
+            second_input: result.input.1 .0,
             output: result.output.0,
             duration: start.elapsed(),
         }),

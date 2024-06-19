@@ -3110,7 +3110,7 @@ checksum = "b4596b6d070b27117e987119b4dac604f3c58cfb0b191112e24771b2faeac1a6"
 [[package]]
 name = "plonky2"
 version = "0.2.0"
-source = "git+https://github.com/okx/plonky2#9c3f6f03c23ae756d286584e2f5a481f8e9ad286"
+source = "git+https://github.com/okx/plonky2#140d97a8081cfae1d08e43199e13084c1acf1dae"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3136,7 +3136,7 @@ dependencies = [
 [[package]]
 name = "plonky2_field"
 version = "0.2.0"
-source = "git+https://github.com/okx/plonky2#9c3f6f03c23ae756d286584e2f5a481f8e9ad286"
+source = "git+https://github.com/okx/plonky2#140d97a8081cfae1d08e43199e13084c1acf1dae"
 dependencies = [
  "anyhow",
  "itertools 0.11.0",
@@ -3155,7 +3155,7 @@ dependencies = [
 [[package]]
 name = "plonky2_maybe_rayon"
 version = "0.2.0"
-source = "git+https://github.com/okx/plonky2#9c3f6f03c23ae756d286584e2f5a481f8e9ad286"
+source = "git+https://github.com/okx/plonky2#140d97a8081cfae1d08e43199e13084c1acf1dae"
 dependencies = [
  "rayon",
 ]
@@ -3163,7 +3163,7 @@ dependencies = [
 [[package]]
 name = "plonky2_util"
 version = "0.2.0"
-source = "git+https://github.com/okx/plonky2#9c3f6f03c23ae756d286584e2f5a481f8e9ad286"
+source = "git+https://github.com/okx/plonky2#140d97a8081cfae1d08e43199e13084c1acf1dae"
 
 [[package]]
 name = "powerfmt"
@@ -5152,6 +5152,7 @@ dependencies = [
  "bindgen",
  "criterion",
  "jemallocator",
+ "log",
  "plonky2",
 ]
 
