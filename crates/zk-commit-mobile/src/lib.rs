@@ -10,7 +10,6 @@ pub enum ProveError {
     FibonacciError,
 }
 
-
 #[derive(uniffi::Record)]
 pub struct ProofResult {
     pub first_input: u64,
@@ -24,8 +23,8 @@ pub fn fibonacci_mobile() -> Result<ProofResult, ProveError> {
     let start = Instant::now();
     match fibonacci() {
         Ok(result) => Ok(ProofResult {
-            first_input: result.input.0.0,
-            second_input: result.input.1.0,
+            first_input: result.input.0 .0,
+            second_input: result.input.1 .0,
             output: result.output.0,
             duration: start.elapsed(),
         }),

@@ -4,7 +4,7 @@ pub mod claim_circuit;
 pub mod claim_execution;
 pub mod comitter;
 pub mod commitment_tree;
+pub mod fibonacci;
 pub mod prover;
 pub mod types;
 pub mod utils;
-pub mod fibonacci;
