@@ -5160,6 +5160,7 @@ dependencies = [
 name = "zk-commit-mobile"
 version = "0.1.0"
 dependencies = [
+ "plonky2",
  "thiserror",
  "uniffi",
  "zk-commit-core",
