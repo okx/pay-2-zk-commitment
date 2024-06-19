@@ -114,6 +114,10 @@ pub fn set_claim_circuit(
     }
 }
 
+pub struct ClaimProofResponse {
+    
+}
+
 #[cfg(test)]
 mod test {
     use crate::{
