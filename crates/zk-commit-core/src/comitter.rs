@@ -12,9 +12,10 @@ impl Commitment {
     pub fn get_claim(&self, index: usize) -> Claim {
         assert!(index < self.distribution.len());
         Claim {
-            pair: *self.distribution.get(index).unwrap(),
+            pair: *self.distribution.get(index as usize).unwrap(),
             commitment: self.commitment_tree.get_root(),
             commitment_merkle_proof: self.commitment_tree.get_siblings(index),
+            index
         }
     }
 }
@@ -24,7 +25,7 @@ mod test {
     use std::borrow::Borrow;
 
     use crate::{
-        commitment_tree::{self, CommitmentTree},
+        commitment_tree::CommitmentTree,
         types::F,
         utils::AmountSecretPairing,
     };
