@@ -1,4 +1,4 @@
-use plonky2::{hash::hash_types::HashOut, util::log2_strict};
+use plonky2::{hash::{hash_types::HashOut, merkle_tree::MerkleTree, poseidon::Poseidon}, util::log2_strict};
 
 use crate::{
     types::F,
@@ -10,7 +10,7 @@ use crate::{
 pub struct CommitmentTree {
     pub depth: usize,
     pub commitment_root: HashOut<F>,
-    pub commitment_tree: Vec<HashOut<F>>,
+    pub commitment_tree: Vec<HashOut<F>>
 }
 
 impl CommitmentTree {
@@ -20,7 +20,7 @@ impl CommitmentTree {
     }
 
     /// Gets the leaf hash value given the index of the leaf
-    pub fn get_from_index(&self, index: usize)->Option<&HashOut<F>>{
+    pub fn get_from_index(&self, index: usize) -> Option<&HashOut<F>> {
         return self.commitment_tree.get(index);
     }
 
@@ -119,21 +119,32 @@ mod test {
                 hash_2_subhashes(hash_1, hash_2)
             })
             .collect();
-        let mut final_hash: Vec<HashOut<F>> = vec![hash_2_subhashes(second_layer_hashes.get(0).unwrap(), second_layer_hashes.get(1).unwrap())];
+        let mut final_hash: Vec<HashOut<F>> = vec![hash_2_subhashes(
+            second_layer_hashes.get(0).unwrap(),
+            second_layer_hashes.get(1).unwrap(),
+        )];
         let mut calculated_tree: Vec<HashOut<F>> = Vec::new();
         calculated_tree.append(&mut first_layer_hashes);
         calculated_tree.append(&mut second_layer_hashes);
         calculated_tree.append(&mut final_hash);
 
         let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
-        
-        println!("CALCULATED TREE ROOT: {:?}", calculated_tree.last().unwrap());
-        println!("COMMITMENT TREE ROOT: {:?}", commitment_tree.commitment_root);
 
-        for i in 0..7{
-            assert_eq!(calculated_tree.get(i).unwrap(), commitment_tree.get_from_index(i).unwrap());
+        println!(
+            "CALCULATED TREE ROOT: {:?}",
+            calculated_tree.last().unwrap()
+        );
+        println!(
+            "COMMITMENT TREE ROOT: {:?}",
+            commitment_tree.commitment_root
+        );
+
+        for i in 0..7 {
+            assert_eq!(
+                calculated_tree.get(i).unwrap(),
+                commitment_tree.get_from_index(i).unwrap()
+            );
         }
-        
     }
 
     #[test]
@@ -176,14 +187,11 @@ mod test {
         let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
 
         let mut siblings_calculated: Vec<HashOut<F>> = Vec::new();
-        siblings_calculated.push(*commitment_tree.get_from_index(1).unwrap());
+        siblings_calculated.push(*commitment_tree.get_from_index(0).unwrap());
         siblings_calculated.push(*commitment_tree.get_from_index(9).unwrap());
         siblings_calculated.push(*commitment_tree.get_from_index(13).unwrap());
 
-        let siblings = commitment_tree.get_siblings(0);
+        let siblings = commitment_tree.get_siblings(1);
         assert_eq!(siblings, siblings_calculated);
     }
-
-
-
 }
