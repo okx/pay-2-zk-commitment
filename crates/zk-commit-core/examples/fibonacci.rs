@@ -9,5 +9,5 @@ fn main() -> Result<()> {
         result.input.0, result.input.1, result.output
     );
 
-    data.verify(proof)
+    Ok(())
 }

@@ -104,14 +104,10 @@ mod test {
 
     #[test]
     fn test_nullifier_hash() {
-<<<<<<< HEAD
-        let pair = AmountSecretPairing { amount: F::ZERO, secret: F::ZERO };
-=======
         let pair = AmountSecretPairing {
             amount: F::ZERO,
             secret: F::ZERO,
         };
->>>>>>> b6ed126d049d58cb593a69f726935573bb488d80
 
         let hash = HashOut::from_vec(vec![
             F::from_canonical_u64(4330397376401421145),
@@ -134,14 +130,10 @@ mod test {
             F::from_canonical_u64(4105490434607387523),
         ]);
 
-<<<<<<< HEAD
-        let pair = AmountSecretPairing { amount: F::ZERO, secret: F::ZERO };
-=======
         let pair = AmountSecretPairing {
             amount: F::ZERO,
             secret: F::ZERO,
         };
->>>>>>> b6ed126d049d58cb593a69f726935573bb488d80
 
         let calc_hash = pair.get_own_hash();
 
