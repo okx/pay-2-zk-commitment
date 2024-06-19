@@ -95,8 +95,14 @@ pub fn set_claim_circuit(
     pw.set_target(claim_targets.amount, claim_proving_inputs.pair.get_amount());
     pw.set_target(claim_targets.secret, claim_proving_inputs.pair.get_secret());
     pw.set_hash_target(claim_targets.commitment, claim_proving_inputs.commitment);
-    pw.set_hash_target(claim_targets.nullifier_hash, claim_proving_inputs.nullifier_hash);
-    pw.set_hash_target(claim_targets.own_leaf_hash, claim_proving_inputs.own_leaf_hash);
+    pw.set_hash_target(
+        claim_targets.nullifier_hash,
+        claim_proving_inputs.nullifier_hash,
+    );
+    pw.set_hash_target(
+        claim_targets.own_leaf_hash,
+        claim_proving_inputs.own_leaf_hash,
+    );
 
     pw.set_target(claim_targets.index_target, claim_proving_inputs.index);
 
@@ -126,14 +132,38 @@ mod test {
     fn test_claim_circuit() {
         run_circuit_test(|builder, pw| {
             let distribution = vec![
-                AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
-                AmountSecretPairing { amount: F::ONE, secret: F::ONE },
-                AmountSecretPairing { amount: F::ONE, secret: F::TWO },
-                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
-                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(4) },
-                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(5) },
-                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(6) },
-                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::ZERO,
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::ONE,
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::TWO,
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::from_canonical_u64(3),
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::from_canonical_u64(4),
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::from_canonical_u64(5),
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::from_canonical_u64(6),
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::from_canonical_u64(7),
+                },
             ];
 
             let commitment_tree = CommitmentTree::new_from_distribution(&distribution);

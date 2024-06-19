@@ -3136,7 +3136,11 @@ dependencies = [
 [[package]]
 name = "plonky2_field"
 version = "0.2.0"
+<<<<<<< HEAD
 source = "git+https://github.com/okx/plonky2#140d97a8081cfae1d08e43199e13084c1acf1dae"
+=======
+source = "git+https://github.com/okx/plonky2?branch=dev#d99fe3bbc3c5b148f03c0f5af1d4f76d5fac902f"
+>>>>>>> b6ed126d049d58cb593a69f726935573bb488d80
 dependencies = [
  "anyhow",
  "itertools 0.11.0",
@@ -3155,7 +3159,11 @@ dependencies = [
 [[package]]
 name = "plonky2_maybe_rayon"
 version = "0.2.0"
+<<<<<<< HEAD
 source = "git+https://github.com/okx/plonky2#140d97a8081cfae1d08e43199e13084c1acf1dae"
+=======
+source = "git+https://github.com/okx/plonky2?branch=dev#d99fe3bbc3c5b148f03c0f5af1d4f76d5fac902f"
+>>>>>>> b6ed126d049d58cb593a69f726935573bb488d80
 dependencies = [
  "rayon",
 ]
@@ -3163,6 +3171,7 @@ dependencies = [
 [[package]]
 name = "plonky2_util"
 version = "0.2.0"
+<<<<<<< HEAD
 source = "git+https://github.com/okx/plonky2#140d97a8081cfae1d08e43199e13084c1acf1dae"
 
 [[package]]
@@ -3170,6 +3179,9 @@ name = "powerfmt"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "439ee305def115ba05938db6eb1644ff94165c5ab5e9420d1c1bcedbba909391"
+=======
+source = "git+https://github.com/okx/plonky2?branch=dev#d99fe3bbc3c5b148f03c0f5af1d4f76d5fac902f"
+>>>>>>> b6ed126d049d58cb593a69f726935573bb488d80
 
 [[package]]
 name = "ppv-lite86"
