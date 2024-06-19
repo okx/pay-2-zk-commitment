@@ -61,15 +61,17 @@ pub fn generate_claim_circuit(
 
     // Verify the merkle proof of the leaf we calculated
     let mut siblings: Vec<HashOutTarget> = Vec::new();
-    for _ in 0..merkle_tree_depth - 1 {
+    for _ in 0..merkle_tree_depth {
         let sibling = builder.add_virtual_hash();
         siblings.push(sibling);
     }
 
+    // Get the index bits up to the merkle tree depth number of bits from Little endian representation
     let index_target = builder.add_virtual_target();
     let index_bits = builder.split_le(index_target, merkle_tree_depth);
 
-    verify_merkle_proof_circuit(builder, commitment, own_leaf_hash_calculated, &index_bits, &siblings);
+    // Verify merkle proof in the circuit 
+    verify_merkle_proof_circuit(builder, commitment, own_leaf_hash, &index_bits, &siblings);
 
     ClaimTargets {
         amount,
@@ -100,10 +102,77 @@ pub fn set_claim_circuit(
         claim_proving_inputs.own_leaf_hash,
     );
 
-    for i in 0..claim_targets.siblings.len() - 1 {
+    pw.set_target(claim_targets.index_target, claim_proving_inputs.index);
+
+    for i in 0..claim_targets.siblings.len() {
         pw.set_hash_target(
             *claim_targets.siblings.get(i).unwrap(),
             *claim_proving_inputs.commitment_merkle_proof.get(i).unwrap(),
         );
+    }
+}
+
+
+#[cfg(test)]
+mod test {
+    use crate::{circuit_utils::run_circuit_test, claim_execution::{execute_claim, Claim}, commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing};
+
+    use plonky2::field::types::Field;
+
+    use super::{generate_claim_circuit, set_claim_circuit};
+
+    #[test]
+    fn test_claim_circuit() {
+        run_circuit_test(|builder, pw| {
+            let distribution = vec![
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::ZERO,
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::ONE,
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::TWO,
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::from_canonical_u64(3),
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::from_canonical_u64(4),
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::from_canonical_u64(5),
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::from_canonical_u64(6),
+                },
+                AmountSecretPairing {
+                    amount: F::ONE,
+                    secret: F::from_canonical_u64(7),
+                }
+            ];
+
+            let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
+            let claim = Claim{
+                pair: *distribution.get(0).unwrap(),
+                commitment: commitment_tree.get_root(),
+                commitment_merkle_proof: commitment_tree.get_siblings(0),
+                index: 0 
+            };
+
+            let claim_proving_inputs = execute_claim(claim);
+
+            let claim_targets = generate_claim_circuit(builder, commitment_tree.depth);
+            // println!("{:?}", commitment_tree.depth);
+            set_claim_circuit(claim_targets, claim_proving_inputs, pw);
+        });
+
     }
 }

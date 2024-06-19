@@ -34,6 +34,8 @@ pub fn build_merkle_tree(
 }
 
 /// Given the siblings in a merkle tree and my root hash, verify the merkle proof of inclusion of the supplied leaf hash.
+/// Since the order of the hash depends on my siblings position, we use the index bits of the leaf to determine the order of the 
+/// hash inputs.
 pub fn verify_merkle_proof_circuit(
     builder: &mut CircuitBuilder<F, D>,
     merkle_root: HashOutTarget,
@@ -43,6 +45,8 @@ pub fn verify_merkle_proof_circuit(
 ) {
     for i in 0..siblings.len() {
         let sibling = siblings.get(i).unwrap();
+
+        // Order is based on the index bits at the ith index
         let first_hash = select_hash(builder, index_bits[i], *sibling, leaf_hash);
         let second_hash = select_hash(builder, index_bits[i], leaf_hash, *sibling);
         leaf_hash = hash_2_subhashes_circuit(builder, &first_hash, &second_hash);
@@ -81,7 +85,7 @@ pub fn hash_2_subhashes_circuit(
     get_hash_from_input_targets_circuit(builder, inputs)
 }
 
-/// Test runner
+/// Test runner for ease of testing
 pub fn run_circuit_test<T, F, const D: usize>(test: T) -> ()
 where
     T: FnOnce(&mut CircuitBuilder<F, D>, &mut PartialWitness<F>) -> () + panic::UnwindSafe,
@@ -118,7 +122,7 @@ pub fn select_hash(
 
 #[cfg(test)]
 mod test {
-    use plonky2::{hash::{hash_types::{HashOut, HashOutTarget}, merkle_proofs}, iop::witness::WitnessWrite};
+    use plonky2::{hash::hash_types::{HashOut, HashOutTarget}, iop::witness::WitnessWrite};
 
     use crate::{commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing};
 
