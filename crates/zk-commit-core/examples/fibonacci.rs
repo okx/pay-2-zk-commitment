@@ -8,5 +8,10 @@ fn main() -> Result<()> {
         "100th Fibonacci number mod |F| (starting with {}, {}) is: {}",
         result.input.0, result.input.1, result.output
     );
+<<<<<<< HEAD
     Ok(())
+=======
+
+    data.verify(proof)
+>>>>>>> 0754512 (Add tests)
 }
