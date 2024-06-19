@@ -9,7 +9,6 @@ pub struct ClaimProvingInputs {
     pub commitment: HashOut<F>,
     pub commitment_merkle_proof: Vec<HashOut<F>>,
     pub nullifier_hash: HashOut<F>,
-    pub own_leaf_hash: HashOut<F>,
     pub index: F,
 }
 
@@ -32,13 +31,11 @@ impl Claim {
 
 pub fn execute_claim(claim: Claim) -> ClaimProvingInputs {
     let nullifier_hash = claim.get_nullifier_hash();
-    let own_leaf_hash = claim.get_hash();
     ClaimProvingInputs {
         pair: claim.pair,
         commitment: claim.commitment,
         commitment_merkle_proof: claim.commitment_merkle_proof,
         nullifier_hash,
-        own_leaf_hash,
         index: F::from_canonical_u64(claim.index as u64),
     }
 }
