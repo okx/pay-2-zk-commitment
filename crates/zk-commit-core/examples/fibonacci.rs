@@ -1,6 +1,7 @@
 use anyhow::Result;
 
-use zk_commit_core::fibonacci;
+use zk_commit_core::fibonacci::fibonacci;
+
 
 fn main() -> Result<()> {
     let result = fibonacci()?;
@@ -8,10 +9,5 @@ fn main() -> Result<()> {
         "100th Fibonacci number mod |F| (starting with {}, {}) is: {}",
         result.input.0, result.input.1, result.output
     );
-<<<<<<< HEAD
     Ok(())
-=======
-
-    data.verify(proof)
->>>>>>> 0754512 (Add tests)
 }

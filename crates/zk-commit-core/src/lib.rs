@@ -7,3 +7,4 @@ pub mod commitment_tree;
 pub mod prover;
 pub mod types;
 pub mod utils;
+pub mod fibonacci;

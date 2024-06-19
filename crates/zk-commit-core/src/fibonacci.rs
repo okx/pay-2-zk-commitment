@@ -1,13 +1,8 @@
 use anyhow::Result;
-use plonky2::{
-    field::types::Field,
-    iop::witness::{PartialWitness, WitnessWrite},
-    plonk::{
-        circuit_builder::CircuitBuilder,
-        circuit_data::CircuitConfig,
-        config::{GenericConfig, PoseidonGoldilocksConfig},
-    },
-};
+use plonky2::{iop::witness::{PartialWitness, WitnessWrite}, plonk::{circuit_builder::CircuitBuilder, circuit_data::CircuitConfig}};
+use crate::{circuit_config::D, types::{C, F}};
+
+use plonky2::field::types::Field;
 
 pub struct FibonacciResult {
     pub input: (F, F),

@@ -1,7 +1,8 @@
 use std::time::{Duration, Instant};
-use zk_commit_core::fibonacci;
 
 uniffi::setup_scaffolding!();
+
+use zk_commit_core::fibonacci::fibonacci;
 
 #[derive(uniffi::Error, Debug, thiserror::Error)]
 pub enum ProveError {
