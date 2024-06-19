@@ -111,11 +111,7 @@ where
     builder.print_gate_counts(0);
     let mut timing = TimingTree::new("prove", Level::Debug);
     let data = builder.build::<C>();
-    let CircuitData {
-        prover_only,
-        common,
-        verifier_only: _,
-    } = &data;
+    let CircuitData { prover_only, common, verifier_only: _ } = &data;
     let proof = prove(&prover_only, &common, pw, &mut timing).expect("Prove fail");
     timing.print();
     data.verify(proof).expect("Verify fail")
@@ -238,38 +234,14 @@ mod test {
     fn test_verify_merkle_proof_circuit() {
         run_circuit_test(|builder, pw| {
             let distribution = vec![
-                AmountSecretPairing {
-                    amount: F::ONE,
-                    secret: F::ZERO,
-                },
-                AmountSecretPairing {
-                    amount: F::ONE,
-                    secret: F::ONE,
-                },
-                AmountSecretPairing {
-                    amount: F::ONE,
-                    secret: F::TWO,
-                },
-                AmountSecretPairing {
-                    amount: F::ONE,
-                    secret: F::from_canonical_u64(3),
-                },
-                AmountSecretPairing {
-                    amount: F::ONE,
-                    secret: F::from_canonical_u64(4),
-                },
-                AmountSecretPairing {
-                    amount: F::ONE,
-                    secret: F::from_canonical_u64(5),
-                },
-                AmountSecretPairing {
-                    amount: F::ONE,
-                    secret: F::from_canonical_u64(6),
-                },
-                AmountSecretPairing {
-                    amount: F::ONE,
-                    secret: F::from_canonical_u64(7),
-                },
+                AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
+                AmountSecretPairing { amount: F::ONE, secret: F::ONE },
+                AmountSecretPairing { amount: F::ONE, secret: F::TWO },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(4) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(5) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(6) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
             ];
 
             let commitment_tree = CommitmentTree::new_from_distribution(&distribution);

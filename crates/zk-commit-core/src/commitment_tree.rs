@@ -10,7 +10,7 @@ use crate::{
 pub struct CommitmentTree {
     pub depth: usize,
     pub commitment_root: HashOut<F>,
-    pub commitment_tree: Vec<HashOut<F>>
+    pub commitment_tree: Vec<HashOut<F>>,
 }
 
 impl CommitmentTree {
@@ -89,22 +89,10 @@ mod test {
     #[test]
     fn test_new_from_distribution() {
         let distribution = vec![
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::ZERO,
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::ONE,
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::TWO,
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::from_canonical_u64(3),
-            },
+            AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
+            AmountSecretPairing { amount: F::ONE, secret: F::ONE },
+            AmountSecretPairing { amount: F::ONE, secret: F::TWO },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
         ];
 
         let mut first_layer_hashes: Vec<HashOut<F>> =
@@ -130,58 +118,25 @@ mod test {
 
         let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
 
-        println!(
-            "CALCULATED TREE ROOT: {:?}",
-            calculated_tree.last().unwrap()
-        );
-        println!(
-            "COMMITMENT TREE ROOT: {:?}",
-            commitment_tree.commitment_root
-        );
+        println!("CALCULATED TREE ROOT: {:?}", calculated_tree.last().unwrap());
+        println!("COMMITMENT TREE ROOT: {:?}", commitment_tree.commitment_root);
 
         for i in 0..7 {
-            assert_eq!(
-                calculated_tree.get(i).unwrap(),
-                commitment_tree.get_from_index(i).unwrap()
-            );
+            assert_eq!(calculated_tree.get(i).unwrap(), commitment_tree.get_from_index(i).unwrap());
         }
     }
 
     #[test]
     fn test_get_siblings() {
         let distribution = vec![
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::ZERO,
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::ONE,
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::TWO,
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::from_canonical_u64(3),
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::from_canonical_u64(4),
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::from_canonical_u64(5),
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::from_canonical_u64(6),
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::from_canonical_u64(7),
-            },
+            AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
+            AmountSecretPairing { amount: F::ONE, secret: F::ONE },
+            AmountSecretPairing { amount: F::ONE, secret: F::TWO },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(4) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(5) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(6) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
         ];
 
         let commitment_tree = CommitmentTree::new_from_distribution(&distribution);

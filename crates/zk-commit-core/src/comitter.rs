@@ -33,54 +33,21 @@ mod test {
     #[test]
     fn test_get_claim() {
         let distribution: Vec<AmountSecretPairing> = vec![
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::ZERO,
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::ONE,
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::TWO,
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::from_canonical_u64(3),
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::from_canonical_u64(4),
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::from_canonical_u64(5),
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::from_canonical_u64(6),
-            },
-            AmountSecretPairing {
-                amount: F::ONE,
-                secret: F::from_canonical_u64(7),
-            },
+            AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
+            AmountSecretPairing { amount: F::ONE, secret: F::ONE },
+            AmountSecretPairing { amount: F::ONE, secret: F::TWO },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(4) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(5) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(6) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
         ];
 
         let commitment_tree = CommitmentTree::new_from_distribution(distribution.borrow());
-        let commitment = Commitment {
-            commitment_tree,
-            distribution: distribution.clone(),
-        };
+        let commitment = Commitment { commitment_tree, distribution: distribution.clone() };
 
         let claim = commitment.get_claim(0);
-        assert_eq!(
-            claim.pair.get_amount(),
-            distribution.get(0).unwrap().get_amount()
-        );
-        assert_eq!(
-            claim.pair.get_secret(),
-            distribution.get(0).unwrap().get_secret()
-        );
+        assert_eq!(claim.pair.get_amount(), distribution.get(0).unwrap().get_amount());
+        assert_eq!(claim.pair.get_secret(), distribution.get(0).unwrap().get_secret());
     }
 }
