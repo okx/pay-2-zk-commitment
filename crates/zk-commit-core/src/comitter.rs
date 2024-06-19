@@ -15,7 +15,7 @@ impl Commitment {
             pair: *self.distribution.get(index as usize).unwrap(),
             commitment: self.commitment_tree.get_root(),
             commitment_merkle_proof: self.commitment_tree.get_siblings(index),
-            index
+            index,
         }
     }
 }
@@ -24,11 +24,7 @@ impl Commitment {
 mod test {
     use std::borrow::Borrow;
 
-    use crate::{
-        commitment_tree::CommitmentTree,
-        types::F,
-        utils::AmountSecretPairing,
-    };
+    use crate::{commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing};
 
     use plonky2::field::types::Field;
 

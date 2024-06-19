@@ -1,12 +1,25 @@
 use core::panic;
 
 use plonky2::{
-    field::extension::Extendable, hash::{hash_types::{HashOutTarget, RichField}, poseidon::PoseidonHash}, iop::{target::{BoolTarget, Target}, witness::PartialWitness}, plonk::{circuit_builder::CircuitBuilder, circuit_data::CircuitData, config::GenericConfig}, util::timing::TimingTree
+    field::extension::Extendable,
+    hash::{
+        hash_types::{HashOutTarget, RichField},
+        poseidon::PoseidonHash,
+    },
+    iop::{
+        target::{BoolTarget, Target},
+        witness::PartialWitness,
+    },
+    plonk::{circuit_builder::CircuitBuilder, circuit_data::CircuitData, config::GenericConfig},
+    util::timing::TimingTree,
 };
 
+use crate::{
+    circuit_config::{D, STANDARD_CONFIG},
+    types::{C, F},
+};
 use log::Level;
 use plonky2::plonk::prover::prove;
-use crate::{circuit_config::{D, STANDARD_CONFIG}, types::{C, F}};
 
 /// Builds a merkle tree of a given size (based on the number of leaves) with the leaf hash targets as an input and returns the merkle tree as a vector.
 pub fn build_merkle_tree(
@@ -34,7 +47,7 @@ pub fn build_merkle_tree(
 }
 
 /// Given the siblings in a merkle tree and my root hash, verify the merkle proof of inclusion of the supplied leaf hash.
-/// Since the order of the hash depends on my siblings position, we use the index bits of the leaf to determine the order of the 
+/// Since the order of the hash depends on my siblings position, we use the index bits of the leaf to determine the order of the
 /// hash inputs.
 pub fn verify_merkle_proof_circuit(
     builder: &mut CircuitBuilder<F, D>,
@@ -110,7 +123,7 @@ where
 
 /// Computes `if b { h0 } else { h1 }`.
 pub fn select_hash(
-    builder: &mut CircuitBuilder<F,D>,
+    builder: &mut CircuitBuilder<F, D>,
     b: BoolTarget,
     h0: HashOutTarget,
     h1: HashOutTarget,
@@ -122,11 +135,17 @@ pub fn select_hash(
 
 #[cfg(test)]
 mod test {
-    use plonky2::{hash::hash_types::{HashOut, HashOutTarget}, iop::witness::WitnessWrite};
+    use plonky2::{
+        hash::hash_types::{HashOut, HashOutTarget},
+        iop::witness::WitnessWrite,
+    };
 
     use crate::{commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing};
 
-    use super::{get_hash_from_input_targets_circuit, hash_2_subhashes_circuit, run_circuit_test, verify_hash, verify_merkle_proof_circuit};
+    use super::{
+        get_hash_from_input_targets_circuit, hash_2_subhashes_circuit, run_circuit_test,
+        verify_hash, verify_merkle_proof_circuit,
+    };
     use plonky2::field::types::Field;
 
     #[test]
@@ -135,7 +154,8 @@ mod test {
             let target_1 = builder.add_virtual_target();
             let target_2 = builder.add_virtual_target();
             let hash_target = builder.add_virtual_hash();
-            let calculated_hash_target = get_hash_from_input_targets_circuit(builder, vec![target_1, target_2]);
+            let calculated_hash_target =
+                get_hash_from_input_targets_circuit(builder, vec![target_1, target_2]);
             builder.connect_hashes(hash_target, calculated_hash_target);
 
             let value_1 = F::ZERO;
@@ -151,7 +171,6 @@ mod test {
             pw.set_target(target_1, value_1);
             pw.set_target(target_2, value_2);
             pw.set_hash_target(hash_target, hash);
-
         });
     }
 
@@ -177,7 +196,6 @@ mod test {
             pw.set_target(target_1, value_1);
             pw.set_target(target_2, value_2);
             pw.set_hash_target(hash_target, hash);
-
         });
     }
 
@@ -187,7 +205,8 @@ mod test {
             let hash_target_1 = builder.add_virtual_hash();
             let hash_target_2 = builder.add_virtual_hash();
             let hash_target_3 = builder.add_virtual_hash();
-            let calculated_hash_target = hash_2_subhashes_circuit(builder, &hash_target_1, &hash_target_2);
+            let calculated_hash_target =
+                hash_2_subhashes_circuit(builder, &hash_target_1, &hash_target_2);
             builder.connect_hashes(hash_target_3, calculated_hash_target);
 
             let hash_1 = HashOut::from_vec(vec![
@@ -202,7 +221,7 @@ mod test {
                 F::from_canonical_u64(8742572140681234676),
                 F::from_canonical_u64(14345658006221440202),
             ]);
-    
+
             let hash_3 = HashOut::from_vec(vec![
                 F::from_canonical_u64(13121882728673923020),
                 F::from_canonical_u64(10197653806804742863),
@@ -212,7 +231,6 @@ mod test {
             pw.set_hash_target(hash_target_1, hash_1);
             pw.set_hash_target(hash_target_2, hash_2);
             pw.set_hash_target(hash_target_3, hash_3);
-
         });
     }
 
@@ -251,7 +269,7 @@ mod test {
                 AmountSecretPairing {
                     amount: F::ONE,
                     secret: F::from_canonical_u64(7),
-                }
+                },
             ];
 
             let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
@@ -260,7 +278,7 @@ mod test {
             let merkle_root = commitment_tree.get_root();
 
             let mut merkle_proof_targets: Vec<HashOutTarget> = Vec::new();
-            for _ in 0..merkle_proof.len(){
+            for _ in 0..merkle_proof.len() {
                 let hash_target = builder.add_virtual_hash();
                 merkle_proof_targets.push(hash_target);
             }
@@ -269,14 +287,20 @@ mod test {
 
             let index_target = builder.add_virtual_target();
             let index_bits = builder.split_le(index_target, 3);
-            verify_merkle_proof_circuit(builder, merkle_root_target, leaf_hash_target, &index_bits, &merkle_proof_targets);
+            verify_merkle_proof_circuit(
+                builder,
+                merkle_root_target,
+                leaf_hash_target,
+                &index_bits,
+                &merkle_proof_targets,
+            );
 
-            for i in 0..merkle_proof.len(){
+            for i in 0..merkle_proof.len() {
                 let hash_target = merkle_proof_targets.get(i).unwrap();
                 pw.set_hash_target(*hash_target, *merkle_proof.get(i).unwrap());
             }
 
-            pw.set_hash_target(merkle_root_target,merkle_root);
+            pw.set_hash_target(merkle_root_target, merkle_root);
             pw.set_hash_target(leaf_hash_target, leaf_hash);
             pw.set_target(index_target, F::from_canonical_u64(6));
         });

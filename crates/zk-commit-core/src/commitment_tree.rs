@@ -10,7 +10,7 @@ use crate::{
 pub struct CommitmentTree {
     pub depth: usize,
     pub commitment_root: HashOut<F>,
-    pub commitment_tree: Vec<HashOut<F>>
+    pub commitment_tree: Vec<HashOut<F>>,
 }
 
 impl CommitmentTree {

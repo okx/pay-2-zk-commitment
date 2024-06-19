@@ -9,7 +9,9 @@ use plonky2::{
 
 use crate::{
     circuit_config::D,
-    circuit_utils::{get_hash_from_input_targets_circuit, verify_hash, verify_merkle_proof_circuit},
+    circuit_utils::{
+        get_hash_from_input_targets_circuit, verify_hash, verify_merkle_proof_circuit,
+    },
     claim_execution::ClaimProvingInputs,
     types::F,
 };
@@ -21,7 +23,7 @@ pub struct ClaimTargets {
     pub commitment: HashOutTarget,
     pub siblings: Vec<HashOutTarget>,
     pub own_leaf_hash: HashOutTarget,
-    pub index_target: Target
+    pub index_target: Target,
 }
 
 /// Generates a circuit to verify the claim by doing the following:
@@ -70,7 +72,7 @@ pub fn generate_claim_circuit(
     let index_target = builder.add_virtual_target();
     let index_bits = builder.split_le(index_target, merkle_tree_depth);
 
-    // Verify merkle proof in the circuit 
+    // Verify merkle proof in the circuit
     verify_merkle_proof_circuit(builder, commitment, own_leaf_hash, &index_bits, &siblings);
 
     ClaimTargets {
@@ -80,7 +82,7 @@ pub fn generate_claim_circuit(
         commitment,
         siblings,
         own_leaf_hash,
-        index_target
+        index_target,
     }
 }
 
@@ -112,10 +114,15 @@ pub fn set_claim_circuit(
     }
 }
 
-
 #[cfg(test)]
 mod test {
-    use crate::{circuit_utils::run_circuit_test, claim_execution::{execute_claim, Claim}, commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing};
+    use crate::{
+        circuit_utils::run_circuit_test,
+        claim_execution::{execute_claim, Claim},
+        commitment_tree::CommitmentTree,
+        types::F,
+        utils::AmountSecretPairing,
+    };
 
     use plonky2::field::types::Field;
 
@@ -156,15 +163,15 @@ mod test {
                 AmountSecretPairing {
                     amount: F::ONE,
                     secret: F::from_canonical_u64(7),
-                }
+                },
             ];
 
             let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
-            let claim = Claim{
+            let claim = Claim {
                 pair: *distribution.get(0).unwrap(),
                 commitment: commitment_tree.get_root(),
                 commitment_merkle_proof: commitment_tree.get_siblings(0),
-                index: 0 
+                index: 0,
             };
 
             let claim_proving_inputs = execute_claim(claim);
@@ -173,6 +180,5 @@ mod test {
             // println!("{:?}", commitment_tree.depth);
             set_claim_circuit(claim_targets, claim_proving_inputs, pw);
         });
-
     }
 }
