@@ -1,0 +1,52 @@
+{
+  "source": "/Users/quachhachanthanh/Documents/projects/zkp/pay-2-zk-commitment/crates/zk-commit-mobile/ios/ZKSimpleApp/ZKSimpleApp/CreateDepositorView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Create A Deposit"
+      },
+      {
+        "comment": "",
+        "key": "Claimant List"
+      },
+      {
+        "comment": "",
+        "key": "Create claimants"
+      },
+      {
+        "comment": "",
+        "key": "Amount per claimant"
+      },
+      {
+        "comment": "",
+        "key": "Repeating"
+      },
+      {
+        "comment": "",
+        "key": "%lld"
+      },
+      {
+        "comment": "",
+        "key": "Add claimant"
+      },
+      {
+        "comment": "",
+        "key": "Create"
+      },
+      {
+        "comment": "",
+        "key": "ID:"
+      },
+      {
+        "comment": "",
+        "key": "Amount-secret:"
+      },
+      {
+        "comment": "",
+        "key": "%llu - %llu"
+      }
+    ]
+  },
+  "version": 1
+}

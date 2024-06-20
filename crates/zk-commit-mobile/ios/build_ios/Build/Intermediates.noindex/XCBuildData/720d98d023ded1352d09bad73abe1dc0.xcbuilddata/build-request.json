@@ -1,0 +1,71 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "99b76474fea75b9b96754d26bc2a88b9cef90a46f53af7f00ab0fdb1585fc469"
+    }
+  ],
+  "containerPath" : "/Users/quachhachanthanh/Documents/projects/zkp/pay-2-zk-commitment/crates/zk-commit-mobile/ios/ZKSimpleApp/ZKSimpleApp.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "iphonesimulator",
+      "sdk" : "iphonesimulator17.2",
+      "sdkVariant" : "iphonesimulator",
+      "supportedArchitectures" : [
+        "arm64",
+        "x86_64"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/quachhachanthanh/Documents/projects/zkp/pay-2-zk-commitment/crates/zk-commit-mobile/ios/build_ios/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/quachhachanthanh/Documents/projects/zkp/pay-2-zk-commitment/crates/zk-commit-mobile/ios/build_ios/Build/Products",
+      "derivedDataPath" : "/Users/quachhachanthanh/Documents/projects/zkp/pay-2-zk-commitment/crates/zk-commit-mobile/ios/build_ios",
+      "indexDataStoreFolderPath" : "/Users/quachhachanthanh/Documents/projects/zkp/pay-2-zk-commitment/crates/zk-commit-mobile/ios/build_ios/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/quachhachanthanh/Documents/projects/zkp/pay-2-zk-commitment/crates/zk-commit-mobile/ios/build_ios/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/quachhachanthanh/Documents/projects/zkp/pay-2-zk-commitment/crates/zk-commit-mobile/ios/build_ios/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "ASSETCATALOG_FILTER_FOR_DEVICE_MODEL" : "iPhone16,1",
+          "ASSETCATALOG_FILTER_FOR_DEVICE_OS_VERSION" : "17.2",
+          "ASSETCATALOG_FILTER_FOR_THINNING_DEVICE_CONFIGURATION" : "iPhone16,1",
+          "BUILD_ACTIVE_RESOURCES_ONLY" : "YES",
+          "COLOR_DIAGNOSTICS" : "YES",
+          "diagnostic_message_length" : "203",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "NO",
+          "TARGET_DEVICE_IDENTIFIER" : "260D5F88-3F54-4328-8965-3FF75CF03BF8",
+          "TARGET_DEVICE_MODEL" : "iPhone16,1",
+          "TARGET_DEVICE_OS_VERSION" : "17.2",
+          "TARGET_DEVICE_PLATFORM_NAME" : "iphonesimulator"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

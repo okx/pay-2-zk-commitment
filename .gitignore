@@ -6,3 +6,4 @@ typechain-types/
 .idea
 ios_build/
 .DS_Store
+/ios/

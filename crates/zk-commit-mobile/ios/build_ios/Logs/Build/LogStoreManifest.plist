@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>10</integer>
+	<key>logs</key>
+	<dict>
+		<key>9C5EB145-6135-49B9-A6A4-42EA71C78A20</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>9C5EB145-6135-49B9-A6A4-42EA71C78A20.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ZKSimpleApp project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ZKSimpleApp</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Cleaning project ZKSimpleApp with scheme ZKSimpleApp and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>740573978.14966905</real>
+			<key>timeStoppedRecording</key>
+			<real>740573978.40330505</real>
+			<key>title</key>
+			<string>Cleaning project ZKSimpleApp with scheme ZKSimpleApp and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>9C5EB145-6135-49B9-A6A4-42EA71C78A20</string>
+		</dict>
+		<key>A5CC0F36-8D99-497E-91E4-463CEAF5D419</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>A5CC0F36-8D99-497E-91E4-463CEAF5D419.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ZKSimpleApp project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ZKSimpleApp</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project ZKSimpleApp with scheme ZKSimpleApp and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>740573978.51515901</real>
+			<key>timeStoppedRecording</key>
+			<real>740573984.14836097</real>
+			<key>title</key>
+			<string>Building project ZKSimpleApp with scheme ZKSimpleApp and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>A5CC0F36-8D99-497E-91E4-463CEAF5D419</string>
+		</dict>
+		<key>F9913E41-89E4-4416-A5F8-4B16C00BD185</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>F9913E41-89E4-4416-A5F8-4B16C00BD185.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>1</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ZKSimpleApp project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ZKSimpleApp</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project ZKSimpleApp with scheme ZKSimpleApp and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>740573942.95072305</real>
+			<key>timeStoppedRecording</key>
+			<real>740573947.11825395</real>
+			<key>title</key>
+			<string>Building project ZKSimpleApp with scheme ZKSimpleApp and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>F9913E41-89E4-4416-A5F8-4B16C00BD185</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
