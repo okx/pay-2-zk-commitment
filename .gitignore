@@ -4,4 +4,5 @@ artifacts/
 cache/
 typechain-types/
 .idea
-ios/
+ios_build/
+.DS_Store
