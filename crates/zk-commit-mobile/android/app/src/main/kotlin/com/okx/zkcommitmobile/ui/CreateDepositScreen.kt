@@ -332,15 +332,12 @@ fun GenerateClaimersContent(
                         if (count.isEmpty()) return@derivedStateOf null
                         val countValue =
                             count.toIntOrNull() ?: return@derivedStateOf "Invalid integer"
-                        if (countValue.countOneBits() !=
-                            1
-                        ) {
+                        if (countValue.countOneBits() != 1) {
                             return@derivedStateOf "Must be a power of 2"
                         }
                         null
                     }
                 }
-                val generateEnabled by remember { derivedStateOf { errorMessage == null } }
                 OutlinedTextField(
                     value = count,
                     onValueChange = { count = it },
@@ -355,9 +352,9 @@ fun GenerateClaimersContent(
                 Button(
                     onClick = { onGenerate(count.toInt()) },
                     modifier = Modifier.fillMaxWidth(),
-                    enabled = generateEnabled
+                    enabled = count.isNotEmpty() && errorMessage == null
                 ) {
-                    Text("Generate")
+                    Text(text = "Generate")
                 }
             }
         }
