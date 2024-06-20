@@ -12,12 +12,13 @@ use plonky2::{
 use crate::{
     circuit_config::{D, STANDARD_CONFIG},
     claim_circuit::{generate_claim_circuit, set_claim_circuit},
-    claim_execution::{execute_claim, Claim},
+    claim_execution::{get_claim_proving_inputs, Claim},
     commitment_tree::CommitmentTree,
     types::{C, F},
     utils::AmountSecretPairing,
 };
 
+/// Given a distribution, builds the commitment tree and returns the commitment tree.
 pub fn setup_commitment(distribution: Vec<AmountSecretPairing>) -> CommitmentTree {
     let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
     commitment_tree
@@ -40,7 +41,7 @@ pub fn generate_proof_of_claim(
     };
 
     // Execute claim to get the PIs
-    let claim_proving_inputs = execute_claim(claim);
+    let claim_proving_inputs = get_claim_proving_inputs(claim);
 
     // Create claim circuit and set the PIs
     let mut builder = CircuitBuilder::<F, D>::new(STANDARD_CONFIG);
