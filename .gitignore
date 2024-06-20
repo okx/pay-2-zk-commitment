@@ -8,3 +8,4 @@ ios_build/
 .DS_Store
 /ios/
 build_ios/
+xcuserdata/
