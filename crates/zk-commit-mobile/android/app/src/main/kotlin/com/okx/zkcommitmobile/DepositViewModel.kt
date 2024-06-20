@@ -2,6 +2,7 @@
 
 package com.okx.zkcommitmobile
 
+import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,15 +11,15 @@ import com.okx.zkcommitmobile.data.DepositWithCommitment
 import com.okx.zkcommitmobile.uniffi.AmountSecretPairing
 import com.okx.zkcommitmobile.uniffi.generateProofOfClaim
 import com.okx.zkcommitmobile.uniffi.setupCommitment
-import kotlin.time.measureTimedValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import kotlin.time.measureTimedValue
 
-class DepositViewModel : ViewModel() {
+class DepositViewModel(private val okxWalletConnectManager: OKXWalletConnectManager) : ViewModel() {
     companion object {
         private const val TAG = "DepositViewModel"
     }
@@ -92,6 +93,17 @@ class DepositViewModel : ViewModel() {
             }.onFailure {
                 logger.e(it, "Failed to generate proof of claim")
                 _messages.send("Failed to generate proof of claim: ${it.message}")
+            }
+        }
+    }
+
+    fun requestAccounts(context: Context) {
+        viewModelScope.launch {
+            val account = okxWalletConnectManager.getAccount(context)
+            if (account != null) {
+                _messages.send("Got account: $account")
+            } else {
+                _messages.send("Failed to get account")
             }
         }
     }

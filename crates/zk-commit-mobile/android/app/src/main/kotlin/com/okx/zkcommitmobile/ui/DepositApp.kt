@@ -5,12 +5,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.okx.zkcommitmobile.DepositViewModel
+import com.okx.zkcommitmobile.di.diComponent
 import soup.compose.material.motion.animation.materialSharedAxisXIn
 import soup.compose.material.motion.animation.materialSharedAxisXOut
 import soup.compose.material.motion.animation.rememberSlideDistance
@@ -33,18 +35,25 @@ fun DepositApp(modifier: Modifier = Modifier) {
         }
     ) {
         composable<DepositScreen> {
-            val viewModel = viewModel<DepositViewModel>()
+            val context = LocalContext.current
+            val viewModel = viewModel<DepositViewModel>(
+                factory = context.diComponent.viewModelFactory
+            )
             DepositScreen(
                 deposits = viewModel.deposits.map { it.deposit },
                 messages = viewModel.messages,
                 onCreateDeposit = { navController.navigate(CreateDepositScreen) },
-                onClaim = { navController.navigate(ClaimListScreen(id = it.id)) }
+                onClaim = { navController.navigate(ClaimListScreen(id = it.id)) },
+                onConnectWallet = { viewModel.requestAccounts(context) }
             )
         }
 
         composable<CreateDepositScreen> {
             val previousBackStackEntry = remember(it) { navController.previousBackStackEntry }
-            val viewModel = viewModel<DepositViewModel>(previousBackStackEntry!!)
+            val viewModel = viewModel<DepositViewModel>(
+                viewModelStoreOwner = previousBackStackEntry!!,
+                factory = LocalContext.current.diComponent.viewModelFactory
+            )
             CreateDepositScreen(
                 onNavigateUp = { navController.navigateUp() },
                 onCreate = { deposit ->
@@ -57,7 +66,10 @@ fun DepositApp(modifier: Modifier = Modifier) {
         composable<ClaimListScreen> { backStackEntry ->
             val previousBackStackEntry =
                 remember(backStackEntry) { navController.previousBackStackEntry }
-            val viewModel = viewModel<DepositViewModel>(previousBackStackEntry!!)
+            val viewModel = viewModel<DepositViewModel>(
+                viewModelStoreOwner = previousBackStackEntry!!,
+                factory = LocalContext.current.diComponent.viewModelFactory
+            )
             val id = backStackEntry.toRoute<ClaimListScreen>().id
             ClaimListScreen(
                 deposit = viewModel.deposits.map { it.deposit }.first { it.id == id },

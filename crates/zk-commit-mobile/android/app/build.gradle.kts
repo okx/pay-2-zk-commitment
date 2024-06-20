@@ -53,13 +53,8 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.androidx.profileinstaller)
-    baselineProfile(project(":baselineprofile"))
-
-    coreLibraryDesugaring(libs.desugar.jdk.libs.nio)
-
     implementation(project(":core"))
-
+    coreLibraryDesugaring(libs.desugar.jdk.libs.nio)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -70,6 +65,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.material.icons.extended)
 
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
@@ -77,12 +73,16 @@ dependencies {
     implementation(platform(libs.walletconnect.bom))
     implementation(libs.walletconnect.core)
     implementation(libs.walletconnect.web3modal)
+    implementation(libs.wcmobilesdk)
 
     implementation(libs.material.motion.compose.core)
 
     implementation(platform(libs.retrofit.bom))
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.kotlinx.serialization)
+
+    implementation(libs.androidx.profileinstaller)
+    baselineProfile(project(":baselineprofile"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -12,9 +12,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Wallet
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
@@ -45,7 +47,8 @@ fun DepositScreen(
     messages: Flow<String>,
     modifier: Modifier = Modifier,
     onCreateDeposit: () -> Unit = {},
-    onClaim: (deposit: Deposit) -> Unit = {}
+    onClaim: (deposit: Deposit) -> Unit = {},
+    onConnectWallet: () -> Unit = {}
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(Unit) { messages.collect { message -> snackbarHostState.showSnackbar(message) } }
@@ -55,6 +58,11 @@ fun DepositScreen(
         topBar = {
             LargeTopAppBar(
                 title = { Text(text = "Deposit") },
+                actions = {
+                    IconButton(onClick = onConnectWallet) {
+                        Icon(Icons.Default.Wallet, contentDescription = null)
+                    }
+                },
                 scrollBehavior = scrollBehavior
             )
         },
