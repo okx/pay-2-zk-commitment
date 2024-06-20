@@ -37,3 +37,9 @@ pub fn fibonacci() -> Result<ProofResult, ZkCommitmentMobileError> {
         Err(_) => Err(ZkCommitmentMobileError::FibonacciError),
     }
 }
+
+#[uniffi::export]
+pub fn test_performance() {
+    // Add your test code here
+    // println!("testing performance")
+}
