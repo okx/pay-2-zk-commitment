@@ -1,5 +1,6 @@
 # sdk spec
 1. setup
+
 ```rust
 /*
 - F in this case is represented as a u64, its maximum value is 2^64-2^32.
@@ -34,5 +35,6 @@ fn deposit_usdc(commitment: [u8;32], amount: u64, private_key: [u8;32])
 fn gen_plonky2_claim_proof(secret: F, amount: F, index: u64, commitment_tree: CommitmentTree, proof_file_path: &str) -> ClaimProofResponse; 
 
 /// Features done in next iteration
-fn request_groth16_proof(plonky2_proof: String) -> String// return groth16 proof in json string; Http client implemented by mobile; server provided by ZKP team
-fn claim(groth16_proof: String, private_key: [u8;32]);// for receiver to claim, rust sdk will compose tx and return to mobile end; mobile end will do rpc
+fn request_groth16_proof(plonky2_proof: String) -> String {} // return groth16 proof in json string; Http client implemented by mobile; server provided by ZKP team
+fn claim(groth16_proof: String, private_key: [u8; 32]) {} // for receiver to claim, rust sdk will compose tx and return to mobile end; mobile end will do rpc
+```

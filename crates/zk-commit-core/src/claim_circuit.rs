@@ -22,7 +22,6 @@ pub struct ClaimTargets {
     pub nullifier_hash: HashOutTarget,
     pub commitment: HashOutTarget,
     pub siblings: Vec<HashOutTarget>,
-    pub own_leaf_hash: HashOutTarget,
     pub index_target: Target,
 }
 
@@ -55,11 +54,9 @@ pub fn generate_claim_circuit(
     // Create the commitment hash target
     let commitment: HashOutTarget = builder.add_virtual_hash_public_input();
 
-    // Calculate my own leaf hash and verify it is correctly calculated
+    // Calculate my own leaf hash 
     let inputs = vec![vec![amount], nullifier_hash.elements.to_vec(), vec![secret]].concat();
-    let own_leaf_hash_calculated = get_hash_from_input_targets_circuit(builder, inputs);
-    let own_leaf_hash = builder.add_virtual_hash();
-    builder.connect_hashes(own_leaf_hash_calculated, own_leaf_hash);
+    let own_leaf_hash = get_hash_from_input_targets_circuit(builder, inputs);
 
     // Verify the merkle proof of the leaf we calculated
     let mut siblings: Vec<HashOutTarget> = Vec::new();
@@ -81,7 +78,6 @@ pub fn generate_claim_circuit(
         nullifier_hash,
         commitment,
         siblings,
-        own_leaf_hash,
         index_target,
     }
 }
@@ -97,7 +93,6 @@ pub fn set_claim_circuit(
     pw.set_target(claim_targets.secret, claim_proving_inputs.pair.get_secret());
     pw.set_hash_target(claim_targets.commitment, claim_proving_inputs.commitment);
     pw.set_hash_target(claim_targets.nullifier_hash, claim_proving_inputs.nullifier_hash);
-    pw.set_hash_target(claim_targets.own_leaf_hash, claim_proving_inputs.own_leaf_hash);
 
     pw.set_target(claim_targets.index_target, claim_proving_inputs.index);
 
