@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Variables
+TEMP_FOLDER="/tmp"
+VERSION="0.4.4"
+FILE_NAME="ktlint-compose-$VERSION-all.jar"
+FILE_PATH="$TEMP_FOLDER/$FILE_NAME"
+URL="https://github.com/mrmans0n/compose-rules/releases/download/v$VERSION/ktlint-compose-$VERSION-all.jar"
+
+# Check if file exists
+if [ ! -f "$FILE_PATH" ]; then
+    # File does not exist, download it
+    curl -o "$FILE_PATH" -L "$URL"
+    CURL_EXIT_CODE=$?
+    if [ $CURL_EXIT_CODE -ne 0 ]; then
+        # Download failed, exit with the exit code of curl
+        exit $CURL_EXIT_CODE
+    fi
+fi
+
+# Execute command using the file
+ktlint '**/*.kt' '**/*.kts' '!**/build/**/*.kt' '!**/build/**/*.kts' --format --relative --patterns-from-stdin='' --color -R $FILE_PATH
