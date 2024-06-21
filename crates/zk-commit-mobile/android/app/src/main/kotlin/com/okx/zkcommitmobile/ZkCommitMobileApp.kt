@@ -29,7 +29,7 @@ class ZkCommitMobileApp : Application() {
         val appMetaData = Core.Model.AppMetaData(
             name = "ZK Commit Mobile",
             description = "ZK Commit Mobile",
-            url = "kotlin.walletconnect.com",
+            url = "https://github.com/okx/pay-2-zk-commitment/tree/dev",
             icons = listOf("https://avatars.githubusercontent.com/u/120148534"),
             redirect = "zkcommitmobile://result"
         )
