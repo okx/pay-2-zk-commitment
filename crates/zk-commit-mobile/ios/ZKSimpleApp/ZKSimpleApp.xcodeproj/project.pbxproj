@@ -14,6 +14,13 @@
 		4C5B5B0D2C216E3F00CC93F0 /* CreateDepositorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B5B0C2C216E3F00CC93F0 /* CreateDepositorView.swift */; };
 		4C5B5B0F2C216E4600CC93F0 /* ClaimListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B5B0E2C216E4600CC93F0 /* ClaimListView.swift */; };
 		4CD5F73B2C22DEE7006A846A /* zk_commit_mobile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD5F73A2C22DEE7006A846A /* zk_commit_mobile.swift */; };
+		4CED56F72C251D780031036C /* Web3Modal in Frameworks */ = {isa = PBXBuildFile; productRef = 4CED56F62C251D780031036C /* Web3Modal */; };
+		4CED56F92C251D780031036C /* Web3ModalUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4CED56F82C251D780031036C /* Web3ModalUI */; };
+		4CED56FB2C2521C30031036C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED56FA2C2521C30031036C /* AppDelegate.swift */; };
+		4CED56FF2C2528B10031036C /* Web3 in Frameworks */ = {isa = PBXBuildFile; productRef = 4CED56FE2C2528B10031036C /* Web3 */; };
+		4CED57012C2528B10031036C /* Web3ContractABI in Frameworks */ = {isa = PBXBuildFile; productRef = 4CED57002C2528B10031036C /* Web3ContractABI */; };
+		4CED57032C2528B10031036C /* Web3PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4CED57022C2528B10031036C /* Web3PromiseKit */; };
+		4CED57062C252A9B0031036C /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 4CED57052C252A9B0031036C /* Starscream */; };
 		4CF6FB032C243F8F00432BB6 /* zk_commit_mobile.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4CF6FB022C243F8F00432BB6 /* zk_commit_mobile.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4CF6FB042C243F9F00432BB6 /* zk_commit_mobile.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF6FB022C243F8F00432BB6 /* zk_commit_mobile.xcframework */; };
 /* End PBXBuildFile section */
@@ -40,6 +47,10 @@
 		4C5B5B0C2C216E3F00CC93F0 /* CreateDepositorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDepositorView.swift; sourceTree = "<group>"; };
 		4C5B5B0E2C216E4600CC93F0 /* ClaimListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaimListView.swift; sourceTree = "<group>"; };
 		4CD5F73A2C22DEE7006A846A /* zk_commit_mobile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = zk_commit_mobile.swift; sourceTree = "<group>"; };
+		4CED56FA2C2521C30031036C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4CED56FC2C2523C30031036C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4CED57072C252CB80031036C /* ZKSimpleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZKSimpleApp.entitlements; sourceTree = "<group>"; };
+		4CED57082C252D6D0031036C /* ZKSimpleAppRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZKSimpleAppRelease.entitlements; sourceTree = "<group>"; };
 		4CF6FB022C243F8F00432BB6 /* zk_commit_mobile.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = zk_commit_mobile.xcframework; path = ZKSimpleApp/zk_commit_mobile.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -48,7 +59,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CED57062C252A9B0031036C /* Starscream in Frameworks */,
 				4CF6FB042C243F9F00432BB6 /* zk_commit_mobile.xcframework in Frameworks */,
+				4CED56FF2C2528B10031036C /* Web3 in Frameworks */,
+				4CED56F92C251D780031036C /* Web3ModalUI in Frameworks */,
+				4CED56F72C251D780031036C /* Web3Modal in Frameworks */,
+				4CED57032C2528B10031036C /* Web3PromiseKit in Frameworks */,
+				4CED57012C2528B10031036C /* Web3ContractABI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +93,10 @@
 		4C04AF242C1AC3FA00F9C104 /* ZKSimpleApp */ = {
 			isa = PBXGroup;
 			children = (
+				4CED57082C252D6D0031036C /* ZKSimpleAppRelease.entitlements */,
+				4CED57072C252CB80031036C /* ZKSimpleApp.entitlements */,
+				4CED56FC2C2523C30031036C /* Info.plist */,
+				4CED56FA2C2521C30031036C /* AppDelegate.swift */,
 				4CD5F73A2C22DEE7006A846A /* zk_commit_mobile.swift */,
 				4C04AF252C1AC3FA00F9C104 /* ZKSimpleAppApp.swift */,
 				4C04AF272C1AC3FA00F9C104 /* ContentView.swift */,
@@ -119,6 +140,14 @@
 			dependencies = (
 			);
 			name = ZKSimpleApp;
+			packageProductDependencies = (
+				4CED56F62C251D780031036C /* Web3Modal */,
+				4CED56F82C251D780031036C /* Web3ModalUI */,
+				4CED56FE2C2528B10031036C /* Web3 */,
+				4CED57002C2528B10031036C /* Web3ContractABI */,
+				4CED57022C2528B10031036C /* Web3PromiseKit */,
+				4CED57052C252A9B0031036C /* Starscream */,
+			);
 			productName = ZKSimpleApp;
 			productReference = 4C04AF222C1AC3FA00F9C104 /* ZKSimpleApp.app */;
 			productType = "com.apple.product-type.application";
@@ -147,6 +176,11 @@
 				Base,
 			);
 			mainGroup = 4C04AF192C1AC3FA00F9C104;
+			packageReferences = (
+				4CED56F52C251D780031036C /* XCRemoteSwiftPackageReference "web3modal-swift" */,
+				4CED56FD2C2528B10031036C /* XCRemoteSwiftPackageReference "Web3" */,
+				4CED57042C252A9B0031036C /* XCRemoteSwiftPackageReference "Starscream" */,
+			);
 			productRefGroup = 4C04AF232C1AC3FA00F9C104 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -173,6 +207,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CED56FB2C2521C30031036C /* AppDelegate.swift in Sources */,
 				4CD5F73B2C22DEE7006A846A /* zk_commit_mobile.swift in Sources */,
 				4C04AF282C1AC3FA00F9C104 /* ContentView.swift in Sources */,
 				4C5B5B0F2C216E4600CC93F0 /* ClaimListView.swift in Sources */,
@@ -309,12 +344,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ZKSimpleApp/ZKSimpleApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ZKSimpleApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 6Y827XK6WX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ZKSimpleApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -346,12 +383,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ZKSimpleApp/ZKSimpleAppRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ZKSimpleApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 6Y827XK6WX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ZKSimpleApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -399,6 +438,66 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4CED56F52C251D780031036C /* XCRemoteSwiftPackageReference "web3modal-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/WalletConnect/web3modal-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+		4CED56FD2C2528B10031036C /* XCRemoteSwiftPackageReference "Web3" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/WalletConnect/Web3.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+		4CED57042C252A9B0031036C /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4CED56F62C251D780031036C /* Web3Modal */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4CED56F52C251D780031036C /* XCRemoteSwiftPackageReference "web3modal-swift" */;
+			productName = Web3Modal;
+		};
+		4CED56F82C251D780031036C /* Web3ModalUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4CED56F52C251D780031036C /* XCRemoteSwiftPackageReference "web3modal-swift" */;
+			productName = Web3ModalUI;
+		};
+		4CED56FE2C2528B10031036C /* Web3 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4CED56FD2C2528B10031036C /* XCRemoteSwiftPackageReference "Web3" */;
+			productName = Web3;
+		};
+		4CED57002C2528B10031036C /* Web3ContractABI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4CED56FD2C2528B10031036C /* XCRemoteSwiftPackageReference "Web3" */;
+			productName = Web3ContractABI;
+		};
+		4CED57022C2528B10031036C /* Web3PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4CED56FD2C2528B10031036C /* XCRemoteSwiftPackageReference "Web3" */;
+			productName = Web3PromiseKit;
+		};
+		4CED57052C252A9B0031036C /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4CED57042C252A9B0031036C /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4C04AF1A2C1AC3FA00F9C104 /* Project object */;
 }

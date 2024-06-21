@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Web3Modal
 
 struct ContentView: View {
     @StateObject var viewModel: DepositListViewModel
@@ -20,6 +21,7 @@ struct ContentView: View {
                         let date = Date().timeIntervalSince1970
                         testPerformance()
                         testPerfDuration = Date().timeIntervalSince1970 - date
+                        Web3Modal.present()
                     }, label: {
                         Text("Trigger test perf")
                     })
