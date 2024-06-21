@@ -3,6 +3,7 @@ package com.okx.zkcommitmobile.ui
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -13,10 +14,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.okx.zkcommitmobile.DepositViewModel
 import com.okx.zkcommitmobile.di.diComponent
+import java.io.File
 import soup.compose.material.motion.animation.materialSharedAxisXIn
 import soup.compose.material.motion.animation.materialSharedAxisXOut
 import soup.compose.material.motion.animation.rememberSlideDistance
-import java.io.File
 
 @Composable
 fun DepositApp(modifier: Modifier = Modifier) {
@@ -40,12 +41,14 @@ fun DepositApp(modifier: Modifier = Modifier) {
             val viewModel = viewModel<DepositViewModel>(
                 factory = context.diComponent.viewModelFactory
             )
+            LaunchedEffect(Unit) { viewModel.getAccount() }
             DepositScreen(
                 deposits = viewModel.deposits.map { it.deposit },
                 messages = viewModel.messages,
+                getAccountState = viewModel.getAccountState,
+                disconnect = viewModel::disconnect,
                 onCreateDeposit = { navController.navigate(CreateDepositScreen) },
-                onClaim = { navController.navigate(ClaimListScreen(id = it.id)) },
-                onConnectWallet = { viewModel.requestAccounts(context) }
+                onClaim = { navController.navigate(ClaimListScreen(id = it.id)) }
             )
         }
 

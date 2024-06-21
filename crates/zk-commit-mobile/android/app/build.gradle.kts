@@ -73,7 +73,6 @@ dependencies {
     implementation(platform(libs.walletconnect.bom))
     implementation(libs.walletconnect.core)
     implementation(libs.walletconnect.web3modal)
-    implementation(libs.wcmobilesdk)
 
     implementation(libs.material.motion.compose.core)
 

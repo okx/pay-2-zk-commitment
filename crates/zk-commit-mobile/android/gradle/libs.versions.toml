@@ -23,7 +23,6 @@ serialization = "1.7.0"
 testExtJunit = "1.1.5"
 uiautomator = "2.3.0"
 walletconnect = "1.32.1"
-wcmobilesdk = "1.0.0"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity" }
@@ -61,7 +60,6 @@ walletconnect-core = { module = "com.walletconnect:android-core" }
 walletconnect-web3modal = { module = "com.walletconnect:web3modal" }
 
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle-api", version.ref = "agp" }
-wcmobilesdk = { module = "com.okx:wcmobilesdk", version.ref = "wcmobilesdk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
