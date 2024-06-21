@@ -5,7 +5,7 @@ TEMP_FOLDER="/tmp"
 VERSION="0.4.4"
 FILE_NAME="ktlint-compose-$VERSION-all.jar"
 FILE_PATH="$TEMP_FOLDER/$FILE_NAME"
-URL="https://github.com/mrmans0n/compose-rules/releases/download/v$VERSION/ktlint-compose-$VERSION-all.jar"
+URL="https://github.com/mrmans0n/compose-rules/releases/download/v$VERSION/$FILE_NAME"
 
 # Check if file exists
 if [ ! -f "$FILE_PATH" ]; then
@@ -19,4 +19,4 @@ if [ ! -f "$FILE_PATH" ]; then
 fi
 
 # Execute command using the file
-ktlint '**/*.kt' '**/*.kts' '!**/build/**/*.kt' '!**/build/**/*.kts' --format --relative --patterns-from-stdin='' --color -R $FILE_PATH
+ktlint '**/*.kt' '**/*.kts' '!**/build/**/*.kt' '!**/build/**/*.kts' --format --color -R $FILE_PATH
