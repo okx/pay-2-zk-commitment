@@ -21,7 +21,7 @@ cargo run -p zk-commit-core --example fibonacci
 
 ### Test performance
 
-Can put your code and in `./crates/zk-commit-mobile/src/lib.rs`
+Can put your code and in `./crates/zk-commit-mobile/src/lib.rs` `fn test_performance`
 
 ```rust
 #[uniffi::export]
@@ -30,3 +30,7 @@ pub fn test_performance() {
     // println!("testing performance")
 }
 ```
+
+### Trigger on iOS Simulator
+
+![ios_test_demo.gif](docs%2Fassets%2Fios_test_demo.gif)
