@@ -1,0 +1,404 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4C04AF262C1AC3FA00F9C104 /* ZKSimpleAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C04AF252C1AC3FA00F9C104 /* ZKSimpleAppApp.swift */; };
+		4C04AF282C1AC3FA00F9C104 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C04AF272C1AC3FA00F9C104 /* ContentView.swift */; };
+		4C04AF2A2C1AC3FC00F9C104 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C04AF292C1AC3FC00F9C104 /* Assets.xcassets */; };
+		4C04AF2D2C1AC3FC00F9C104 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C04AF2C2C1AC3FC00F9C104 /* Preview Assets.xcassets */; };
+		4C5B5B0D2C216E3F00CC93F0 /* CreateDepositorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B5B0C2C216E3F00CC93F0 /* CreateDepositorView.swift */; };
+		4C5B5B0F2C216E4600CC93F0 /* ClaimListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B5B0E2C216E4600CC93F0 /* ClaimListView.swift */; };
+		4CD5F73B2C22DEE7006A846A /* zk_commit_mobile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CD5F73A2C22DEE7006A846A /* zk_commit_mobile.swift */; };
+		4CF6FB032C243F8F00432BB6 /* zk_commit_mobile.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4CF6FB022C243F8F00432BB6 /* zk_commit_mobile.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4CF6FB042C243F9F00432BB6 /* zk_commit_mobile.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF6FB022C243F8F00432BB6 /* zk_commit_mobile.xcframework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4CD5F7372C22DE71006A846A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4CF6FB032C243F8F00432BB6 /* zk_commit_mobile.xcframework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4C04AF222C1AC3FA00F9C104 /* ZKSimpleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZKSimpleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C04AF252C1AC3FA00F9C104 /* ZKSimpleAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZKSimpleAppApp.swift; sourceTree = "<group>"; };
+		4C04AF272C1AC3FA00F9C104 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4C04AF292C1AC3FC00F9C104 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4C04AF2C2C1AC3FC00F9C104 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4C5B5B0C2C216E3F00CC93F0 /* CreateDepositorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDepositorView.swift; sourceTree = "<group>"; };
+		4C5B5B0E2C216E4600CC93F0 /* ClaimListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaimListView.swift; sourceTree = "<group>"; };
+		4CD5F73A2C22DEE7006A846A /* zk_commit_mobile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = zk_commit_mobile.swift; sourceTree = "<group>"; };
+		4CF6FB022C243F8F00432BB6 /* zk_commit_mobile.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = zk_commit_mobile.xcframework; path = ZKSimpleApp/zk_commit_mobile.xcframework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4C04AF1F2C1AC3FA00F9C104 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CF6FB042C243F9F00432BB6 /* zk_commit_mobile.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4C04AF192C1AC3FA00F9C104 = {
+			isa = PBXGroup;
+			children = (
+				4CF6FB022C243F8F00432BB6 /* zk_commit_mobile.xcframework */,
+				4C04AF242C1AC3FA00F9C104 /* ZKSimpleApp */,
+				4C04AF232C1AC3FA00F9C104 /* Products */,
+				4C7F78982C1AC50A00764C7C /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		4C04AF232C1AC3FA00F9C104 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C04AF222C1AC3FA00F9C104 /* ZKSimpleApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4C04AF242C1AC3FA00F9C104 /* ZKSimpleApp */ = {
+			isa = PBXGroup;
+			children = (
+				4CD5F73A2C22DEE7006A846A /* zk_commit_mobile.swift */,
+				4C04AF252C1AC3FA00F9C104 /* ZKSimpleAppApp.swift */,
+				4C04AF272C1AC3FA00F9C104 /* ContentView.swift */,
+				4C04AF292C1AC3FC00F9C104 /* Assets.xcassets */,
+				4C04AF2B2C1AC3FC00F9C104 /* Preview Content */,
+				4C5B5B0C2C216E3F00CC93F0 /* CreateDepositorView.swift */,
+				4C5B5B0E2C216E4600CC93F0 /* ClaimListView.swift */,
+			);
+			path = ZKSimpleApp;
+			sourceTree = "<group>";
+		};
+		4C04AF2B2C1AC3FC00F9C104 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				4C04AF2C2C1AC3FC00F9C104 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4C7F78982C1AC50A00764C7C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4C04AF212C1AC3FA00F9C104 /* ZKSimpleApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C04AF302C1AC3FC00F9C104 /* Build configuration list for PBXNativeTarget "ZKSimpleApp" */;
+			buildPhases = (
+				4C04AF1E2C1AC3FA00F9C104 /* Sources */,
+				4C04AF1F2C1AC3FA00F9C104 /* Frameworks */,
+				4C04AF202C1AC3FA00F9C104 /* Resources */,
+				4CD5F7372C22DE71006A846A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZKSimpleApp;
+			productName = ZKSimpleApp;
+			productReference = 4C04AF222C1AC3FA00F9C104 /* ZKSimpleApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4C04AF1A2C1AC3FA00F9C104 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					4C04AF212C1AC3FA00F9C104 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = 4C04AF1D2C1AC3FA00F9C104 /* Build configuration list for PBXProject "ZKSimpleApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4C04AF192C1AC3FA00F9C104;
+			productRefGroup = 4C04AF232C1AC3FA00F9C104 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4C04AF212C1AC3FA00F9C104 /* ZKSimpleApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4C04AF202C1AC3FA00F9C104 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C04AF2D2C1AC3FC00F9C104 /* Preview Assets.xcassets in Resources */,
+				4C04AF2A2C1AC3FC00F9C104 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4C04AF1E2C1AC3FA00F9C104 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CD5F73B2C22DEE7006A846A /* zk_commit_mobile.swift in Sources */,
+				4C04AF282C1AC3FA00F9C104 /* ContentView.swift in Sources */,
+				4C5B5B0F2C216E4600CC93F0 /* ClaimListView.swift in Sources */,
+				4C5B5B0D2C216E3F00CC93F0 /* CreateDepositorView.swift in Sources */,
+				4C04AF262C1AC3FA00F9C104 /* ZKSimpleAppApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4C04AF2E2C1AC3FC00F9C104 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4C04AF2F2C1AC3FC00F9C104 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4C04AF312C1AC3FC00F9C104 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ZKSimpleApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 6Y827XK6WX;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.okx.ZKSimpleApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4C04AF322C1AC3FC00F9C104 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ZKSimpleApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 6Y827XK6WX;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.okx.ZKSimpleApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4C04AF1D2C1AC3FA00F9C104 /* Build configuration list for PBXProject "ZKSimpleApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C04AF2E2C1AC3FC00F9C104 /* Debug */,
+				4C04AF2F2C1AC3FC00F9C104 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C04AF302C1AC3FC00F9C104 /* Build configuration list for PBXNativeTarget "ZKSimpleApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C04AF312C1AC3FC00F9C104 /* Debug */,
+				4C04AF322C1AC3FC00F9C104 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4C04AF1A2C1AC3FA00F9C104 /* Project object */;
+}
