@@ -1,3 +1,5 @@
+use std::fs;
+
 use plonky2::field::types::Field;
 
 use zk_commit_core::{
@@ -20,7 +22,7 @@ pub fn setup_commitment(distribution: Vec<AmountSecretPairing>) -> CommitmentTre
 
 #[derive(uniffi::Record)]
 pub struct GenerateProofOfClaimResult {
-    pub proof: Vec<u8>,
+    pub file_path: String,
     pub amount: u64,
     pub public_inputs: Vec<u64>,
 }

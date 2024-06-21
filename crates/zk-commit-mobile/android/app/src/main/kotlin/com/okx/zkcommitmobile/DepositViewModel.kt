@@ -11,13 +11,14 @@ import com.okx.zkcommitmobile.data.DepositWithCommitment
 import com.okx.zkcommitmobile.uniffi.AmountSecretPairing
 import com.okx.zkcommitmobile.uniffi.generateProofOfClaim
 import com.okx.zkcommitmobile.uniffi.setupCommitment
+import java.io.File
+import kotlin.time.measureTimedValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import kotlin.time.measureTimedValue
 
 class DepositViewModel(private val okxWalletConnectManager: OKXWalletConnectManager) : ViewModel() {
     companion object {
@@ -58,7 +59,7 @@ class DepositViewModel(private val okxWalletConnectManager: OKXWalletConnectMana
         }
     }
 
-    fun claim(id: String, index: Int) {
+    fun claim(id: String, index: Int, proofFile: File) {
         viewModelScope.launch {
             val depositIndex = _deposits.indexOfFirst { it.deposit.id == id }
             val (deposit, commitmentTree) = _deposits[depositIndex]
@@ -70,14 +71,15 @@ class DepositViewModel(private val okxWalletConnectManager: OKXWalletConnectMana
                             amount = deposit.distributions[index].amount,
                             secret = deposit.distributions[index].secret,
                             index = index,
-                            commitmentTree = commitmentTree
+                            commitmentTree = commitmentTree,
+                            proofFilePath = proofFile.absolutePath
                         )
                     }
                 }
             }.onSuccess { (proof, duration) ->
                 logger.i("Generate proof of claim duration=$duration")
                 logger.i("Proof: amount=${proof.amount}")
-                logger.i("Proof: proof size=${proof.proof.size}")
+                logger.i("Proof: proof size=${proofFile.length()}")
                 logger.i("Proof: publicInputs=${proof.publicInputs}")
                 _deposits[depositIndex] = DepositWithCommitment(
                     deposit = deposit.copy(
@@ -88,7 +90,7 @@ class DepositViewModel(private val okxWalletConnectManager: OKXWalletConnectMana
                     commitmentTree = commitmentTree
                 )
                 _messages.send(
-                    "Claimed: duration=$duration, amount=${proof.amount}, proof size=${proof.proof.size}"
+                    "Claimed: duration=$duration, amount=${proof.amount}, proof size=${proofFile.length()}"
                 )
             }.onFailure {
                 logger.e(it, "Failed to generate proof of claim")

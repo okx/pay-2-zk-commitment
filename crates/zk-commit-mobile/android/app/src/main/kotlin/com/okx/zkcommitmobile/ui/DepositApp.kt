@@ -16,6 +16,7 @@ import com.okx.zkcommitmobile.di.diComponent
 import soup.compose.material.motion.animation.materialSharedAxisXIn
 import soup.compose.material.motion.animation.materialSharedAxisXOut
 import soup.compose.material.motion.animation.rememberSlideDistance
+import java.io.File
 
 @Composable
 fun DepositApp(modifier: Modifier = Modifier) {
@@ -71,11 +72,21 @@ fun DepositApp(modifier: Modifier = Modifier) {
                 factory = LocalContext.current.diComponent.viewModelFactory
             )
             val id = backStackEntry.toRoute<ClaimListScreen>().id
+            val context = LocalContext.current
             ClaimListScreen(
                 deposit = viewModel.deposits.map { it.deposit }.first { it.id == id },
                 messages = viewModel.messages,
                 onNavigateUp = { navController.navigateUp() },
-                onClaim = { deposit, index, _ -> viewModel.claim(deposit.id, index) }
+                onClaim = { deposit, index, _ ->
+                    viewModel.claim(
+                        id = deposit.id,
+                        index = index,
+                        proofFile = File(
+                            context.getExternalFilesDir(null),
+                            "proof-${deposit.id}-$index"
+                        )
+                    )
+                }
             )
         }
     }
