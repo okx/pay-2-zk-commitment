@@ -5149,11 +5149,13 @@ name = "zk-commit-core"
 version = "0.2.0"
 dependencies = [
  "anyhow",
+ "bincode",
  "bindgen",
  "criterion",
  "jemallocator",
  "log",
  "plonky2",
+ "serde",
 ]
 
 [[package]]
