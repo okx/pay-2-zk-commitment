@@ -1,7 +1,8 @@
 [workspace]
 members = [
     "crates/zk-commit-core",
-    "crates/zk-commit-service"
+    "crates/zk-commit-service",
+    "crates/zk-commit-mobile"
 ]
 resolver = "2"
 

@@ -3,3 +3,9 @@ node_modules/
 artifacts/
 cache/
 typechain-types/
+.idea
+ios_build/
+.DS_Store
+/ios/
+build_ios/
+xcuserdata/

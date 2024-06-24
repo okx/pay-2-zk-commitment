@@ -4,7 +4,6 @@ pragma circom 2.1.0;
 include "./challenges.circom";
 include "./plonk.circom";
 include "./fri.circom";
-include "./finalproof.circom";
 include "./utils.circom";
 
 template VerifyPlonky2Proof() {
@@ -37,10 +36,6 @@ template VerifyPlonky2Proof() {
   signal input fri_pow_witness;
   signal input public_inputs[NUM_PUBLIC_INPUTS()];
 
-  signal input vd_root[4];
-  signal input vd_siblings[NUM_VDTREE_DEPTH()][4];
-  signal input vd_index;
-
   component converter = Slot2Gls(NUM_PUBLIC_INPUTS());
   converter.in <== public_inputs;
 
@@ -51,24 +46,6 @@ template VerifyPlonky2Proof() {
   public_input_hasher.capacity[1] <== 0;
   public_input_hasher.capacity[2] <== 0;
   public_input_hasher.capacity[3] <== 0;
-
-  component fpc = FinalProofChecker(NUM_VDTREE_DEPTH(), NUM_SIGMA_CAPS() * 4 + 4);
-  fpc.siblings <== vd_siblings;
-  for (var i = 0; i < NUM_SIGMA_CAPS(); i++){
-    var cap[4];
-    cap = GET_SIGMA_CAP(i);
-    fpc.leaf[i * 4 + 0] <== cap[0];
-    fpc.leaf[i * 4 + 1] <== cap[1];
-    fpc.leaf[i * 4 + 2] <== cap[2];
-    fpc.leaf[i * 4 + 3] <== cap[3];
-  }
-  var digest[4];
-  digest = CIRCUIT_DIGEST();
-  for (var i = 0; i < 4; i++){
-    fpc.leaf[i + NUM_SIGMA_CAPS() * 4] <== digest[i];
-  }
-  fpc.index <== vd_index;
-  vd_root === fpc.root;
 
   component get_challenges = GetChallenges();
 
@@ -148,4 +125,4 @@ template VerifyPlonky2Proof() {
   verify_fri_proof.fri_query_indices <== get_challenges.fri_query_indices;
 }
 
-component main {public [public_inputs, vd_root]} = VerifyPlonky2Proof();
+component main {public [public_inputs]} = VerifyPlonky2Proof();

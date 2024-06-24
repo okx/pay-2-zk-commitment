@@ -5,8 +5,8 @@ use plonky2::{
 
 // Extension of size 2
 pub const D: usize = 2;
-pub const COMMITMENT_TREE_DEPTH: usize = 3;
-pub const NUM_LEAVES_MERKLE_TREE: usize = 1 << COMMITMENT_TREE_DEPTH;
+pub const COMMITMENT_TREE_DEPTH: usize = 4;
+pub const NUM_LEAVES_MERKLE_TREE: usize = 1 << (COMMITMENT_TREE_DEPTH - 1);
 
 pub const STANDARD_CONFIG: CircuitConfig = CircuitConfig {
     num_wires: 170,
