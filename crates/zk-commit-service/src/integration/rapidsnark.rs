@@ -76,7 +76,7 @@ impl RapidSnark {
             if status_response.status != "busy" {
                 break status_response;
             }
-            std::thread::sleep(Duration::from_secs(1));
+            std::thread::sleep(Duration::from_millis(500));
         }
     }
 }

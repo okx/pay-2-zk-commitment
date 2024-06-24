@@ -29,7 +29,6 @@ pub(crate) fn wrap_groth16(
     let proof_with_pis: ProofWithPublicInputs<F,C,D> = bincode::deserialize(&buffer).unwrap();
 
     let proof_with_pis_json_string = serde_json::to_string(&proof_with_pis).unwrap();
-
     
     let rapidsnark = RapidSnark::new("http://localhost:3000");
     let rapidsnark_proof = rapidsnark.request_proof_sync(proof_with_pis_json_string);
