@@ -35,7 +35,6 @@ function NUM_FRI_QUERY_STEP0_P() { return 11; }
 function NUM_FRI_QUERY_STEP1_V() { return 16; }
 function NUM_FRI_QUERY_STEP1_P() { return 7; }
 function NUM_FRI_FINAL_POLY_EXT_V() { return 16; }
-function NUM_VDTREE_DEPTH() { return 5; }
 
 function NUM_SIGMA_CAPS() { return 16; }
 function GET_SIGMA_CAP(i) {

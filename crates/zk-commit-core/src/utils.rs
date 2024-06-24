@@ -2,7 +2,6 @@ use plonky2::{
     hash::{hash_types::HashOut, poseidon::PoseidonHash},
     plonk::config::Hasher,
 };
-
 use crate::types::F;
 
 /// A pair of amount and secret representing the amount of allocation of tokens to a specific amount

@@ -82,7 +82,8 @@ pub fn generate_claim_circuit(
     }
 }
 
-/// Set the partial witness targets for the claim circuit. This includes the public inputs.
+/// Set the partial witness targets for the claim circuit. This includes the public inputs. For a claim, we set the amount, nullifier_hash and the commitment tree root as
+/// the public inputs and the secret, 
 pub fn set_claim_circuit(
     claim_targets: ClaimTargets,
     claim_proving_inputs: ClaimProvingInputs,
@@ -109,7 +110,7 @@ pub struct ClaimProofResponse {}
 mod test {
     use crate::{
         circuit_utils::run_circuit_test,
-        claim_execution::{execute_claim, Claim},
+        claim_execution::{get_claim_proving_inputs, Claim},
         commitment_tree::CommitmentTree,
         types::F,
         utils::AmountSecretPairing,
@@ -141,7 +142,7 @@ mod test {
                 index: 0,
             };
 
-            let claim_proving_inputs = execute_claim(claim);
+            let claim_proving_inputs = get_claim_proving_inputs(claim);
 
             let claim_targets = generate_claim_circuit(builder, commitment_tree.depth);
             // println!("{:?}", commitment_tree.depth);

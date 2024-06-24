@@ -19,7 +19,7 @@ use plonky2::{
         proof::ProofWithPublicInputs,
         prover::prove,
     },
-    util::timing::TimingTree,
+    util::{log2_strict, timing::TimingTree},
 };
 use serde::Serialize;
 
@@ -537,4 +537,286 @@ pub fn generate_proof_base64<
     println!("proof size: {}", proof_size);
 
     Ok(serde_json::to_string(&circom_proof).unwrap())
+}
+
+
+pub fn generate_circom_verifier<
+    F: RichField + Extendable<D>,
+    C: GenericConfig<D, F = F>,
+    const D: usize,
+>(
+    conf: &VerifierConfig,
+    common: &CommonCircuitData<F, D>,
+    verifier_only: &VerifierOnlyCircuitData<C, D>,
+) -> anyhow::Result<(String, String)> {
+    assert_eq!(F::BITS, 64);
+    assert_eq!(F::Extension::BITS, 128);
+    println!("Generating Circom files ...");
+
+    // Load template contract
+    let mut constants = std::fs::read_to_string("./src/template_constants.circom")
+        .expect("Something went wrong reading the file");
+
+    let k_is = &common.k_is;
+    let mut k_is_str = "".to_owned();
+    for i in 0..k_is.len() {
+        k_is_str += &*("  k_is[".to_owned()
+            + &*i.to_string()
+            + "] = "
+            + &*k_is[i].to_canonical_u64().to_string()
+            + ";\n");
+    }
+    constants = constants.replace("  $SET_K_IS;\n", &*k_is_str);
+
+    let reduction_arity_bits = &common.fri_params.reduction_arity_bits;
+    let mut reduction_arity_bits_str = "".to_owned();
+    for i in 0..reduction_arity_bits.len() {
+        reduction_arity_bits_str += &*("  bits[".to_owned()
+            + &*i.to_string()
+            + "] = "
+            + &*reduction_arity_bits[i].to_string()
+            + ";\n");
+    }
+    constants = constants.replace("  $SET_REDUCTION_ARITY_BITS;\n", &*reduction_arity_bits_str);
+    constants =
+        constants.replace("$NUM_REDUCTION_ARITY_BITS", &*reduction_arity_bits.len().to_string());
+
+    constants = constants.replace("$NUM_PUBLIC_INPUTS", &*conf.num_public_inputs.to_string());
+    constants = constants.replace("$NUM_WIRES_CAP", &*conf.num_wires_cap.to_string());
+    constants = constants.replace(
+        "$NUM_PLONK_ZS_PARTIAL_PRODUCTS_CAP",
+        &*conf.num_plonk_zs_partial_products_cap.to_string(),
+    );
+    constants =
+        constants.replace("$NUM_QUOTIENT_POLYS_CAP", &*conf.num_quotient_polys_cap.to_string());
+    constants =
+        constants.replace("$NUM_OPENINGS_CONSTANTS", &*conf.num_openings_constants.to_string());
+    constants = constants
+        .replace("$NUM_OPENINGS_PLONK_SIGMAS", &*conf.num_openings_plonk_sigmas.to_string());
+    constants = constants.replace("$NUM_OPENINGS_WIRES", &*conf.num_openings_wires.to_string());
+    constants =
+        constants.replace("$NUM_OPENINGS_PLONK_ZS0", &*conf.num_openings_plonk_zs.to_string());
+    constants = constants
+        .replace("$NUM_OPENINGS_PLONK_ZS_NEXT", &*conf.num_openings_plonk_zs_next.to_string());
+    constants = constants.replace(
+        "$NUM_OPENINGS_PARTIAL_PRODUCTS",
+        &*conf.num_openings_partial_products.to_string(),
+    );
+    constants = constants
+        .replace("$NUM_OPENINGS_QUOTIENT_POLYS", &*conf.num_openings_quotient_polys.to_string());
+    constants = constants.replace("$NUM_FRI_COMMIT_ROUND", &*conf.num_fri_commit_round.to_string());
+    constants = constants
+        .replace("$FRI_COMMIT_MERKLE_CAP_HEIGHT", &*conf.fri_commit_merkle_cap_height.to_string());
+    constants = constants.replace("$NUM_FRI_QUERY_ROUND", &*conf.num_fri_query_round.to_string());
+    constants = constants.replace(
+        "$NUM_FRI_QUERY_INIT_CONSTANTS_SIGMAS_V",
+        &*conf.num_fri_query_init_constants_sigmas_v.to_string(),
+    );
+    constants = constants.replace(
+        "$NUM_FRI_QUERY_INIT_CONSTANTS_SIGMAS_P",
+        &*conf.num_fri_query_init_constants_sigmas_p.to_string(),
+    );
+    constants = constants
+        .replace("$NUM_FRI_QUERY_INIT_WIRES_V", &*conf.num_fri_query_init_wires_v.to_string());
+    constants = constants
+        .replace("$NUM_FRI_QUERY_INIT_WIRES_P", &*conf.num_fri_query_init_wires_p.to_string());
+    constants = constants.replace(
+        "$NUM_FRI_QUERY_INIT_ZS_PARTIAL_V",
+        &*conf.num_fri_query_init_zs_partial_v.to_string(),
+    );
+    constants = constants.replace(
+        "$NUM_FRI_QUERY_INIT_ZS_PARTIAL_P",
+        &*conf.num_fri_query_init_zs_partial_p.to_string(),
+    );
+    constants = constants.replace(
+        "$NUM_FRI_QUERY_INIT_QUOTIENT_V",
+        &*conf.num_fri_query_init_quotient_v.to_string(),
+    );
+    constants = constants.replace(
+        "$NUM_FRI_QUERY_INIT_QUOTIENT_P",
+        &*conf.num_fri_query_init_quotient_p.to_string(),
+    );
+    constants =
+        constants.replace("$NUM_FRI_QUERY_STEP0_V", &*conf.num_fri_query_step0_v.to_string());
+    constants =
+        constants.replace("$NUM_FRI_QUERY_STEP0_P", &*conf.num_fri_query_step0_p.to_string());
+    constants =
+        constants.replace("$NUM_FRI_QUERY_STEP1_V", &*conf.num_fri_query_step1_v.to_string());
+    constants =
+        constants.replace("$NUM_FRI_QUERY_STEP1_P", &*conf.num_fri_query_step1_p.to_string());
+    constants =
+        constants.replace("$NUM_FRI_FINAL_POLY_EXT_V", &*conf.num_fri_final_poly_ext_v.to_string());
+    constants = constants.replace("$NUM_CHALLENGES", &*common.config.num_challenges.to_string());
+
+    let circuit_digest = verifier_only.circuit_digest.to_vec();
+    let mut circuit_digest_str = "".to_owned();
+    for i in 0..circuit_digest.len() {
+        circuit_digest_str += &*("  cd[".to_owned()
+            + &*i.to_string()
+            + "] = "
+            + &*circuit_digest[i].to_canonical_u64().to_string()
+            + ";\n");
+    }
+    constants = constants.replace("  $SET_CIRCUIT_DIGEST;\n", &*circuit_digest_str);
+
+    constants =
+        constants.replace("$FRI_RATE_BITS", &*common.config.fri_config.rate_bits.to_string());
+    constants = constants.replace("$DEGREE_BITS", &*common.degree_bits().to_string());
+    constants =
+        constants.replace("$NUM_GATE_CONSTRAINTS", &*common.num_gate_constraints.to_string());
+    constants =
+        constants.replace("$QUOTIENT_DEGREE_FACTOR", &*common.quotient_degree_factor.to_string());
+    constants = constants.replace(
+        "$MIN_FRI_POW_RESPONSE",
+        &*(common.config.fri_config.proof_of_work_bits + (64 - F::order().bits()) as u32)
+            .to_string(),
+    );
+    let g = F::Extension::primitive_root_of_unity(common.degree_bits());
+    constants = constants.replace("$G_FROM_DEGREE_BITS_0", &g.to_basefield_array()[0].to_string());
+    constants = constants.replace("$G_FROM_DEGREE_BITS_1", &g.to_basefield_array()[1].to_string());
+    let log_n = log2_strict(common.fri_params.lde_size());
+    constants = constants.replace("$LOG_SIZE_OF_LDE_DOMAIN", &*log_n.to_string());
+    constants = constants.replace(
+        "$MULTIPLICATIVE_GROUP_GENERATOR",
+        &*F::MULTIPLICATIVE_GROUP_GENERATOR.to_string(),
+    );
+    constants = constants
+        .replace("$PRIMITIVE_ROOT_OF_UNITY_LDE", &*F::primitive_root_of_unity(log_n).to_string());
+    // TODO: add test with config zero_knoledge = true
+    constants = constants.replace("$ZERO_KNOWLEDGE", &*common.config.zero_knowledge.to_string());
+    let g = F::primitive_root_of_unity(1);
+    constants = constants.replace("$G_ARITY_BITS_1", &g.to_string());
+    let g = F::primitive_root_of_unity(2);
+    constants = constants.replace("$G_ARITY_BITS_2", &g.to_string());
+    let g = F::primitive_root_of_unity(3);
+    constants = constants.replace("$G_ARITY_BITS_3", &g.to_string());
+    let g = F::primitive_root_of_unity(4);
+    constants = constants.replace("$G_ARITY_BITS_4", &g.to_string());
+
+    // Load gate template
+    let mut gates_lib = std::fs::read_to_string("./src/template_gates.circom")
+        .expect("Something went wrong reading the file");
+
+    let num_selectors = common.selectors_info.num_selectors();
+    constants = constants.replace("$NUM_SELECTORS", &num_selectors.to_string());
+    let mut evaluate_gate_constraints_str = "".to_owned();
+    let mut last_component_name = "".to_owned();
+    for (row, gate) in common.gates.iter().enumerate() {
+        if gate.0.id().eq("NoopGate") {
+            continue;
+        }
+        let selector_index = common.selectors_info.selector_indices[row];
+        let group_range = common.selectors_info.groups[selector_index].clone();
+        let mut c = 0;
+
+        evaluate_gate_constraints_str = evaluate_gate_constraints_str + "\n";
+        let mut filter_str = "filter <== ".to_owned();
+        let filter_chain = group_range
+            .filter(|&i| i != row)
+            .chain((num_selectors > 1).then_some(u32::MAX as usize));
+        for i in filter_chain {
+            filter_str += &*("GlExtMul()(GlExtSub()(GlExt(".to_owned()
+                + &i.to_string()
+                + ", 0)(), "
+                + "constants["
+                + &*selector_index.to_string()
+                + "]), ");
+            c = c + 1;
+        }
+        filter_str += &*("GlExt(1, 0)()".to_owned());
+        for _ in 0..c {
+            filter_str = filter_str + ")";
+        }
+        filter_str = filter_str + ";";
+
+        let mut eval_str = "  // ".to_owned() + &*gate.0.id() + "\n";
+        let gate_name = gate.0.id();
+        if gate_name.eq("PublicInputGate")
+            || gate_name[0..11].eq("BaseSumGate")
+            || gate_name[0..12].eq("ConstantGate")
+            || gate_name[0..12].eq("PoseidonGate")
+            || gate_name[0..12].eq("ReducingGate")
+            || gate_name[0..14].eq("ArithmeticGate")
+            || gate_name[0..15].eq("PoseidonMdsGate")
+            || gate_name[0..16].eq("MulExtensionGate")
+            || gate_name[0..16].eq("RandomAccessGate")
+            || gate_name[0..18].eq("ExponentiationGate")
+            || gate_name[0..21].eq("ReducingExtensionGate")
+            || gate_name[0..23].eq("ArithmeticExtensionGate")
+            || gate_name[0..26].eq("LowDegreeInterpolationGate")
+        {
+            //TODO: use num_coeff as a param (same TODO for other gates)
+            let mut code_str = gate.0.export_circom_verification_code();
+            code_str = code_str.replace("$SET_FILTER;", &*filter_str);
+            let v: Vec<&str> = code_str.split(' ').collect();
+            let template_name = &v[1][0..v[1].len() - 2];
+            let component_name = "c_".to_owned() + template_name;
+            eval_str +=
+                &*("  component ".to_owned() + &*component_name + " = " + template_name + "();\n");
+            eval_str += &*("  ".to_owned() + &*component_name + ".constants <== constants;\n");
+            eval_str += &*("  ".to_owned() + &*component_name + ".wires <== wires;\n");
+            eval_str += &*("  ".to_owned()
+                + &*component_name
+                + ".public_input_hash <== public_input_hash;\n");
+            if last_component_name == "" {
+                eval_str +=
+                    &*("  ".to_owned() + &*component_name + ".constraints <== constraints;\n");
+            } else {
+                eval_str += &*("  ".to_owned()
+                    + &*component_name
+                    + ".constraints <== "
+                    + &*last_component_name
+                    + ".out;\n");
+            }
+            gates_lib += &*(code_str + "\n");
+            last_component_name = component_name.clone();
+        } else {
+            todo!("{}", "gate not implemented: ".to_owned() + &gate_name)
+        }
+        evaluate_gate_constraints_str += &*eval_str;
+    }
+
+    evaluate_gate_constraints_str += &*("  out <== ".to_owned() + &*last_component_name + ".out;");
+    gates_lib = gates_lib.replace("  $EVALUATE_GATE_CONSTRAINTS;", &evaluate_gate_constraints_str);
+
+    gates_lib =
+        gates_lib.replace("$NUM_GATE_CONSTRAINTS", &*common.num_gate_constraints.to_string());
+    gates_lib = gates_lib.replace("$NUM_SELECTORS", &num_selectors.to_string());
+    gates_lib =
+        gates_lib.replace("$NUM_OPENINGS_CONSTANTS", &*conf.num_openings_constants.to_string());
+    gates_lib = gates_lib.replace("$NUM_OPENINGS_WIRES", &*conf.num_openings_wires.to_string());
+    gates_lib = gates_lib.replace("$F_EXT_W", &*F::W.to_basefield_array()[0].to_string());
+
+    let sigma_cap_count = 1 << common.config.fri_config.cap_height;
+    constants = constants.replace("$SIGMA_CAP_COUNT", &*sigma_cap_count.to_string());
+
+    let mut sigma_cap_str = "".to_owned();
+    for i in 0..sigma_cap_count {
+        let cap = verifier_only.constants_sigmas_cap.0[i];
+        let hash = cap.to_vec();
+        assert_eq!(hash.len(), 4);
+        sigma_cap_str += &*("  sc[".to_owned()
+            + &*i.to_string()
+            + "][0] = "
+            + &*hash[0].to_canonical_u64().to_string()
+            + ";\n");
+        sigma_cap_str += &*("  sc[".to_owned()
+            + &*i.to_string()
+            + "][1] = "
+            + &*hash[1].to_canonical_u64().to_string()
+            + ";\n");
+        sigma_cap_str += &*("  sc[".to_owned()
+            + &*i.to_string()
+            + "][2] = "
+            + &*hash[2].to_canonical_u64().to_string()
+            + ";\n");
+        sigma_cap_str += &*("  sc[".to_owned()
+            + &*i.to_string()
+            + "][3] = "
+            + &*hash[3].to_canonical_u64().to_string()
+            + ";\n");
+    }
+    constants = constants.replace("  $SET_SIGMA_CAP;\n", &*sigma_cap_str);
+
+    Ok((constants, gates_lib))
 }
