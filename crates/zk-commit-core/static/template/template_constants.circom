@@ -35,7 +35,6 @@ function NUM_FRI_QUERY_STEP0_P() { return $NUM_FRI_QUERY_STEP0_P; }
 function NUM_FRI_QUERY_STEP1_V() { return $NUM_FRI_QUERY_STEP1_V; }
 function NUM_FRI_QUERY_STEP1_P() { return $NUM_FRI_QUERY_STEP1_P; }
 function NUM_FRI_FINAL_POLY_EXT_V() { return $NUM_FRI_FINAL_POLY_EXT_V; }
-function NUM_VDTREE_DEPTH() { return $NUM_VDTREE_DEPTH; }
 
 function NUM_SIGMA_CAPS() { return $SIGMA_CAP_COUNT; }
 function GET_SIGMA_CAP(i) {
