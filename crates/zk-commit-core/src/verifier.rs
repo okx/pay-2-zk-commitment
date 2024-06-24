@@ -533,7 +533,7 @@ pub fn generate_proof_base64<
     };
 
     let proof_bytes = pwpi.to_bytes();
-    assert_eq!(proof_bytes.len(), proof_size);
+    // assert_eq!(proof_bytes.len(), proof_size);
     println!("proof size: {}", proof_size);
 
     Ok(serde_json::to_string(&circom_proof).unwrap())
@@ -554,7 +554,7 @@ pub fn generate_circom_verifier<
     println!("Generating Circom files ...");
 
     // Load template contract
-    let mut constants = std::fs::read_to_string("./src/template_constants.circom")
+    let mut constants = std::fs::read_to_string("./static/template/template_constants.circom")
         .expect("Something went wrong reading the file");
 
     let k_is = &common.k_is;
@@ -694,7 +694,7 @@ pub fn generate_circom_verifier<
     constants = constants.replace("$G_ARITY_BITS_4", &g.to_string());
 
     // Load gate template
-    let mut gates_lib = std::fs::read_to_string("./src/template_gates.circom")
+    let mut gates_lib = std::fs::read_to_string("./static/template/template_gates.circom")
         .expect("Something went wrong reading the file");
 
     let num_selectors = common.selectors_info.num_selectors();

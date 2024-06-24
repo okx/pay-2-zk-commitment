@@ -4,6 +4,7 @@ artifacts/
 cache/
 typechain-types/
 .idea
+.vscode
 ios_build/
 .DS_Store
 /ios/

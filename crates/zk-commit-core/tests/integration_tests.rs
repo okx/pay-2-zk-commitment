@@ -78,11 +78,11 @@ fn test_full_proof() {
         generate_circom_verifier(&conf, &cd, &vd).unwrap();
 
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not set");
-    let circom_path = PathBuf::from(manifest_dir).join("circom");
+    let circom_path = PathBuf::from(manifest_dir).parent().unwrap().join("zk-commit-circom");
 
-    let mut circom_file = File::create(circom_path.join("circuits/constants.circom")).unwrap();
+    let mut circom_file = File::create(circom_path.join("circuits/src/constants.circom")).unwrap();
     circom_file.write_all(circom_constants.as_bytes()).unwrap();
-    circom_file = File::create(circom_path.join("circuits/gates.circom")).unwrap();
+    circom_file = File::create(circom_path.join("circuits/src/gates.circom")).unwrap();
     circom_file.write_all(circom_gates.as_bytes()).unwrap();
 
     let proof_json = generate_proof_base64(&pi, &conf).unwrap();
