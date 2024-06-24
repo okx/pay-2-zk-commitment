@@ -1,41 +1,63 @@
-use crate::{
-    bindings::{paycommitment::PayCommitment, testerc20::TestERC20},
-    groth16::Groth16ProofWithPublicData,
+use alloy::{
+    node_bindings::Anvil,
+    primitives::{address, b128, b256, b512, b64, bytes, fixed_bytes, Address, Bytes, FixedBytes},
+    providers::{ProviderBuilder, RootProvider},
+    sol,
+    transports::http::{Client, Http},
 };
-use ethers::{
-    prelude::*,
-    providers::{Http, Provider},
-};
+use alloy::primitives::{utils::format_units, U256};
+use eyre::Result;
+use PayCommitment::PayCommitmentInstance;
+use TestERC20::TestERC20Instance;
+
+sol!(
+    #[allow(missing_docs)]
+    #[sol(rpc)]
+    TestERC20,
+    "static/abis/TestERC20.json"
+);
+
+sol!(
+    #[allow(missing_docs)]
+    #[sol(rpc)]
+    PayCommitment,
+    "static/abis/PayCommitment.json"
+);
+
+use crate::groth16::Groth16ProofWithPublicData;
 
 use std::{str::FromStr, sync::Arc};
 
 const PUB_LENGTH: usize = 4;
 
 pub struct Blockchain {
-    pub token: TestERC20<Provider<Http>>,
-    pub pay_commitment: PayCommitment<Provider<Http>>,
+    pub token: TestERC20Instance<Http<Client>, RootProvider<Http<Client>>>,
+    pub pay_commitment: PayCommitmentInstance<Http<Client>, RootProvider<Http<Client>>>,
 }
 
 impl Blockchain {
     pub fn new(rpc_url: &str, token_addr: &str, pay_commitment_addr: &str) -> Self {
-        let provider = Arc::new(Provider::<Http>::try_from(rpc_url).unwrap());
+        // let provider = Arc::new(Provider::<Http>::try_from(rpc_url).unwrap());
+        let rpc_url = rpc_url.parse().unwrap();
+        let provider = ProviderBuilder::new().on_http(rpc_url);
 
         let pay_commitment =
             PayCommitment::new(Address::from_str(pay_commitment_addr).unwrap(), provider.clone());
-        let token = TestERC20::new(Address::from_str(token_addr).unwrap(), provider.clone());
+        let token: TestERC20Instance<Http<Client>, RootProvider<Http<Client>>> =
+            TestERC20::new(Address::from_str(token_addr).unwrap(), provider.clone());
         Self { pay_commitment, token }
     }
 
     // get token approval contract call data; to be signed by mobile wallet
     pub fn approve_token_call_data(&self, spender: &str, amount: u64) -> Bytes {
         let spender = Address::from_str(spender).unwrap();
-        let calldata = self.token.approve(spender, U256::from(amount)).calldata().unwrap();
+        let calldata = self.token.approve(spender, U256::from(amount)).calldata().to_owned();
         calldata
     }
 
-    pub fn get_deposit_token_call_data(&self, amount: u64, commitment: [u8; 32]) -> Bytes {
+    pub fn get_deposit_token_call_data(&self, amount: u64, commitment: FixedBytes<32>) -> Bytes {
         let calldata =
-            self.pay_commitment.deposit_erc20(U256::from(amount), commitment).calldata().unwrap();
+            self.pay_commitment.depositERC20(U256::from(amount), commitment).calldata().to_owned();
         calldata
     }
 
@@ -73,8 +95,7 @@ impl Blockchain {
                 ],
                 pub_signals_array,
             )
-            .calldata()
-            .unwrap();
+            .calldata().to_owned();
         calldata
     }
 }

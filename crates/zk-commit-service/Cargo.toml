@@ -21,7 +21,7 @@ plonky2={workspace=true}
 serde={workspace=true}
 serde_json={workspace=true}
 thiserror={workspace=true}
-ethers={workspace=true}
+alloy={workspace=true}
 env_logger={workspace=true}
 log={workspace=true}
 num-bigint={workspace=true}
