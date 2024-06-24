@@ -134,7 +134,7 @@ mod test {
     
         // Deserialize the binary data to a struct
         let decoded: ProofWithPublicInputs<F,C,D> = bincode::deserialize(&buffer).unwrap();
-    
+
         println!("{:?}", decoded);
     }
 }
