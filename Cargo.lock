@@ -5232,11 +5232,13 @@ dependencies = [
  "alloy",
  "anyhow",
  "criterion",
+ "env_logger",
  "eyre",
  "jemallocator",
  "log",
  "plonky2",
  "serde",
+ "serde_json",
 ]
 
 [[package]]
