@@ -19,7 +19,7 @@ pub const STANDARD_CONFIG: CircuitConfig = CircuitConfig {
     max_quotient_degree_factor: 8,
     fri_config: FriConfig {
         rate_bits: 3,
-        cap_height: 4,
+        cap_height: 1,
         proof_of_work_bits: 16,
         reduction_strategy: FriReductionStrategy::ConstantArityBits(2, 1),
         num_query_rounds: 28,
@@ -39,7 +39,7 @@ pub const HIGH_RATE_CONFIG: CircuitConfig = CircuitConfig {
     max_quotient_degree_factor: 8,
     fri_config: FriConfig {
         rate_bits: 7,
-        cap_height: 4,
+        cap_height: 1,
         proof_of_work_bits: 16,
         reduction_strategy: FriReductionStrategy::ConstantArityBits(2, 1),
         num_query_rounds: 12,
