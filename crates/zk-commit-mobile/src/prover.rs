@@ -30,18 +30,16 @@ pub fn generate_proof_of_claim(
     secret: u64,
     index: i32,
     commitment_tree: CommitmentTree,
-) -> Result<GenerateProofOfClaimResult, ZkCommitmentMobileError> {
+    path: &str
+) -> Result<(), ZkCommitmentMobileError> {
     match core_generate_proof_of_claim(
         F::from_canonical_u64(amount),
         F::from_canonical_u64(secret),
         index as usize,
         commitment_tree.to_core(),
+        path
     ) {
-        Ok(proof) => Ok(GenerateProofOfClaimResult {
-            proof: proof.0.to_bytes(),
-            public_inputs: proof.0.public_inputs.iter().map(|x| x.0).collect(),
-            amount: proof.1 .0,
-        }),
+        Ok(_) => Ok(()),
         Err(_) => Err(ZkCommitmentMobileError::GenerateProofOfClaimError),
     }
 }

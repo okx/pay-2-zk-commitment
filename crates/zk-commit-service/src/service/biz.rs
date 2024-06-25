@@ -5,8 +5,8 @@ use crate::{
     types::{C, D, F},
     AppState,
 };
-use actix_multipart::form::MultipartForm;
-use actix_web::web::{self, Data};
+
+use actix_web::web::{Data};
 use plonky2::plonk::proof::ProofWithPublicInputs;
 
 use crate::controllers::wrap::UploadForm;
