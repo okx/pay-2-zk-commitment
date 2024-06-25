@@ -28,7 +28,7 @@ impl Claim {
         self.pair.get_own_hash()
     }
 }
-/// Executes a claim by transforming a claim into its proving inputs. 
+/// Executes a claim by transforming a claim into its proving inputs.
 pub fn get_claim_proving_inputs(claim: Claim) -> ClaimProvingInputs {
     let nullifier_hash = claim.get_nullifier_hash();
     ClaimProvingInputs {

@@ -1,12 +1,13 @@
-use plonky2::plonk::config::{GenericConfig, PoseidonGoldilocksConfig};
 use plonky2::{
     fri::{reduction_strategies::FriReductionStrategy, FriConfig},
-    plonk::circuit_data::CircuitConfig,
+    plonk::{
+        circuit_data::CircuitConfig,
+        config::{GenericConfig, PoseidonGoldilocksConfig},
+    },
 };
 
 pub type C = PoseidonGoldilocksConfig;
 pub type F = <C as GenericConfig<D>>::F;
-
 
 // Extension of size 2
 pub const D: usize = 2;

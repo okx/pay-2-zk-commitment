@@ -23,7 +23,6 @@ use crate::{
     utils::AmountSecretPairing,
 };
 
-
 /// Given a distribution, builds the commitment tree and returns the commitment tree.
 pub fn setup_commitment(distribution: Vec<AmountSecretPairing>) -> CommitmentTree {
     let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
@@ -37,7 +36,7 @@ pub fn generate_proof_of_claim(
     secret: F,
     index: usize,
     commitment_tree: CommitmentTree,
-    path: &str
+    path: &str,
 ) -> Result<(), anyhow::Error> {
     // Create claim from inputs
     let claim = Claim {
@@ -80,7 +79,7 @@ pub fn generate_proof_of_claim(
     }
 
     let write_res = write_to_file(path, proof);
-    if write_res.is_err(){
+    if write_res.is_err() {
         return Err(anyhow!("Unable to write to file"));
     }
 
@@ -88,23 +87,26 @@ pub fn generate_proof_of_claim(
 }
 
 /// Writes the proof of a claim to a specified path as a binary file
-pub fn write_to_file(path: &str, proof: ProofWithPublicInputs<F,C, D>)-> std::io::Result<()>{
-     // Serialize the struct to a binary format
-     let encoded: Vec<u8> = bincode::serialize(&proof).unwrap();
+pub fn write_to_file(path: &str, proof: ProofWithPublicInputs<F, C, D>) -> std::io::Result<()> {
+    // Serialize the struct to a binary format
+    let encoded: Vec<u8> = bincode::serialize(&proof).unwrap();
 
-     // Write the binary data to a file
-     let mut file = File::create(path).expect("File create error");
-     file.write_all(&encoded).expect("Error writing to file");
- 
-     Ok(())
+    // Write the binary data to a file
+    let mut file = File::create(path).expect("File create error");
+    file.write_all(&encoded).expect("Error writing to file");
+
+    Ok(())
 }
-
 
 #[cfg(test)]
 mod test {
     use std::{fs::File, io::Read};
 
-    use crate::{circuit_config::D, types::{C, F}, utils::AmountSecretPairing};
+    use crate::{
+        circuit_config::D,
+        types::{C, F},
+        utils::AmountSecretPairing,
+    };
     use plonky2::{field::types::Field, plonk::proof::ProofWithPublicInputs};
 
     use super::{generate_proof_of_claim, setup_commitment};
@@ -112,28 +114,34 @@ mod test {
     #[test]
     fn test_generate_proof_of_claim() {
         let distribution = vec![
-                AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
-                AmountSecretPairing { amount: F::ONE, secret: F::ONE },
-                AmountSecretPairing { amount: F::ONE, secret: F::TWO },
-                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
-                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(4) },
-                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(5) },
-                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(6) },
-                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
-            ];
-        
+            AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
+            AmountSecretPairing { amount: F::ONE, secret: F::ONE },
+            AmountSecretPairing { amount: F::ONE, secret: F::TWO },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(4) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(5) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(6) },
+            AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
+        ];
+
         let commitment_tree = setup_commitment(distribution.clone());
 
-        let claim_proof = generate_proof_of_claim(distribution.get(0).unwrap().amount, distribution.get(0).unwrap().secret, 0, commitment_tree, "test.bin");
+        let claim_proof = generate_proof_of_claim(
+            distribution.get(0).unwrap().amount,
+            distribution.get(0).unwrap().secret,
+            0,
+            commitment_tree,
+            "test.bin",
+        );
 
         assert!(claim_proof.is_ok());
 
         let mut file = File::open("test.bin").expect("Cannot read file");
         let mut buffer = Vec::new();
         file.read_to_end(&mut buffer).expect("Cannot read file");
-    
+
         // Deserialize the binary data to a struct
-        let decoded: ProofWithPublicInputs<F,C,D> = bincode::deserialize(&buffer).unwrap();
+        let decoded: ProofWithPublicInputs<F, C, D> = bincode::deserialize(&buffer).unwrap();
 
         println!("{:?}", decoded);
     }

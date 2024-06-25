@@ -54,7 +54,7 @@ pub fn generate_claim_circuit(
     // Create the commitment hash target
     let commitment: HashOutTarget = builder.add_virtual_hash_public_input();
 
-    // Calculate my own leaf hash 
+    // Calculate my own leaf hash
     let inputs = vec![vec![amount], nullifier_hash.elements.to_vec(), vec![secret]].concat();
     let own_leaf_hash = get_hash_from_input_targets_circuit(builder, inputs);
 
@@ -72,18 +72,11 @@ pub fn generate_claim_circuit(
     // Verify merkle proof in the circuit
     verify_merkle_proof_circuit(builder, commitment, own_leaf_hash, &index_bits, &siblings);
 
-    ClaimTargets {
-        amount,
-        secret,
-        nullifier_hash,
-        commitment,
-        siblings,
-        index_target,
-    }
+    ClaimTargets { amount, secret, nullifier_hash, commitment, siblings, index_target }
 }
 
 /// Set the partial witness targets for the claim circuit. This includes the public inputs. For a claim, we set the amount, nullifier_hash and the commitment tree root as
-/// the public inputs and the secret, 
+/// the public inputs and the secret,
 pub fn set_claim_circuit(
     claim_targets: ClaimTargets,
     claim_proving_inputs: ClaimProvingInputs,
