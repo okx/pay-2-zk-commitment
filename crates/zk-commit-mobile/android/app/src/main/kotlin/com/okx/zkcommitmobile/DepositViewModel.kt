@@ -11,14 +11,14 @@ import com.okx.zkcommitmobile.uniffi.AmountSecretPairing
 import com.okx.zkcommitmobile.uniffi.generateProofOfClaim
 import com.okx.zkcommitmobile.uniffi.setupCommitment
 import com.walletconnect.web3.modal.client.Web3Modal
-import java.io.File
-import kotlin.time.measureTimedValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.io.File
+import kotlin.time.measureTimedValue
 
 class DepositViewModel(private val walletConnectManager: WalletConnectManager) : ViewModel() {
     companion object {
@@ -72,15 +72,13 @@ class DepositViewModel(private val walletConnectManager: WalletConnectManager) :
                             secret = deposit.distributions[index].secret,
                             index = index,
                             commitmentTree = commitmentTree,
-                            proofFilePath = proofFile.absolutePath
+                            path = proofFile.absolutePath
                         )
                     }
                 }
             }.onSuccess { (proof, duration) ->
                 Log.i("Generate proof of claim duration=$duration")
-                Log.i("Proof: amount=${proof.amount}")
                 Log.i("Proof: proof size=${proofFile.length()}")
-                Log.i("Proof: publicInputs=${proof.publicInputs}")
                 _deposits[depositIndex] = DepositWithCommitment(
                     deposit = deposit.copy(
                         distributions = deposit.distributions.mapIndexed { i, distribution ->
@@ -90,7 +88,7 @@ class DepositViewModel(private val walletConnectManager: WalletConnectManager) :
                     commitmentTree = commitmentTree
                 )
                 _messages.send(
-                    "Claimed: duration=$duration, amount=${proof.amount}, proof size=${proofFile.length()}"
+                    "Claimed: duration=$duration, proof size=${proofFile.length()}"
                 )
             }.onFailure {
                 Log.e(it, "Failed to generate proof of claim")
