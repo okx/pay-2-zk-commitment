@@ -1,8 +1,8 @@
 // TODO: check all inputs are 64 bits
 
 pragma circom 2.1.0;
-include "../../circuits/challenges.circom";
-include "../../circuits/plonk.circom";
+include "../../circuits/src/challenges.circom";
+include "../../circuits/src/plonk.circom";
 
 template VerifyCheckZeta() {
   signal input wires_cap[NUM_WIRES_CAP()][4];

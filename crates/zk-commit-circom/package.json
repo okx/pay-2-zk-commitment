@@ -7,7 +7,7 @@
       "test": "test"
     },
     "scripts": {
-      "test::circuits": "mocha --max-old-space-size=4000 circuits/test/utils.test.js",
+      "test::circuits": "mocha --max-old-space-size=4000 circuits/test/plonk.test.js",
       "verify": "ts-node scripts/verify"
     },
     "license": "UNLICENSED",
