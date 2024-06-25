@@ -11,3 +11,9 @@ ios_build/
 build_ios/
 xcuserdata/
 plonky2/
+**/zk-commit-circom/scripts/*.zkey
+**/zk-commit-circom/scripts/*_cpp/
+**/zk-commit-circom/scripts/*.sym
+**/zk-commit-circom/scripts/*.r1cs
+**/zk-commit-circom/scripts/*.wtns
+**/zk-commit-circom/scripts/*.sol
