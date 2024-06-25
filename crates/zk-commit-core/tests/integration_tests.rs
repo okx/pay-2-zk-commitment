@@ -1,5 +1,6 @@
 use plonky2::{
     field::types::Field,
+    field::goldilocks_field::GoldilocksField,
     plonk::{
         circuit_data::VerifierOnlyCircuitData,
         config::{GenericConfig, GenericHashOut},
@@ -9,7 +10,7 @@ use plonky2::{
 use zk_commit_core::{
     circuit_config::D,
     prover::{generate_proof_of_claim, setup_commitment},
-    types::{C, F},
+    types::{Cbn128, C, F},
     utils::AmountSecretPairing,
     verifier::{generate_circom_verifier, generate_proof_base64, generate_verifier_config},
 };
@@ -53,7 +54,7 @@ fn test_full_proof() {
 
     let commitment_tree = setup_commitment(distribution.clone());
 
-    let claim_proof = generate_proof_of_claim(
+    let claim_proof = generate_proof_of_claim::<GoldilocksField, Cbn128, C, D>(
         distribution.get(index).unwrap().amount,
         distribution.get(index).unwrap().secret,
         index,

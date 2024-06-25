@@ -1,17 +1,18 @@
 use plonky2::{
-    hash::{hash_types::HashOut, poseidon::PoseidonHash},
+    hash::{hash_types::{HashOut, RichField}, poseidon::PoseidonHash},
     plonk::config::Hasher,
 };
+use plonky2::{field::types::Field, plonk::proof::ProofWithPublicInputs, field::extension::Extendable};
 use crate::types::F;
 
 /// A pair of amount and secret representing the amount of allocation of tokens to a specific amount
 #[derive(Debug, Clone, Copy)]
-pub struct AmountSecretPairing {
+pub struct AmountSecretPairing<F: RichField> {
     pub amount: F,
     pub secret: F,
 }
 
-impl AmountSecretPairing {
+impl<F: RichField> AmountSecretPairing<F> {
     pub fn get_nullifier_hash(&self) -> HashOut<F> {
         let inputs = vec![self.get_secret(), self.get_amount()];
         hash_inputs(inputs)
@@ -39,12 +40,12 @@ impl AmountSecretPairing {
     }
 }
 
-pub fn hash_2_subhashes(hash_1: &HashOut<F>, hash_2: &HashOut<F>) -> HashOut<F> {
+pub fn hash_2_subhashes<F: RichField + Extendable<D>, const D: usize>(hash_1: &HashOut<F>, hash_2: &HashOut<F>) -> HashOut<F> {
     let inputs = vec![hash_1.elements.to_vec(), hash_2.elements.to_vec()].concat();
     hash_inputs(inputs)
 }
 
-pub fn hash_inputs(inputs: Vec<F>) -> HashOut<F> {
+pub fn hash_inputs<F: RichField>(inputs: Vec<F>) -> HashOut<F> {
     let hash = PoseidonHash::hash_no_pad(inputs.as_slice());
     return hash;
 }

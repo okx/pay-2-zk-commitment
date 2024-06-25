@@ -1,5 +1,5 @@
-use plonky2::{hash::hash_types::HashOut, util::log2_strict};
-
+use plonky2::{field::types::Field, hash::hash_types::{HashOut, RichField}, util::log2_strict};
+use plonky2::field::extension::Extendable;
 use crate::{
     types::F,
     utils::{hash_2_subhashes, AmountSecretPairing},
@@ -7,13 +7,13 @@ use crate::{
 
 /// Commitment
 #[derive(Debug, Clone)]
-pub struct CommitmentTree {
+pub struct CommitmentTree<F: RichField + Extendable<D>, const D: usize> {
     pub depth: usize,
     pub commitment_root: HashOut<F>,
     pub commitment_tree: Vec<HashOut<F>>,
 }
 
-impl CommitmentTree {
+impl<F: RichField + Extendable<D>,  const D: usize> CommitmentTree<F,D> {
     /// Get the root of the commitment tree.
     pub fn get_root(&self) -> HashOut<F> {
         return self.commitment_root;
@@ -26,7 +26,7 @@ impl CommitmentTree {
 
     /// Create a new commitment tree from a distribution of amounts-secret pairs, note that this distribution must be a power of 2.
     /// In the future we can try to pad with empty claims.
-    pub fn new_from_distribution(distribution: &Vec<AmountSecretPairing>) -> CommitmentTree {
+    pub fn new_from_distribution(distribution: &Vec<AmountSecretPairing<F>>) -> CommitmentTree<F,D> {
         let mut commitment_tree: Vec<HashOut<F>> = Vec::new();
         let num_leaves = distribution.len();
 
