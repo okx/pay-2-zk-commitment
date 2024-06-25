@@ -159,7 +159,7 @@ pub fn generate_verifier_config<
         num_fri_query_step1_p: query_round_steps[1].merkle_proof.siblings.len(),
         num_fri_final_poly_ext_v: proof.opening_proof.final_poly.coeffs.len(),
 
-        num_public_inputs: pwpi.public_inputs.len() / 2, // every two gl is packed into one slot
+        num_public_inputs: pwpi.public_inputs.len(),
     };
     Ok(conf)
 }

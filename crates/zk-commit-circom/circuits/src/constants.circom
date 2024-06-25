@@ -235,4 +235,4 @@ function K_IS(i) {
   k_is[79] = 9767480182670369297;
   return k_is[i];
 }
-function NUM_PUBLIC_INPUTS() { return 4; }
+function NUM_PUBLIC_INPUTS() { return 9; }
