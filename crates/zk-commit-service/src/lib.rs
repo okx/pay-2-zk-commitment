@@ -1,8 +1,8 @@
 pub mod controllers;
 pub mod error;
 pub mod integration;
-pub mod models;
 pub mod service;
+pub mod types;
 
 #[derive(Debug, Clone)]
 pub struct AppState {}
