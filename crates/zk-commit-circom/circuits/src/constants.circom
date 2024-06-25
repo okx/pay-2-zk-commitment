@@ -13,7 +13,7 @@ function NUM_QUOTIENT_POLYS_CAP() { return 2; }
 
 function NUM_OPENINGS_CONSTANTS() { return 4; }
 function NUM_OPENINGS_PLONK_SIGMAS() { return 80; }
-function NUM_OPENINGS_WIRES() { return 135; }
+function NUM_OPENINGS_WIRES() { return 170; }
 function NUM_OPENINGS_PLONK_ZS() { return 2; }
 function NUM_OPENINGS_PLONK_ZS_NEXT() { return 2; }
 function NUM_OPENINGS_PARTIAL_PRODUCTS() { return 18; }
@@ -21,32 +21,32 @@ function NUM_OPENINGS_QUOTIENT_POLYS() { return 16; }
 
 function NUM_FRI_COMMIT_ROUND() { return 2; }
 function FRI_COMMIT_MERKLE_CAP_HEIGHT() { return 2; }
-function NUM_FRI_QUERY_ROUND() { return 12; }
+function NUM_FRI_QUERY_ROUND() { return 28; }
 function NUM_FRI_QUERY_INIT_CONSTANTS_SIGMAS_V() { return 84; }
-function NUM_FRI_QUERY_INIT_CONSTANTS_SIGMAS_P() { return 10; }
-function NUM_FRI_QUERY_INIT_WIRES_V() { return 135; }
-function NUM_FRI_QUERY_INIT_WIRES_P() { return 10; }
+function NUM_FRI_QUERY_INIT_CONSTANTS_SIGMAS_P() { return 6; }
+function NUM_FRI_QUERY_INIT_WIRES_V() { return 170; }
+function NUM_FRI_QUERY_INIT_WIRES_P() { return 6; }
 function NUM_FRI_QUERY_INIT_ZS_PARTIAL_V() { return 20; }
-function NUM_FRI_QUERY_INIT_ZS_PARTIAL_P() { return 10; }
+function NUM_FRI_QUERY_INIT_ZS_PARTIAL_P() { return 6; }
 function NUM_FRI_QUERY_INIT_QUOTIENT_V() { return 16; }
-function NUM_FRI_QUERY_INIT_QUOTIENT_P() { return 10; }
+function NUM_FRI_QUERY_INIT_QUOTIENT_P() { return 6; }
 function NUM_FRI_QUERY_STEP0_V() { return 4; }
-function NUM_FRI_QUERY_STEP0_P() { return 8; }
+function NUM_FRI_QUERY_STEP0_P() { return 4; }
 function NUM_FRI_QUERY_STEP1_V() { return 4; }
-function NUM_FRI_QUERY_STEP1_P() { return 6; }
+function NUM_FRI_QUERY_STEP1_P() { return 2; }
 function NUM_FRI_FINAL_POLY_EXT_V() { return 1; }
 
 function NUM_SIGMA_CAPS() { return 2; }
 function GET_SIGMA_CAP(i) {
   var sc[2][4];
-  sc[0][0] = 9583453830521476729;
-  sc[0][1] = 12610467629051897141;
-  sc[0][2] = 3725204675392640713;
-  sc[0][3] = 15292360274974732798;
-  sc[1][0] = 12361097818834926582;
-  sc[1][1] = 2388959586148493198;
-  sc[1][2] = 8355679216710968317;
-  sc[1][3] = 18419368149619115833;
+  sc[0][0] = 15941313345191079695;
+  sc[0][1] = 2354002661476664527;
+  sc[0][2] = 3973153152850321509;
+  sc[0][3] = 9536925483562001213;
+  sc[1][0] = 13427005769260732319;
+  sc[1][1] = 2303371592005811277;
+  sc[1][2] = 16492296542853232407;
+  sc[1][3] = 12809217650124469572;
   return sc[i];
 }
 
@@ -75,23 +75,23 @@ function G_FROM_DEGREE_BITS() {
 }
 
 function MULTIPLICATIVE_GROUP_GENERATOR() { return 7; }
-function PRIMITIVE_ROOT_OF_UNITY_LDE() { return 455906449640507599; }
-function LOG_SIZE_OF_LDE_DOMAIN() { return 11; }
+function PRIMITIVE_ROOT_OF_UNITY_LDE() { return 17870292113338400769; }
+function LOG_SIZE_OF_LDE_DOMAIN() { return 7; }
 function NUM_CHALLENGES() { return 2; }
 function MIN_FRI_POW_RESPONSE() { return 16; }
 function CIRCUIT_DIGEST() {
   var cd[4];
-  cd[0] = 11891986110631910161;
-  cd[1] = 5245163627118052095;
-  cd[2] = 9836410426994857509;
-  cd[3] = 17841023493245803163;
+  cd[0] = 17196292578881429380;
+  cd[1] = 6990302523526587462;
+  cd[2] = 2975626264912320053;
+  cd[3] = 13222437965868382071;
   return cd;
 }
 function SPONGE_RATE() { return 8; }
 function SPONGE_CAPACITY() { return 4; }
 function SPONGE_WIDTH() { return 12; }
 function DEGREE_BITS() { return 4; }
-function FRI_RATE_BITS() { return 7; }
+function FRI_RATE_BITS() { return 3; }
 function NUM_GATE_CONSTRAINTS() { return 123; }
 function NUM_PARTIAL_PRODUCTS_TERMS() { return (NUM_OPENINGS_PLONK_SIGMAS() + QUOTIENT_DEGREE_FACTOR() - 1) \ QUOTIENT_DEGREE_FACTOR(); }
 function QUOTIENT_DEGREE_FACTOR() { return 8; }

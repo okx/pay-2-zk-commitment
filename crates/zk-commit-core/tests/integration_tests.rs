@@ -8,8 +8,8 @@ use plonky2::{
     },
 };
 use zk_commit_core::{
-    circuit_config::D,
-    prover::{generate_proof_of_claim, setup_commitment},
+    circuit_config::{D, HIGH_RATE_CONFIG, STANDARD_CONFIG},
+    prover::{generate_proof_of_claim, recursive_single_proof, setup_commitment},
     types::{Cbn128, C, F},
     utils::AmountSecretPairing,
     verifier::{generate_circom_verifier, generate_proof_base64, generate_verifier_config},
@@ -42,19 +42,19 @@ fn test_full_proof() {
     // init_logger();
     let index = 1;
     let distribution = vec![
-        AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
-        AmountSecretPairing { amount: F::ONE, secret: F::ONE },
-        AmountSecretPairing { amount: F::ONE, secret: F::TWO },
-        AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
-        AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(4) },
-        AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(5) },
-        AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(6) },
-        AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
+        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::ZERO },
+        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::ONE },
+        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::TWO },
+        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::from_canonical_u64(3) },
+        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::from_canonical_u64(4) },
+        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::from_canonical_u64(5) },
+        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::from_canonical_u64(6) },
+        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::from_canonical_u64(7) },
     ];
 
     let commitment_tree = setup_commitment(distribution.clone());
 
-    let claim_proof = generate_proof_of_claim::<GoldilocksField, Cbn128, C, D>(
+    let claim_proof = generate_proof_of_claim::<GoldilocksField, C, C, D>(
         distribution.get(index).unwrap().amount,
         distribution.get(index).unwrap().secret,
         index,
@@ -64,14 +64,8 @@ fn test_full_proof() {
 
     let (pi, vd, cd) = &claim_proof;
 
-    // assert!(claim_proof.is_ok());
-
-    // let mut file = File::open("test.bin").expect("Cannot read file");
-    // let mut buffer = Vec::new();
-    // file.read_to_end(&mut buffer).expect("Cannot read file");
-
-    // // Deserialize the binary data to a struct
-    // let pi: ProofWithPublicInputs<F, C, D> = bincode::deserialize(&buffer).unwrap();
+    let layer_final_recursive_proofs =recursive_single_proof::<GoldilocksField, Cbn128, C, D>(pi, vd, cd, &HIGH_RATE_CONFIG, None, true, true);
+    let (pi, vd, cd) = &layer_final_recursive_proofs.unwrap();
 
     let conf =
         generate_verifier_config(&pi).unwrap();
