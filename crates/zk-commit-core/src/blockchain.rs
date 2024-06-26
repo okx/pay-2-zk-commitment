@@ -1,6 +1,6 @@
 use alloy::{
-    primitives::{Address, Bytes, FixedBytes, U256},
-    providers::{ProviderBuilder, RootProvider},
+    primitives::{Address, FixedBytes, U256},
+    providers::{RootProvider},
     sol,
     sol_types::SolCall,
     transports::http::{Client, Http},
