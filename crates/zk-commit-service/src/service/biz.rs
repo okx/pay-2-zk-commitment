@@ -1,19 +1,14 @@
-<<<<<<< HEAD
-use crate::{integration::rapidsnark::RapidSnark, AppState};
-use actix_web::web::Data;
-use zk_commit_core::groth16::Groth16ProofWithPublicData;
-=======
 use std::{fs::File, io::Read};
 
 use crate::{
-    integration::rapidsnark::{Groth16ProofWithPublicData, RapidSnark},
+    integration::rapidsnark::{ RapidSnark},
     types::{C, D, F},
     AppState,
 };
->>>>>>> dev
 
 use actix_web::web::{Data};
 use plonky2::plonk::proof::ProofWithPublicInputs;
+use zk_commit_core::groth16::Groth16ProofWithPublicData;
 
 use crate::controllers::wrap::UploadForm;
 

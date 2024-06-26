@@ -157,16 +157,16 @@ where
     builder.register_public_inputs(inner_data.circuit_digest.elements.as_slice());
 
 
-    if is_bn254 {
-        let mut configs = vec![];
-        for i in 0..builder.config.fri_config.num_cap_elements() {
-            // let sigma_hash = builder.hash_n_to_hash_no_pad(inner_data.constants_sigmas_cap.0[i].elements);
-            configs.append(&mut inner_data.constants_sigmas_cap.0[i].elements.to_owned().to_vec());
-        }
-        let hash = builder.hash_n_to_hash_no_pad::<PoseidonBN128Hash>(configs);
-        println!("register fri hash: {:?}", hash.elements);
-        builder.register_public_inputs(&hash.elements);
-    }
+    // if is_bn254 {
+    //     let mut configs = vec![];
+    //     for i in 0..builder.config.fri_config.num_cap_elements() {
+    //         // let sigma_hash = builder.hash_n_to_hash_no_pad(inner_data.constants_sigmas_cap.0[i].elements);
+    //         configs.append(&mut inner_data.constants_sigmas_cap.0[i].elements.to_owned().to_vec());
+    //     }
+    //     let hash = builder.hash_n_to_hash_no_pad::<PoseidonBN128Hash>(configs);
+    //     println!("register fri hash: {:?}", hash.elements);
+    //     builder.register_public_inputs(&hash.elements);
+    // }
 
     builder.verify_proof::<InnerC>(&pt, &inner_data, &inner_cd);
 
