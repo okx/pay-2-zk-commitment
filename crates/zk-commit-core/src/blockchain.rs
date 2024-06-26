@@ -1,6 +1,6 @@
 use alloy::{
     primitives::{Address, FixedBytes, U256},
-    providers::{RootProvider},
+    providers::RootProvider,
     sol,
     sol_types::SolCall,
     transports::http::{Client, Http},
@@ -36,14 +36,14 @@ pub struct Blockchain {
 
 impl Blockchain {
     // get token approval contract call data; to be signed by mobile wallet
-    pub fn approve_token_call_data( spender: &str, amount: u64) -> Vec<u8> {
+    pub fn approve_token_call_data(spender: &str, amount: u64) -> Vec<u8> {
         let spender = Address::from_str(spender).unwrap();
         let input = TestERC20::approveCall { spender, amount: U256::from(amount) };
         let data = input.abi_encode();
         data
     }
 
-    pub fn get_deposit_token_call_data( amount: u64, commitment: FixedBytes<32>) -> Vec<u8> {
+    pub fn get_deposit_token_call_data(amount: u64, commitment: FixedBytes<32>) -> Vec<u8> {
         let call = PayCommitment::depositERC20Call {
             _amount: U256::from(amount),
             _commitment: commitment,
@@ -52,7 +52,7 @@ impl Blockchain {
         data
     }
 
-    pub fn get_claim_token_call_data( pwi: &Groth16ProofWithPublicData) -> Vec<u8> {
+    pub fn get_claim_token_call_data(pwi: &Groth16ProofWithPublicData) -> Vec<u8> {
         let pub_signals = pwi
             .public_data
             .iter()
@@ -93,14 +93,13 @@ impl Blockchain {
 #[cfg(test)]
 mod test {
 
-
     use super::*;
 
     #[test]
     fn test_blockchain() {
-        let call_data = Blockchain::approve_token_call_data("0x1234567890123456789012345678901234567890", 100);
+        let call_data =
+            Blockchain::approve_token_call_data("0x1234567890123456789012345678901234567890", 100);
         let out = hex::encode(call_data);
         assert_eq!(out, "095ea7b300000000000000000000000012345678901234567890123456789012345678900000000000000000000000000000000000000000000000000000000000000064");
-
     }
 }
