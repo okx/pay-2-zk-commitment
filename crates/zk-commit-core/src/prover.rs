@@ -5,7 +5,7 @@ use log::Level;
 use plonky2::{
     field::{
         extension::Extendable,
-        types::{Field, PrimeField64, Sample},
+        types::{Field, PrimeField64},
     },
     gates::noop::NoopGate,
     hash::hash_types::RichField,
@@ -225,7 +225,7 @@ where
 #[cfg(test)]
 mod test {
 
-    use crate::{circuit_config::D, types::F, utils::AmountSecretPairing};
+    use crate::{types::F, utils::AmountSecretPairing};
     use plonky2::field::types::Field;
 
     use super::setup_commitment;

@@ -1,7 +1,7 @@
 use crate::{types::F, utils::AmountSecretPairing};
 use plonky2::{
-    field::{extension::Extendable, types::Field},
-    hash::hash_types::{HashOut, RichField},
+    field::{types::Field},
+    hash::hash_types::{HashOut},
 };
 
 pub struct ClaimProvingInputs {

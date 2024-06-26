@@ -137,7 +137,7 @@ mod test {
     };
 
     use crate::{
-        circuit_config::D, commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing,
+        commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing,
     };
 
     use super::{

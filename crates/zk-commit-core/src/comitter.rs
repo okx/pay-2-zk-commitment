@@ -1,5 +1,5 @@
 use crate::{claim_execution::Claim, commitment_tree::CommitmentTree, utils::AmountSecretPairing};
-use plonky2::{field::extension::Extendable, hash::hash_types::RichField};
+
 
 #[derive(Debug, Clone)]
 pub struct Commitment {
@@ -26,7 +26,7 @@ mod test {
     use std::borrow::Borrow;
 
     use crate::{
-        circuit_config::D, commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing,
+        commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing,
     };
 
     use plonky2::field::types::Field;

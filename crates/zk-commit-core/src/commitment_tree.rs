@@ -4,8 +4,7 @@ use crate::{
     utils::{hash_2_subhashes, AmountSecretPairing},
 };
 use plonky2::{
-    field::extension::Extendable,
-    hash::hash_types::{HashOut, RichField},
+    hash::hash_types::{HashOut},
     util::log2_strict,
 };
 

@@ -101,7 +101,6 @@ pub struct ClaimProofResponse {}
 #[cfg(test)]
 mod test {
     use crate::{
-        circuit_config::D,
         circuit_utils::run_circuit_test,
         claim_execution::{get_claim_proving_inputs, Claim},
         commitment_tree::CommitmentTree,
