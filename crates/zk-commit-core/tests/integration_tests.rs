@@ -1,6 +1,4 @@
-use plonky2::{
-    field::{goldilocks_field::GoldilocksField, types::Field},
-};
+use plonky2::field::{goldilocks_field::GoldilocksField, types::Field};
 use zk_commit_core::{
     circuit_config::{D, HIGH_RATE_CONFIG},
     prover::{generate_proof_of_claim, recursive_single_proof, setup_commitment},
@@ -10,11 +8,7 @@ use zk_commit_core::{
 };
 // use plonky2_field::types::PrimeField64;
 
-use std::{
-    fs::File,
-    io::{Write},
-    path::{PathBuf},
-};
+use std::{fs::File, io::Write, path::PathBuf};
 
 pub fn init_logger() {
     // let _ = try_init_from_env(Env::default().filter_or(DEFAULT_FILTER_ENV, "info"));
@@ -29,7 +23,6 @@ pub fn init_logger() {
         // Initialize the logger
         .init();
 }
-
 
 #[test]
 fn test_full_proof() {

@@ -1,8 +1,5 @@
 use alloy::{
-    primitives::{
-        Address, Bytes,
-        FixedBytes, U256,
-    },
+    primitives::{Address, Bytes, FixedBytes, U256},
     providers::{ProviderBuilder, RootProvider},
     sol,
     transports::http::{Client, Http},
@@ -27,7 +24,7 @@ sol!(
 
 use crate::groth16::Groth16ProofWithPublicData;
 
-use std::{str::FromStr};
+use std::str::FromStr;
 
 const PUB_LENGTH: usize = 4;
 

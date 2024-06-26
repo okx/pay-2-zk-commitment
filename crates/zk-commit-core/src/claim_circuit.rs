@@ -6,17 +6,12 @@ use crate::{
 };
 use plonky2::{
     field::extension::Extendable,
-    hash::{
-        hash_types::{HashOutTarget, RichField},
-    },
+    hash::hash_types::{HashOutTarget, RichField},
     iop::{
         target::Target,
         witness::{PartialWitness, WitnessWrite},
     },
-    plonk::{
-        circuit_builder::CircuitBuilder,
-        config::{GenericHashOut},
-    },
+    plonk::{circuit_builder::CircuitBuilder, config::GenericHashOut},
 };
 
 pub struct ClaimTargets {
@@ -104,12 +99,17 @@ pub struct ClaimProofResponse {}
 
 #[cfg(test)]
 mod test {
-    use crate::{circuit_config::D, circuit_utils::run_circuit_test, claim_execution::{get_claim_proving_inputs, Claim}, commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing};
-    use plonky2::{field::types::Field};
+    use crate::{
+        circuit_config::D,
+        circuit_utils::run_circuit_test,
+        claim_execution::{get_claim_proving_inputs, Claim},
+        commitment_tree::CommitmentTree,
+        types::F,
+        utils::AmountSecretPairing,
+    };
+    use plonky2::field::types::Field;
 
     use super::{generate_claim_circuit, set_claim_circuit};
-
-
 
     #[test]
     fn test_claim_circuit() {
@@ -125,8 +125,8 @@ mod test {
                 AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
             ];
 
-            let commitment_tree = CommitmentTree::<F,D>::new_from_distribution(&distribution);
-            let claim = Claim::<F,D> {
+            let commitment_tree = CommitmentTree::<F, D>::new_from_distribution(&distribution);
+            let claim = Claim::<F, D> {
                 pair: *distribution.get(0).unwrap(),
                 commitment: commitment_tree.get_root(),
                 commitment_merkle_proof: commitment_tree.get_siblings(0),

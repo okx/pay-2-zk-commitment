@@ -1,4 +1,4 @@
-use crate::{utils::AmountSecretPairing};
+use crate::utils::AmountSecretPairing;
 use plonky2::{
     field::{extension::Extendable, types::Field},
     hash::hash_types::{HashOut, RichField},

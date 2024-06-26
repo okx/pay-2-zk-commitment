@@ -1,13 +1,11 @@
 #![feature(generic_const_exprs)]
 
-
-
 use anyhow::{anyhow, Result};
 use log::Level;
 use plonky2::{
-    field::{extension::Extendable},
+    field::extension::Extendable,
     gates::noop::NoopGate,
-    hash::{hash_types::RichField},
+    hash::hash_types::RichField,
     iop::witness::{PartialWitness, WitnessWrite},
     plonk::{
         circuit_builder::CircuitBuilder,
@@ -22,11 +20,8 @@ use plonky2::{
     util::timing::TimingTree,
 };
 
-
-
-
 use crate::{
-    circuit_config::{STANDARD_CONFIG},
+    circuit_config::STANDARD_CONFIG,
     claim_circuit::{generate_claim_circuit, set_claim_circuit},
     claim_execution::{get_claim_proving_inputs, Claim},
     commitment_tree::CommitmentTree,
@@ -216,16 +211,11 @@ where
 
 #[cfg(test)]
 mod test {
-    
 
-    use crate::{
-        circuit_config::D,
-        types::{F},
-        utils::AmountSecretPairing,
-    };
-    use plonky2::{field::types::Field};
+    use crate::{circuit_config::D, types::F, utils::AmountSecretPairing};
+    use plonky2::field::types::Field;
 
-    use super::{setup_commitment};
+    use super::setup_commitment;
 
     #[test]
     fn test_generate_proof_of_claim() {
@@ -240,7 +230,7 @@ mod test {
             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
         ];
 
-        let _commitment_tree = setup_commitment::<F,D>(distribution.clone());
+        let _commitment_tree = setup_commitment::<F, D>(distribution.clone());
 
         // let claim_proof = generate_proof_of_claim(
         //     distribution.get(0).unwrap().amount,

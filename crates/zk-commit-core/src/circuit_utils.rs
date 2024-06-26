@@ -136,7 +136,9 @@ mod test {
         iop::witness::WitnessWrite,
     };
 
-    use crate::{commitment_tree::CommitmentTree, types::F, circuit_config::D, utils::AmountSecretPairing};
+    use crate::{
+        circuit_config::D, commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing,
+    };
 
     use super::{
         get_hash_from_input_targets_circuit, hash_2_subhashes_circuit, run_circuit_test,
@@ -244,7 +246,7 @@ mod test {
                 AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
             ];
 
-            let commitment_tree = CommitmentTree::<F,D>::new_from_distribution(&distribution);
+            let commitment_tree = CommitmentTree::<F, D>::new_from_distribution(&distribution);
             let merkle_proof = commitment_tree.get_siblings(6);
             let leaf_hash = distribution.get(6).unwrap().get_own_hash();
             let merkle_root = commitment_tree.get_root();

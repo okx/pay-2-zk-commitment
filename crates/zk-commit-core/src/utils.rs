@@ -1,13 +1,11 @@
-
 use plonky2::{
-    field::{extension::Extendable},
+    field::extension::Extendable,
     hash::{
         hash_types::{HashOut, RichField},
         poseidon::PoseidonHash,
     },
-    plonk::{config::Hasher},
+    plonk::config::Hasher,
 };
-
 
 /// A pair of amount and secret representing the amount of allocation of tokens to a specific amount
 #[derive(Debug, Clone, Copy)]
@@ -60,8 +58,8 @@ pub fn hash_inputs<F: RichField>(inputs: Vec<F>) -> HashOut<F> {
 #[cfg(test)]
 mod test {
     use crate::{
-        types::{F},
         circuit_config::D,
+        types::F,
         utils::{hash_2_subhashes, AmountSecretPairing},
     };
     use plonky2::{field::types::Field, hash::hash_types::HashOut};

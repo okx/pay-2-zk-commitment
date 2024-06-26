@@ -1,8 +1,6 @@
-use crate::{
-    utils::{hash_2_subhashes, AmountSecretPairing},
-};
+use crate::utils::{hash_2_subhashes, AmountSecretPairing};
 use plonky2::{
-    field::{extension::Extendable},
+    field::extension::Extendable,
     hash::hash_types::{HashOut, RichField},
     util::log2_strict,
 };
@@ -84,8 +82,8 @@ mod test {
     use plonky2::{field::types::Field, hash::hash_types::HashOut};
 
     use crate::{
-        types::F,
         circuit_config::D,
+        types::F,
         utils::{hash_2_subhashes, AmountSecretPairing},
     };
 
@@ -109,10 +107,10 @@ mod test {
             .map(|(i, _)| {
                 let hash_1 = first_layer_hashes.get(i * 2).unwrap();
                 let hash_2 = first_layer_hashes.get(i * 2 + 1).unwrap();
-                hash_2_subhashes::<F,D>(hash_1, hash_2)
+                hash_2_subhashes::<F, D>(hash_1, hash_2)
             })
             .collect();
-        let mut final_hash: Vec<HashOut<F>> = vec![hash_2_subhashes::<F,D>(
+        let mut final_hash: Vec<HashOut<F>> = vec![hash_2_subhashes::<F, D>(
             second_layer_hashes.get(0).unwrap(),
             second_layer_hashes.get(1).unwrap(),
         )];
@@ -121,7 +119,7 @@ mod test {
         calculated_tree.append(&mut second_layer_hashes);
         calculated_tree.append(&mut final_hash);
 
-        let commitment_tree = CommitmentTree::<F,D>::new_from_distribution(&distribution);
+        let commitment_tree = CommitmentTree::<F, D>::new_from_distribution(&distribution);
 
         println!("CALCULATED TREE ROOT: {:?}", calculated_tree.last().unwrap());
         println!("COMMITMENT TREE ROOT: {:?}", commitment_tree.commitment_root);
@@ -144,7 +142,7 @@ mod test {
             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
         ];
 
-        let commitment_tree = CommitmentTree::<F,D>::new_from_distribution(&distribution);
+        let commitment_tree = CommitmentTree::<F, D>::new_from_distribution(&distribution);
 
         let mut siblings_calculated: Vec<HashOut<F>> = Vec::new();
         siblings_calculated.push(*commitment_tree.get_from_index(0).unwrap());

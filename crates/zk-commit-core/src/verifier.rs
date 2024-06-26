@@ -1,7 +1,3 @@
-
-
-
-
 use plonky2::{
     field::{
         extension::{Extendable, FieldExtension},
@@ -9,13 +5,11 @@ use plonky2::{
     },
     hash::hash_types::RichField,
     plonk::{
-        circuit_data::{
-            CommonCircuitData, VerifierOnlyCircuitData,
-        },
+        circuit_data::{CommonCircuitData, VerifierOnlyCircuitData},
         config::{GenericConfig, GenericHashOut},
         proof::ProofWithPublicInputs,
     },
-    util::{log2_strict},
+    util::log2_strict,
 };
 use serde::Serialize;
 
