@@ -132,15 +132,15 @@ pub fn select_hash<F: RichField + Extendable<D>, const D: usize>(
 #[cfg(test)]
 mod test {
     use plonky2::{
-        hash::hash_types::{HashOut, HashOutTarget},
+        hash::hash_types::{HashOut},
         iop::witness::WitnessWrite,
     };
 
-    use crate::{commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing};
+    use crate::{types::F};
 
     use super::{
         get_hash_from_input_targets_circuit, hash_2_subhashes_circuit, run_circuit_test,
-        verify_hash, verify_merkle_proof_circuit,
+        verify_hash,
     };
     use plonky2::field::types::Field;
 

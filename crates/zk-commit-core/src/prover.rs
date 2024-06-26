@@ -216,16 +216,16 @@ where
 
 #[cfg(test)]
 mod test {
-    use std::{fs::File, io::Read};
+    
 
     use crate::{
         circuit_config::D,
-        types::{C, F},
+        types::{F},
         utils::AmountSecretPairing,
     };
-    use plonky2::{field::types::Field, plonk::proof::ProofWithPublicInputs};
+    use plonky2::{field::types::Field};
 
-    use super::{generate_proof_of_claim, setup_commitment};
+    use super::{setup_commitment};
 
     #[test]
     fn test_generate_proof_of_claim() {
@@ -240,7 +240,7 @@ mod test {
             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
         ];
 
-        let commitment_tree = setup_commitment::<F,D>(distribution.clone());
+        let _commitment_tree = setup_commitment::<F,D>(distribution.clone());
 
         // let claim_proof = generate_proof_of_claim(
         //     distribution.get(0).unwrap().amount,

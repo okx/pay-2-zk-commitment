@@ -104,17 +104,11 @@ pub struct ClaimProofResponse {}
 
 #[cfg(test)]
 mod test {
-    use crate::{
-        circuit_utils::run_circuit_test,
-        claim_execution::{get_claim_proving_inputs, Claim},
-        commitment_tree::CommitmentTree,
-        types::F,
-        utils::AmountSecretPairing,
-    };
+    
 
-    use plonky2::field::types::Field;
+    
 
-    use super::{generate_claim_circuit, set_claim_circuit};
+    
 
     // #[test]
     // fn test_claim_circuit() {

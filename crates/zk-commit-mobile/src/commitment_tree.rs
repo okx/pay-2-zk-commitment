@@ -1,7 +1,6 @@
 use plonky2::{hash::hash_types::HashOut, plonk::config::GenericHashOut};
 use zk_commit_core::{
     circuit_config::D, commitment_tree::CommitmentTree as CoreCommitmentTree, types::F,
-    utils::AmountSecretPairing as CoreAmountSecretPairing,
 };
 
 #[derive(uniffi::Record)]

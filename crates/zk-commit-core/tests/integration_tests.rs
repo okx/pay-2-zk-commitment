@@ -1,24 +1,19 @@
 use plonky2::{
     field::{goldilocks_field::GoldilocksField, types::Field},
-    plonk::{
-        circuit_data::VerifierOnlyCircuitData,
-        config::{GenericConfig, GenericHashOut},
-        proof::ProofWithPublicInputs,
-    },
 };
 use zk_commit_core::{
-    circuit_config::{D, HIGH_RATE_CONFIG, STANDARD_CONFIG},
+    circuit_config::{D, HIGH_RATE_CONFIG},
     prover::{generate_proof_of_claim, recursive_single_proof, setup_commitment},
-    types::{Cbn128, C, F},
+    types::{Cbn128, C},
     utils::AmountSecretPairing,
     verifier::{generate_circom_verifier, generate_proof_base64, generate_verifier_config},
 };
 // use plonky2_field::types::PrimeField64;
-use serde::Serialize;
+
 use std::{
     fs::File,
-    io::{Read, Write},
-    path::{Path, PathBuf},
+    io::{Write},
+    path::{PathBuf},
 };
 
 pub fn init_logger() {
@@ -34,7 +29,7 @@ pub fn init_logger() {
         // Initialize the logger
         .init();
 }
-use log::info;
+
 
 #[test]
 fn test_full_proof() {
