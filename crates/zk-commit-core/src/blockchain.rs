@@ -26,7 +26,7 @@ use crate::groth16::Groth16ProofWithPublicData;
 
 use std::str::FromStr;
 
-const PUB_LENGTH: usize = 4;
+const PUB_LENGTH: usize = 9;
 
 pub struct Blockchain {
     pub token: TestERC20Instance<Http<Client>, RootProvider<Http<Client>>>,
