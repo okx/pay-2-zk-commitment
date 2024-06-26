@@ -1,5 +1,4 @@
 use plonky2::{hash::hash_types::HashOut, plonk::config::GenericHashOut};
-
 use zk_commit_core::commitment_tree::CommitmentTree as CoreCommitmentTree;
 
 #[derive(uniffi::Record)]

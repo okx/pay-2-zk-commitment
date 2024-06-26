@@ -1,10 +1,12 @@
+use crate::types::F;
 use plonky2::{
-    hash::{hash_types::HashOut, poseidon::PoseidonHash},
+    field::extension::Extendable,
+    hash::{
+        hash_types::{HashOut, RichField},
+        poseidon::PoseidonHash,
+    },
     plonk::config::Hasher,
 };
-
-use crate::types::F;
-
 /// A pair of amount and secret representing the amount of allocation of tokens to a specific amount
 #[derive(Debug, Clone, Copy)]
 pub struct AmountSecretPairing {
@@ -40,12 +42,15 @@ impl AmountSecretPairing {
     }
 }
 
-pub fn hash_2_subhashes(hash_1: &HashOut<F>, hash_2: &HashOut<F>) -> HashOut<F> {
+pub fn hash_2_subhashes<F: RichField + Extendable<D>, const D: usize>(
+    hash_1: &HashOut<F>,
+    hash_2: &HashOut<F>,
+) -> HashOut<F> {
     let inputs = vec![hash_1.elements.to_vec(), hash_2.elements.to_vec()].concat();
     hash_inputs(inputs)
 }
 
-pub fn hash_inputs(inputs: Vec<F>) -> HashOut<F> {
+pub fn hash_inputs<F: RichField>(inputs: Vec<F>) -> HashOut<F> {
     let hash = PoseidonHash::hash_no_pad(inputs.as_slice());
     return hash;
 }
@@ -53,10 +58,12 @@ pub fn hash_inputs(inputs: Vec<F>) -> HashOut<F> {
 #[cfg(test)]
 mod test {
     use crate::{
+        circuit_config::D,
         types::F,
         utils::{hash_2_subhashes, AmountSecretPairing},
     };
     use plonky2::{field::types::Field, hash::hash_types::HashOut};
+    use plonky2_field::goldilocks_field::GoldilocksField;
 
     use super::hash_inputs;
 
@@ -97,7 +104,7 @@ mod test {
             F::from_canonical_u64(2420399206709257475),
         ]);
 
-        let hash_of_hashes_2 = hash_2_subhashes(&hash, &hash_2);
+        let hash_of_hashes_2 = hash_2_subhashes::<GoldilocksField, D>(&hash, &hash_2);
 
         assert_eq!(hash_of_hashes, hash_of_hashes_2);
     }

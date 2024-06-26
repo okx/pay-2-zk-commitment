@@ -49,7 +49,7 @@ pub fn build_merkle_tree(
 /// Given the siblings in a merkle tree and my root hash, verify the merkle proof of inclusion of the supplied leaf hash.
 /// Since the order of the hash depends on my siblings position, we use the index bits of the leaf to determine the order of the
 /// hash inputs.
-pub fn verify_merkle_proof_circuit(
+pub fn verify_merkle_proof_circuit<F: RichField + Extendable<D>, const D: usize>(
     builder: &mut CircuitBuilder<F, D>,
     merkle_root: HashOutTarget,
     mut leaf_hash: HashOutTarget,
@@ -70,7 +70,7 @@ pub fn verify_merkle_proof_circuit(
 
 /// Verify a hash is calculated correctly by hashing the inputs and connecting the output hash wire with the input hash. This
 /// function only verifies poseidon hashes.
-pub fn verify_hash(
+pub fn verify_hash<F: RichField + Extendable<D>, const D: usize>(
     builder: &mut CircuitBuilder<F, D>,
     inputs: Vec<Target>,
     hash_to_verify: HashOutTarget,
@@ -81,7 +81,7 @@ pub fn verify_hash(
 }
 
 /// Get Hash target by doing a poseidon hash on my input vector.
-pub fn get_hash_from_input_targets_circuit(
+pub fn get_hash_from_input_targets_circuit<F: RichField + Extendable<D>, const D: usize>(
     builder: &mut CircuitBuilder<F, D>,
     inputs: Vec<Target>,
 ) -> HashOutTarget {
@@ -89,7 +89,7 @@ pub fn get_hash_from_input_targets_circuit(
 }
 
 /// Hash 2 hashout targets by splitting it into its individual component elements
-pub fn hash_2_subhashes_circuit(
+pub fn hash_2_subhashes_circuit<F: RichField + Extendable<D>, const D: usize>(
     builder: &mut CircuitBuilder<F, D>,
     hash_1: &HashOutTarget,
     hash_2: &HashOutTarget,
@@ -118,7 +118,7 @@ where
 }
 
 /// Computes `if b { h0 } else { h1 }`.
-pub fn select_hash(
+pub fn select_hash<F: RichField + Extendable<D>, const D: usize>(
     builder: &mut CircuitBuilder<F, D>,
     b: BoolTarget,
     h0: HashOutTarget,

@@ -1,8 +1,5 @@
-use plonky2::hash::hash_types::HashOut;
-
 use crate::{types::F, utils::AmountSecretPairing};
-
-use plonky2::field::types::Field;
+use plonky2::{field::types::Field, hash::hash_types::HashOut};
 
 pub struct ClaimProvingInputs {
     pub pair: AmountSecretPairing,

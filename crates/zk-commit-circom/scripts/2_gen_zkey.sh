@@ -18,6 +18,6 @@ echo "DONE ($((end - start))s)"
 
 echo "****VERIFYING FINAL ZKEY (SKIP FOR TESTING)****"
 start=$(date +%s)
-${NODE_PATH} ${NODE_PARAMS} ${SNARKJS_PATH} zkey verify -verbose "$CIRCUIT_NAME".r1cs ${POT_PATH} ${ZKEY_OUT_PATH}/${CIRCUIT_NAME}.zkey > verify.out
+nohup ${NODE_PATH} ${NODE_PARAMS} ${SNARKJS_PATH} zkey verify -verbose "$CIRCUIT_NAME".r1cs ${POT_PATH} ${ZKEY_OUT_PATH}/${CIRCUIT_NAME}.zkey -v > verify.out 2>&1 &
 end=$(date +%s)
 echo "DONE ($((end - start))s)"

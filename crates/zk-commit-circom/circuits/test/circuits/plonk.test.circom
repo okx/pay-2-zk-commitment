@@ -1,6 +1,8 @@
 pragma circom 2.0.9;
-include "../../circuits/plonk.circom";
+include "../../src/plonk.circom";
 
+
+// TODO: add more plonk test
 template PlonkTest() {
   signal input in;
   signal output out;

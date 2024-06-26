@@ -1,9 +1,9 @@
-use plonky2::{hash::hash_types::HashOut, util::log2_strict};
-
 use crate::{
+    circuit_config::D,
     types::F,
     utils::{hash_2_subhashes, AmountSecretPairing},
 };
+use plonky2::{hash::hash_types::HashOut, util::log2_strict};
 
 /// Commitment
 #[derive(Debug, Clone)]
@@ -40,7 +40,7 @@ impl CommitmentTree {
                 let right_child_index = 2 * (i - num_leaves) + 1;
                 let left_child = commitment_tree.get(left_child_index).unwrap();
                 let right_child = commitment_tree.get(right_child_index).unwrap();
-                let hash = hash_2_subhashes(left_child, right_child);
+                let hash = hash_2_subhashes::<F, D>(left_child, right_child);
                 commitment_tree.push(hash);
             }
         }
@@ -80,6 +80,7 @@ mod test {
     use plonky2::{field::types::Field, hash::hash_types::HashOut};
 
     use crate::{
+        circuit_config::D,
         types::F,
         utils::{hash_2_subhashes, AmountSecretPairing},
     };
@@ -104,10 +105,10 @@ mod test {
             .map(|(i, _)| {
                 let hash_1 = first_layer_hashes.get(i * 2).unwrap();
                 let hash_2 = first_layer_hashes.get(i * 2 + 1).unwrap();
-                hash_2_subhashes(hash_1, hash_2)
+                hash_2_subhashes::<F, D>(hash_1, hash_2)
             })
             .collect();
-        let mut final_hash: Vec<HashOut<F>> = vec![hash_2_subhashes(
+        let mut final_hash: Vec<HashOut<F>> = vec![hash_2_subhashes::<F, D>(
             second_layer_hashes.get(0).unwrap(),
             second_layer_hashes.get(1).unwrap(),
         )];
