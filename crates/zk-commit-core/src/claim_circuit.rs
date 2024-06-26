@@ -1,17 +1,13 @@
 use crate::{
-    circuit_config::D,
     circuit_utils::{
         get_hash_from_input_targets_circuit, verify_hash, verify_merkle_proof_circuit,
     },
     claim_execution::ClaimProvingInputs,
-    types::F,
 };
 use plonky2::{
     field::extension::Extendable,
-    gates::noop::NoopGate,
     hash::{
         hash_types::{HashOutTarget, RichField},
-        poseidon_bn128::PoseidonBN128Hash,
     },
     iop::{
         target::Target,
@@ -19,15 +15,8 @@ use plonky2::{
     },
     plonk::{
         circuit_builder::CircuitBuilder,
-        circuit_data::{
-            CircuitConfig, CircuitData, CommonCircuitData, VerifierCircuitTarget,
-            VerifierOnlyCircuitData,
-        },
-        config::{AlgebraicHasher, GenericConfig, GenericHashOut, Hasher},
-        proof::{ProofWithPublicInputs, ProofWithPublicInputsTarget},
-        prover::prove,
+        config::{GenericHashOut},
     },
-    util::timing::TimingTree,
 };
 
 pub struct ClaimTargets {

@@ -1,12 +1,13 @@
-use crate::types::F;
+
 use plonky2::{
-    field::{extension::Extendable, types::Field},
+    field::{extension::Extendable},
     hash::{
         hash_types::{HashOut, RichField},
         poseidon::PoseidonHash,
     },
-    plonk::{config::Hasher, proof::ProofWithPublicInputs},
+    plonk::{config::Hasher},
 };
+use crate::circuit_config::D;
 
 /// A pair of amount and secret representing the amount of allocation of tokens to a specific amount
 #[derive(Debug, Clone, Copy)]
@@ -59,10 +60,12 @@ pub fn hash_inputs<F: RichField>(inputs: Vec<F>) -> HashOut<F> {
 #[cfg(test)]
 mod test {
     use crate::{
-        types::F,
+        types::{F},
+        circuit_config::D,
         utils::{hash_2_subhashes, AmountSecretPairing},
     };
     use plonky2::{field::types::Field, hash::hash_types::HashOut};
+    use plonky2_field::goldilocks_field::GoldilocksField;
 
     use super::hash_inputs;
 
@@ -103,7 +106,7 @@ mod test {
             F::from_canonical_u64(2420399206709257475),
         ]);
 
-        let hash_of_hashes_2 = hash_2_subhashes(&hash, &hash_2);
+        let hash_of_hashes_2 = hash_2_subhashes::<GoldilocksField, D>(&hash, &hash_2);
 
         assert_eq!(hash_of_hashes, hash_of_hashes_2);
     }

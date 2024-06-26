@@ -1,13 +1,13 @@
 #![feature(generic_const_exprs)]
 
-use std::fs::File;
+
 
 use anyhow::{anyhow, Result};
 use log::Level;
 use plonky2::{
-    field::{extension::Extendable, types::Field},
+    field::{extension::Extendable},
     gates::noop::NoopGate,
-    hash::{hash_types::RichField, poseidon_bn128::PoseidonBN128Hash},
+    hash::{hash_types::RichField},
     iop::witness::{PartialWitness, WitnessWrite},
     plonk::{
         circuit_builder::CircuitBuilder,
@@ -15,22 +15,21 @@ use plonky2::{
             CircuitConfig, CircuitData, CommonCircuitData, VerifierCircuitTarget,
             VerifierOnlyCircuitData,
         },
-        config::{AlgebraicHasher, GenericConfig, GenericHashOut, Hasher},
+        config::{AlgebraicHasher, GenericConfig},
         proof::{ProofWithPublicInputs, ProofWithPublicInputsTarget},
         prover::prove,
     },
     util::timing::TimingTree,
 };
 
-use bincode;
-use std::io::Write;
+
+
 
 use crate::{
-    circuit_config::{D, HIGH_RATE_CONFIG, STANDARD_CONFIG},
+    circuit_config::{STANDARD_CONFIG},
     claim_circuit::{generate_claim_circuit, set_claim_circuit},
     claim_execution::{get_claim_proving_inputs, Claim},
     commitment_tree::CommitmentTree,
-    types::{Cbn128, C, F as GF},
     utils::AmountSecretPairing,
 };
 
@@ -54,7 +53,7 @@ pub fn generate_proof_of_claim<
     secret: F,
     index: usize,
     commitment_tree: CommitmentTree<F, D>,
-    path: &str,
+    _path: &str,
 ) -> Result<(ProofWithPublicInputs<F, C, D>, VerifierOnlyCircuitData<C, D>, CommonCircuitData<F, D>)>
 {
     // Create claim from inputs

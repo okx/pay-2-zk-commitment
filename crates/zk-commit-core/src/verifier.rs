@@ -1,25 +1,21 @@
-use std::{fmt::Write, path::PathBuf};
 
-use anyhow::Result;
-use log::Level;
+
+
+
 use plonky2::{
     field::{
         extension::{Extendable, FieldExtension},
         types::Field,
     },
-    gates::noop::NoopGate,
     hash::hash_types::RichField,
-    iop::witness::{PartialWitness, WitnessWrite},
     plonk::{
-        circuit_builder::CircuitBuilder,
         circuit_data::{
-            CircuitConfig, CommonCircuitData, VerifierCircuitTarget, VerifierOnlyCircuitData,
+            CommonCircuitData, VerifierOnlyCircuitData,
         },
-        config::{AlgebraicHasher, GenericConfig, GenericHashOut, Hasher},
+        config::{GenericConfig, GenericHashOut},
         proof::ProofWithPublicInputs,
-        prover::prove,
     },
-    util::{log2_strict, timing::TimingTree},
+    util::{log2_strict},
 };
 use serde::Serialize;
 
@@ -531,7 +527,7 @@ pub fn generate_proof_base64<
         public_inputs,
     };
 
-    let proof_bytes = pwpi.to_bytes();
+    let _proof_bytes = pwpi.to_bytes();
     // assert_eq!(proof_bytes.len(), proof_size);
     println!("proof size: {}", proof_size);
 

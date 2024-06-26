@@ -1,9 +1,8 @@
 use crate::{
-    types::F,
     utils::{hash_2_subhashes, AmountSecretPairing},
 };
 use plonky2::{
-    field::{extension::Extendable, types::Field},
+    field::{extension::Extendable},
     hash::hash_types::{HashOut, RichField},
     util::log2_strict,
 };

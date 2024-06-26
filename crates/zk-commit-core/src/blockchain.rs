@@ -1,14 +1,13 @@
 use alloy::{
-    node_bindings::Anvil,
     primitives::{
-        address, b128, b256, b512, b64, bytes, fixed_bytes, utils::format_units, Address, Bytes,
+        Address, Bytes,
         FixedBytes, U256,
     },
     providers::{ProviderBuilder, RootProvider},
     sol,
     transports::http::{Client, Http},
 };
-use eyre::Result;
+
 use PayCommitment::PayCommitmentInstance;
 use TestERC20::TestERC20Instance;
 
@@ -28,7 +27,7 @@ sol!(
 
 use crate::groth16::Groth16ProofWithPublicData;
 
-use std::{str::FromStr, sync::Arc};
+use std::{str::FromStr};
 
 const PUB_LENGTH: usize = 4;
 
