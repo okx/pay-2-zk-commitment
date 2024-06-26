@@ -7,7 +7,7 @@ use plonky2::{
     },
     plonk::{config::Hasher},
 };
-use crate::circuit_config::D;
+
 
 /// A pair of amount and secret representing the amount of allocation of tokens to a specific amount
 #[derive(Debug, Clone, Copy)]
