@@ -136,9 +136,7 @@ mod test {
         iop::witness::WitnessWrite,
     };
 
-    use crate::{
-        commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing,
-    };
+    use crate::{commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing};
 
     use super::{
         get_hash_from_input_targets_circuit, hash_2_subhashes_circuit, run_circuit_test,

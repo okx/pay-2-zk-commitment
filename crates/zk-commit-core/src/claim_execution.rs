@@ -1,8 +1,5 @@
 use crate::{types::F, utils::AmountSecretPairing};
-use plonky2::{
-    field::{types::Field},
-    hash::hash_types::{HashOut},
-};
+use plonky2::{field::types::Field, hash::hash_types::HashOut};
 
 pub struct ClaimProvingInputs {
     pub pair: AmountSecretPairing,
@@ -29,9 +26,7 @@ impl Claim {
     }
 }
 /// Executes a claim by transforming a claim into its proving inputs.
-pub fn get_claim_proving_inputs(
-    claim: Claim,
-) -> ClaimProvingInputs {
+pub fn get_claim_proving_inputs(claim: Claim) -> ClaimProvingInputs {
     let nullifier_hash = claim.get_nullifier_hash();
     ClaimProvingInputs {
         pair: claim.pair,

@@ -33,14 +33,12 @@ use crate::{
 };
 
 /// Given a distribution, builds the commitment tree and returns the commitment tree.
-pub fn setup_commitment(
-    distribution: Vec<AmountSecretPairing>,
-) -> CommitmentTree {
+pub fn setup_commitment(distribution: Vec<AmountSecretPairing>) -> CommitmentTree {
     let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
     commitment_tree
 }
 
-fn to_any(pw: &PartialWitness::<GoldilocksField>) -> &dyn std::any::Any {
+fn to_any(pw: &PartialWitness<GoldilocksField>) -> &dyn std::any::Any {
     pw
 }
 
@@ -86,7 +84,7 @@ pub fn generate_proof_of_claim<
     let data = builder.build::<C>();
     let CircuitData { prover_only, common, verifier_only: _ } = &data;
     let pw = to_any(&pw);
-    let pw = pw.downcast_ref::<PartialWitness::<F>>().unwrap();
+    let pw = pw.downcast_ref::<PartialWitness<F>>().unwrap();
     let proof_res = prove(&prover_only, &common, pw.clone(), &mut timing);
 
     // If proof failed then return error

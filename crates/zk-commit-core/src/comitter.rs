@@ -1,6 +1,5 @@
 use crate::{claim_execution::Claim, commitment_tree::CommitmentTree, utils::AmountSecretPairing};
 
-
 #[derive(Debug, Clone)]
 pub struct Commitment {
     pub distribution: Vec<AmountSecretPairing>,
@@ -25,9 +24,7 @@ impl Commitment {
 mod test {
     use std::borrow::Borrow;
 
-    use crate::{
-        commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing,
-    };
+    use crate::{commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing};
 
     use plonky2::field::types::Field;
 

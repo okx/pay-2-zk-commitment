@@ -1,12 +1,9 @@
 use crate::{
-    types::{F},
     circuit_config::D,
+    types::F,
     utils::{hash_2_subhashes, AmountSecretPairing},
 };
-use plonky2::{
-    hash::hash_types::{HashOut},
-    util::log2_strict,
-};
+use plonky2::{hash::hash_types::HashOut, util::log2_strict};
 
 /// Commitment
 #[derive(Debug, Clone)]
