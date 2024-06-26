@@ -5,7 +5,8 @@ use zk_commit_core::{
         generate_proof_of_claim as core_generate_proof_of_claim,
         setup_commitment as core_setup_commitment,
     },
-    types::F,
+    types::{C,F},
+    circuit_config::{D},
 };
 
 use crate::{commitment_tree::CommitmentTree, utils::AmountSecretPairing, ZkCommitmentMobileError};
@@ -32,7 +33,7 @@ pub fn generate_proof_of_claim(
     commitment_tree: CommitmentTree,
     path: &str
 ) -> Result<(), ZkCommitmentMobileError> {
-    match core_generate_proof_of_claim(
+    match core_generate_proof_of_claim::<F,C,C,D>(
         F::from_canonical_u64(amount),
         F::from_canonical_u64(secret),
         index as usize,
