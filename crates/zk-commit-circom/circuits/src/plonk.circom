@@ -173,7 +173,6 @@ template CheckZeta() {
       c_reduce_with_powers[i].in[j][1] <== openings_quotient_polys[i * QUOTIENT_DEGREE_FACTOR() + j][1];
     }
     zeta[i] <== GlExtMul()(z_h_zeta, c_reduce_with_powers[i].out);
-
     c_reduce[i][2].out === zeta[i];
   }
 }
