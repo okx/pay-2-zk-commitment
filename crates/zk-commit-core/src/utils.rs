@@ -6,15 +6,15 @@ use plonky2::{
     },
     plonk::config::Hasher,
 };
-
+use crate::types::F;
 /// A pair of amount and secret representing the amount of allocation of tokens to a specific amount
 #[derive(Debug, Clone, Copy)]
-pub struct AmountSecretPairing<F: RichField> {
+pub struct AmountSecretPairing {
     pub amount: F,
     pub secret: F,
 }
 
-impl<F: RichField> AmountSecretPairing<F> {
+impl AmountSecretPairing {
     pub fn get_nullifier_hash(&self) -> HashOut<F> {
         let inputs = vec![self.get_secret(), self.get_amount()];
         hash_inputs(inputs)

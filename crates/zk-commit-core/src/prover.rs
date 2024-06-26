@@ -3,7 +3,10 @@
 use anyhow::{anyhow, Result};
 use log::Level;
 use plonky2::{
-    field::extension::Extendable,
+    field::{
+        extension::Extendable,
+        types::{Field, PrimeField64, Sample},
+    },
     gates::noop::NoopGate,
     hash::hash_types::RichField,
     iop::witness::{PartialWitness, WitnessWrite},
@@ -19,6 +22,7 @@ use plonky2::{
     },
     util::timing::TimingTree,
 };
+use plonky2_field::goldilocks_field::GoldilocksField;
 
 use crate::{
     circuit_config::STANDARD_CONFIG,
@@ -29,11 +33,15 @@ use crate::{
 };
 
 /// Given a distribution, builds the commitment tree and returns the commitment tree.
-pub fn setup_commitment<F: RichField + Extendable<D>, const D: usize>(
-    distribution: Vec<AmountSecretPairing<F>>,
-) -> CommitmentTree<F, D> {
+pub fn setup_commitment(
+    distribution: Vec<AmountSecretPairing>,
+) -> CommitmentTree {
     let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
     commitment_tree
+}
+
+fn to_any(pw: &PartialWitness::<GoldilocksField>) -> &dyn std::any::Any {
+    pw
 }
 
 /// Generates the proof of a given claim of a provided amount and secret at a specific index in a commitment tree.
@@ -47,13 +55,16 @@ pub fn generate_proof_of_claim<
     amount: F,
     secret: F,
     index: usize,
-    commitment_tree: CommitmentTree<F, D>,
+    commitment_tree: CommitmentTree,
     _path: &str,
 ) -> Result<(ProofWithPublicInputs<F, C, D>, VerifierOnlyCircuitData<C, D>, CommonCircuitData<F, D>)>
 {
     // Create claim from inputs
-    let claim = Claim::<F, D> {
-        pair: AmountSecretPairing { amount, secret },
+    let claim = Claim {
+        pair: AmountSecretPairing {
+            amount: GoldilocksField::from_canonical_u64(amount.to_canonical_u64()),
+            secret: GoldilocksField::from_canonical_u64(secret.to_canonical_u64()),
+        },
         commitment: commitment_tree.get_root(),
         commitment_merkle_proof: commitment_tree.get_siblings(index),
         index,
@@ -64,7 +75,7 @@ pub fn generate_proof_of_claim<
 
     // Create claim circuit and set the PIs
     let mut builder = CircuitBuilder::<F, D>::new(STANDARD_CONFIG);
-    let mut pw = PartialWitness::<F>::new();
+    let mut pw = PartialWitness::<GoldilocksField>::new();
 
     let claim_targets = generate_claim_circuit(&mut builder, commitment_tree.depth);
     set_claim_circuit(claim_targets, claim_proving_inputs, &mut pw);
@@ -74,7 +85,9 @@ pub fn generate_proof_of_claim<
     let mut timing = TimingTree::new("prove", Level::Debug);
     let data = builder.build::<C>();
     let CircuitData { prover_only, common, verifier_only: _ } = &data;
-    let proof_res = prove(&prover_only, &common, pw, &mut timing);
+    let pw = to_any(&pw);
+    let pw = pw.downcast_ref::<PartialWitness::<F>>().unwrap();
+    let proof_res = prove(&prover_only, &common, pw.clone(), &mut timing);
 
     // If proof failed then return error
     if proof_res.is_err() {

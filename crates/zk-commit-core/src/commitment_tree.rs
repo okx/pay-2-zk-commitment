@@ -1,4 +1,8 @@
-use crate::utils::{hash_2_subhashes, AmountSecretPairing};
+use crate::{
+    types::{F},
+    circuit_config::D,
+    utils::{hash_2_subhashes, AmountSecretPairing},
+};
 use plonky2::{
     field::extension::Extendable,
     hash::hash_types::{HashOut, RichField},
@@ -7,13 +11,13 @@ use plonky2::{
 
 /// Commitment
 #[derive(Debug, Clone)]
-pub struct CommitmentTree<F: RichField + Extendable<D>, const D: usize> {
+pub struct CommitmentTree {
     pub depth: usize,
     pub commitment_root: HashOut<F>,
     pub commitment_tree: Vec<HashOut<F>>,
 }
 
-impl<F: RichField + Extendable<D>, const D: usize> CommitmentTree<F, D> {
+impl CommitmentTree {
     /// Get the root of the commitment tree.
     pub fn get_root(&self) -> HashOut<F> {
         return self.commitment_root;
@@ -26,9 +30,7 @@ impl<F: RichField + Extendable<D>, const D: usize> CommitmentTree<F, D> {
 
     /// Create a new commitment tree from a distribution of amounts-secret pairs, note that this distribution must be a power of 2.
     /// In the future we can try to pad with empty claims.
-    pub fn new_from_distribution(
-        distribution: &Vec<AmountSecretPairing<F>>,
-    ) -> CommitmentTree<F, D> {
+    pub fn new_from_distribution(distribution: &Vec<AmountSecretPairing>) -> CommitmentTree {
         let mut commitment_tree: Vec<HashOut<F>> = Vec::new();
         let num_leaves = distribution.len();
 
@@ -42,7 +44,7 @@ impl<F: RichField + Extendable<D>, const D: usize> CommitmentTree<F, D> {
                 let right_child_index = 2 * (i - num_leaves) + 1;
                 let left_child = commitment_tree.get(left_child_index).unwrap();
                 let right_child = commitment_tree.get(right_child_index).unwrap();
-                let hash = hash_2_subhashes(left_child, right_child);
+                let hash = hash_2_subhashes::<F, D>(left_child, right_child);
                 commitment_tree.push(hash);
             }
         }
@@ -119,7 +121,7 @@ mod test {
         calculated_tree.append(&mut second_layer_hashes);
         calculated_tree.append(&mut final_hash);
 
-        let commitment_tree = CommitmentTree::<F, D>::new_from_distribution(&distribution);
+        let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
 
         println!("CALCULATED TREE ROOT: {:?}", calculated_tree.last().unwrap());
         println!("COMMITMENT TREE ROOT: {:?}", commitment_tree.commitment_root);

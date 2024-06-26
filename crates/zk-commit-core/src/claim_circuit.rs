@@ -3,6 +3,7 @@ use crate::{
         get_hash_from_input_targets_circuit, verify_hash, verify_merkle_proof_circuit,
     },
     claim_execution::ClaimProvingInputs,
+    types::F,
 };
 use plonky2::{
     field::extension::Extendable,
@@ -75,9 +76,9 @@ pub fn generate_claim_circuit<F: RichField + Extendable<D>, const D: usize>(
 
 /// Set the partial witness targets for the claim circuit. This includes the public inputs. For a claim, we set the amount, nullifier_hash and the commitment tree root as
 /// the public inputs and the secret,
-pub fn set_claim_circuit<F: RichField + Extendable<D>, const D: usize>(
+pub fn set_claim_circuit(
     claim_targets: ClaimTargets,
-    claim_proving_inputs: ClaimProvingInputs<F, D>,
+    claim_proving_inputs: ClaimProvingInputs,
     pw: &mut PartialWitness<F>,
 ) {
     pw.set_target(claim_targets.amount, claim_proving_inputs.pair.get_amount());
