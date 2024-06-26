@@ -25,7 +25,7 @@ impl<F: RichField + Extendable<D>, const D: usize> Commitment<F, D> {
 mod test {
     use std::borrow::Borrow;
 
-    use crate::{commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing};
+    use crate::{commitment_tree::CommitmentTree, types::F, circuit_config::D, utils::AmountSecretPairing};
 
     use plonky2::field::types::Field;
 
@@ -33,7 +33,7 @@ mod test {
 
     #[test]
     fn test_get_claim() {
-        let distribution: Vec<AmountSecretPairing> = vec![
+        let distribution: Vec<AmountSecretPairing<F>> = vec![
             AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
             AmountSecretPairing { amount: F::ONE, secret: F::ONE },
             AmountSecretPairing { amount: F::ONE, secret: F::TWO },
@@ -44,7 +44,7 @@ mod test {
             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
         ];
 
-        let commitment_tree = CommitmentTree::new_from_distribution(distribution.borrow());
+        let commitment_tree = CommitmentTree::<F,D>::new_from_distribution(distribution.borrow());
         let commitment = Commitment { commitment_tree, distribution: distribution.clone() };
 
         let claim = commitment.get_claim(0);
