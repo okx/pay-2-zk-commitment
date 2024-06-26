@@ -35,12 +35,19 @@ template EvalGateConstraints() {
   c_Constant2.public_input_hash <== public_input_hash;
   c_Constant2.constraints <== constraints;
 
+  // PoseidonMdsGate(PhantomData<plonky2_field::goldilocks_field::GoldilocksField>)<WIDTH=12>
+  component c_PoseidonMdsGate12 = PoseidonMdsGate12();
+  c_PoseidonMdsGate12.constants <== constants;
+  c_PoseidonMdsGate12.wires <== wires;
+  c_PoseidonMdsGate12.public_input_hash <== public_input_hash;
+  c_PoseidonMdsGate12.constraints <== c_Constant2.out;
+
   // PublicInputGate
   component c_PublicInputGateLib = PublicInputGateLib();
   c_PublicInputGateLib.constants <== constants;
   c_PublicInputGateLib.wires <== wires;
   c_PublicInputGateLib.public_input_hash <== public_input_hash;
-  c_PublicInputGateLib.constraints <== c_Constant2.out;
+  c_PublicInputGateLib.constraints <== c_PoseidonMdsGate12.out;
 
   // BaseSumGate { num_limbs: 63 } + Base: 2
   component c_BaseSum63 = BaseSum63();
@@ -49,19 +56,54 @@ template EvalGateConstraints() {
   c_BaseSum63.public_input_hash <== public_input_hash;
   c_BaseSum63.constraints <== c_PublicInputGateLib.out;
 
+  // RandomAccessGate { bits: 1, num_copies: 20, num_extra_constants: 0, _phantom: PhantomData<plonky2_field::goldilocks_field::GoldilocksField> }<D=2>
+  component c_RandomAccessB1C20E0 = RandomAccessB1C20E0();
+  c_RandomAccessB1C20E0.constants <== constants;
+  c_RandomAccessB1C20E0.wires <== wires;
+  c_RandomAccessB1C20E0.public_input_hash <== public_input_hash;
+  c_RandomAccessB1C20E0.constraints <== c_BaseSum63.out;
+
+  // ReducingExtensionGate { num_coeffs: 32 }
+  component c_ReducingExtension32 = ReducingExtension32();
+  c_ReducingExtension32.constants <== constants;
+  c_ReducingExtension32.wires <== wires;
+  c_ReducingExtension32.public_input_hash <== public_input_hash;
+  c_ReducingExtension32.constraints <== c_RandomAccessB1C20E0.out;
+
+  // ReducingGate { num_coeffs: 43 }
+  component c_Reducing43 = Reducing43();
+  c_Reducing43.constants <== constants;
+  c_Reducing43.wires <== wires;
+  c_Reducing43.public_input_hash <== public_input_hash;
+  c_Reducing43.constraints <== c_ReducingExtension32.out;
+
+  // ArithmeticExtensionGate { num_ops: 10 }
+  component c_ArithmeticExtension10 = ArithmeticExtension10();
+  c_ArithmeticExtension10.constants <== constants;
+  c_ArithmeticExtension10.wires <== wires;
+  c_ArithmeticExtension10.public_input_hash <== public_input_hash;
+  c_ArithmeticExtension10.constraints <== c_Reducing43.out;
+
   // ArithmeticGate { num_ops: 20 }
   component c_Arithmetic20 = Arithmetic20();
   c_Arithmetic20.constants <== constants;
   c_Arithmetic20.wires <== wires;
   c_Arithmetic20.public_input_hash <== public_input_hash;
-  c_Arithmetic20.constraints <== c_BaseSum63.out;
+  c_Arithmetic20.constraints <== c_ArithmeticExtension10.out;
+
+  // MulExtensionGate { num_ops: 13 }
+  component c_MultiplicationExtension13 = MultiplicationExtension13();
+  c_MultiplicationExtension13.constants <== constants;
+  c_MultiplicationExtension13.wires <== wires;
+  c_MultiplicationExtension13.public_input_hash <== public_input_hash;
+  c_MultiplicationExtension13.constraints <== c_Arithmetic20.out;
 
   // PoseidonGate(PhantomData<plonky2_field::goldilocks_field::GoldilocksField>)<WIDTH=12>
   component c_Poseidon12 = Poseidon12();
   c_Poseidon12.constants <== constants;
   c_Poseidon12.wires <== wires;
   c_Poseidon12.public_input_hash <== public_input_hash;
-  c_Poseidon12.constraints <== c_Arithmetic20.out;
+  c_Poseidon12.constraints <== c_MultiplicationExtension13.out;
   out <== c_Poseidon12.out;
 }
 template Constant2() {
@@ -72,12 +114,47 @@ template Constant2() {
   signal output out[NUM_GATE_CONSTRAINTS()][2];
 
   signal filter[2];
-  filter <== GlExtMul()(GlExtSub()(GlExt(0, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(2, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(3, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[0]), GlExt(1, 0)())))));
+  filter <== GlExtMul()(GlExtSub()(GlExt(0, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(2, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(3, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(5, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(6, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[0]), GlExt(1, 0)())))))));
 
   for (var i = 0; i < 2; i++) {
-    out[i] <== ConstraintPush()(constraints[i], filter, GlExtSub()(constants[2 + i], wires[i]));
+    out[i] <== ConstraintPush()(constraints[i], filter, GlExtSub()(constants[3 + i], wires[i]));
   }
   for (var i = 2; i < NUM_GATE_CONSTRAINTS(); i++) {
+    out[i] <== constraints[i];
+  }
+}
+template PoseidonMdsGate12() {
+  signal input constants[NUM_OPENINGS_CONSTANTS()][2];
+  signal input wires[NUM_OPENINGS_WIRES()][2];
+  signal input public_input_hash[4];
+  signal input constraints[NUM_GATE_CONSTRAINTS()][2];
+  signal output out[NUM_GATE_CONSTRAINTS()][2];
+
+  signal filter[2];
+  filter <== GlExtMul()(GlExtSub()(GlExt(0, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(1, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(3, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(5, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(6, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[0]), GlExt(1, 0)())))))));
+
+  signal state[13][12][2][2];
+  for (var r = 0; r < 12; r++) {
+    for (var i = 0; i < 12; i++) {
+      var j = i + r >= 12 ? i + r - 12 : i + r;
+      if (i == 0) {
+        state[i][r][0] <== GlExtScalarMul()(wires[j * 2], MDS_MATRIX_CIRC(i));
+        state[i][r][1] <== GlExtScalarMul()(wires[j * 2 + 1], MDS_MATRIX_CIRC(i));
+      } else {
+        state[i][r][0] <== GlExtAdd()(state[i - 1][r][0], GlExtScalarMul()(wires[j * 2], MDS_MATRIX_CIRC(i)));
+        state[i][r][1] <== GlExtAdd()(state[i - 1][r][1], GlExtScalarMul()(wires[j * 2 + 1], MDS_MATRIX_CIRC(i)));
+      }
+    }
+    state[12][r][0] <== GlExtAdd()(state[11][r][0], GlExtScalarMul()(wires[r * 2], MDS_MATRIX_DIAG(r)));
+    state[12][r][1] <== GlExtAdd()(state[11][r][1], GlExtScalarMul()(wires[r * 2 + 1], MDS_MATRIX_DIAG(r)));
+  }
+
+  for (var r = 0; r < 12; r ++) {
+    out[r * 2] <== ConstraintPush()(constraints[r * 2], filter, GlExtSub()(wires[(12 + r) * 2], state[12][r][0]));
+    out[r * 2 + 1] <== ConstraintPush()(constraints[r * 2 + 1], filter, GlExtSub()(wires[(12 + r) * 2 + 1], state[12][r][1]));
+  }
+
+  for (var i = 24; i < NUM_GATE_CONSTRAINTS(); i++) {
     out[i] <== constraints[i];
   }
 }
@@ -89,7 +166,7 @@ template PublicInputGateLib() {
   signal output out[NUM_GATE_CONSTRAINTS()][2];
 
   signal filter[2];
-  filter <== GlExtMul()(GlExtSub()(GlExt(0, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(1, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(3, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[0]), GlExt(1, 0)())))));
+  filter <== GlExtMul()(GlExtSub()(GlExt(0, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(1, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(2, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(5, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(6, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[0]), GlExt(1, 0)())))))));
 
   signal hashes[4][2];
   for (var i = 0; i < 4; i++) {
@@ -109,7 +186,7 @@ template BaseSum63() {
   signal output out[NUM_GATE_CONSTRAINTS()][2];
 
   signal filter[2];
-  filter <== GlExtMul()(GlExtSub()(GlExt(0, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(1, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(2, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[0]), GlExt(1, 0)())))));
+  filter <== GlExtMul()(GlExtSub()(GlExt(0, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(1, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(2, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(3, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(5, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(6, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[0]), GlExt(1, 0)())))))));
 
   component reduce = Reduce(63);
   reduce.alpha <== GlExt(2, 0)();
@@ -132,6 +209,136 @@ template BaseSum63() {
     out[i] <== constraints[i];
   }
 }
+template RandomAccessB1C20E0() {
+  signal input constants[NUM_OPENINGS_CONSTANTS()][2];
+  signal input wires[NUM_OPENINGS_WIRES()][2];
+  signal input public_input_hash[4];
+  signal input constraints[NUM_GATE_CONSTRAINTS()][2];
+  signal output out[NUM_GATE_CONSTRAINTS()][2];
+
+  signal filter[2];
+  filter <== GlExtMul()(GlExtSub()(GlExt(0, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(1, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(2, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(3, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(6, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[0]), GlExt(1, 0)())))))));
+
+  var index = 0;
+  signal acc[20][1][2];
+  signal list_items[20][1 + 1][2][2];
+  for (var copy = 0; copy < 20; copy++) {
+    for (var i = 0; i < 1; i++) {
+      out[index] <== ConstraintPush()(constraints[index], filter,
+        GlExtMul()(wires[ra_wire_bit(i, copy)], GlExtSub()(wires[ra_wire_bit(i, copy)], GlExt(1, 0)())));
+      index++;
+    }
+    for (var i = 1; i > 0; i--) {
+      if(i == 1) {
+        acc[copy][i - 1] <== wires[ra_wire_bit(i - 1, copy)];
+      } else {
+        acc[copy][i - 1] <== GlExtAdd()(GlExtAdd()(acc[copy][i], acc[copy][i]), wires[ra_wire_bit(i - 1, copy)]);
+      }
+    }
+    out[index] <== ConstraintPush()(constraints[index], filter, GlExtSub()(acc[copy][0], wires[(2 + 2) * copy]));
+    index++;
+    for (var i = 0; i < 2; i++) {
+      list_items[copy][0][i] <== wires[(2 + 2) * copy + 2 + i];
+    }
+    for (var i = 0; i < 1; i++) {
+      for (var j = 0; j < (2 >> i); j = j + 2) {
+        list_items[copy][i + 1][j \ 2] <== GlExtAdd()(list_items[copy][i][j], GlExtMul()(wires[ra_wire_bit(i, copy)], GlExtSub()(list_items[copy][i][j + 1], list_items[copy][i][j])));
+      }
+    }
+    out[index] <== ConstraintPush()(constraints[index], filter, GlExtSub()(list_items[copy][1][0], wires[(2 + 2) * copy + 1]));
+    index++;
+  }
+  for (var i = 0; i < 0; i++) {
+    out[index] <== ConstraintPush()(constraints[index], filter, GlExtSub()(constants[3 + i], wires[(2 + 2) * 20 + i]));
+    index++;
+  }
+
+  for (var i = index; i < NUM_GATE_CONSTRAINTS(); i++) {
+    out[i] <== constraints[i];
+  }
+}
+function ra_wire_bit(i, copy) {
+  return 80 + copy * 1 + i;
+}
+template ReducingExtension32() {
+  signal input constants[NUM_OPENINGS_CONSTANTS()][2];
+  signal input wires[NUM_OPENINGS_WIRES()][2];
+  signal input public_input_hash[4];
+  signal input constraints[NUM_GATE_CONSTRAINTS()][2];
+  signal output out[NUM_GATE_CONSTRAINTS()][2];
+
+  signal filter[2];
+  filter <== GlExtMul()(GlExtSub()(GlExt(0, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(1, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(2, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(3, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(5, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[0]), GlExt(1, 0)())))))));
+
+  var acc_start = 2 * 2;
+  signal m[32][2][2];
+  for (var i = 0; i < 32; i++) {
+    m[i] <== WiresAlgebraMul(acc_start, 2)(wires);
+    for (var j = 0; j < 2; j++) {
+      out[i * 2 + j] <== ConstraintPush()(constraints[i * 2 + j], filter, GlExtAdd()(m[i][j], GlExtSub()(wires[(3 + i) * 2 + j], wires[re_wires_accs_start(i, 32) + j])));
+    }
+    acc_start = re_wires_accs_start(i, 32);
+  }
+
+  for (var i = 32 * 2; i < NUM_GATE_CONSTRAINTS(); i++) {
+    out[i] <== constraints[i];
+  }
+}
+function re_wires_accs_start(i, num_coeffs) {
+  if (i == num_coeffs - 1) return 0;
+  else return (3 + i + num_coeffs) * 2;
+}
+template Reducing43() {
+  signal input constants[NUM_OPENINGS_CONSTANTS()][2];
+  signal input wires[NUM_OPENINGS_WIRES()][2];
+  signal input public_input_hash[4];
+  signal input constraints[NUM_GATE_CONSTRAINTS()][2];
+  signal output out[NUM_GATE_CONSTRAINTS()][2];
+
+  signal filter[2];
+  filter <== GlExtMul()(GlExtSub()(GlExt(8, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(9, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(10, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[1]), GlExt(1, 0)()))));
+
+  var acc_start = 2 * 2;
+  signal m[43][2][2];
+  for (var i = 0; i < 43; i++) {
+    m[i] <== WiresAlgebraMul(acc_start, 2)(wires);
+    out[i * 2] <== ConstraintPush()(constraints[i * 2], filter, GlExtAdd()(m[i][0], GlExtSub()(wires[3 * 2 + i], wires[r_wires_accs_start(i, 43)])));
+    for (var j = 1; j < 2; j++) {
+      out[i * 2 + j] <== ConstraintPush()(constraints[i * 2 + j], filter, GlExtSub()(m[i][j], wires[r_wires_accs_start(i, 43) + j]));
+    }
+    acc_start = r_wires_accs_start(i, 43);
+  }
+
+  for (var i = 43 * 2; i < NUM_GATE_CONSTRAINTS(); i++) {
+    out[i] <== constraints[i];
+  }
+}
+function r_wires_accs_start(i, num_coeffs) {
+  if (i == num_coeffs - 1) return 0;
+  else return (3 + i) * 2 + num_coeffs;
+}
+template ArithmeticExtension10() {
+  signal input constants[NUM_OPENINGS_CONSTANTS()][2];
+  signal input wires[NUM_OPENINGS_WIRES()][2];
+  signal input public_input_hash[4];
+  signal input constraints[NUM_GATE_CONSTRAINTS()][2];
+  signal output out[NUM_GATE_CONSTRAINTS()][2];
+
+  signal filter[2];
+  filter <== GlExtMul()(GlExtSub()(GlExt(7, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(9, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(10, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[1]), GlExt(1, 0)()))));
+
+  signal m[10][2][2];
+  for (var i = 0; i < 10; i++) {
+    m[i] <== WiresAlgebraMul(4 * 2 * i, 4 * 2 * i + 2)(wires);
+    for (var j = 0; j < 2; j++) {
+      out[i * 2 + j] <== ConstraintPush()(constraints[i * 2 + j], filter, GlExtSub()(wires[4 * 2 * i + 3 * 2 + j], GlExtAdd()(GlExtMul()(m[i][j], constants[3]), GlExtMul()(wires[4 * 2 * i + 2 * 2 + j], constants[3 + 1]))));
+    }
+  }
+
+  for (var i = 10 * 2; i < NUM_GATE_CONSTRAINTS(); i++) {
+    out[i] <== constraints[i];
+  }
+}
 template Arithmetic20() {
   signal input constants[NUM_OPENINGS_CONSTANTS()][2];
   signal input wires[NUM_OPENINGS_WIRES()][2];
@@ -140,13 +347,34 @@ template Arithmetic20() {
   signal output out[NUM_GATE_CONSTRAINTS()][2];
 
   signal filter[2];
-  filter <== GlExtMul()(GlExtSub()(GlExt(0, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(1, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(2, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(3, 0)(), constants[0]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[0]), GlExt(1, 0)())))));
+  filter <== GlExtMul()(GlExtSub()(GlExt(7, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(8, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(10, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[1]), GlExt(1, 0)()))));
 
   for (var i = 0; i < 20; i++) {
-    out[i] <== ConstraintPush()(constraints[i], filter, GlExtSub()(wires[4 * i + 3], GlExtAdd()(GlExtMul()(GlExtMul()(wires[4 * i], wires[4 * i + 1]), constants[2 + 0]), GlExtMul()(wires[4 * i + 2], constants[2 + 1]))));
+    out[i] <== ConstraintPush()(constraints[i], filter, GlExtSub()(wires[4 * i + 3], GlExtAdd()(GlExtMul()(GlExtMul()(wires[4 * i], wires[4 * i + 1]), constants[3 + 0]), GlExtMul()(wires[4 * i + 2], constants[3 + 1]))));
   }
 
   for (var i = 20; i < NUM_GATE_CONSTRAINTS(); i++) {
+    out[i] <== constraints[i];
+  }
+}
+template MultiplicationExtension13() {
+  signal input constants[NUM_OPENINGS_CONSTANTS()][2];
+  signal input wires[NUM_OPENINGS_WIRES()][2];
+  signal input public_input_hash[4];
+  signal input constraints[NUM_GATE_CONSTRAINTS()][2];
+  signal output out[NUM_GATE_CONSTRAINTS()][2];
+
+  signal filter[2];
+  filter <== GlExtMul()(GlExtSub()(GlExt(7, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(8, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(9, 0)(), constants[1]), GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[1]), GlExt(1, 0)()))));
+
+  signal m[13][2][2];
+  for (var i = 0; i < 13; i++) {
+    m[i] <== WiresAlgebraMul(3 * 2 * i, 3 * 2 * i + 2)(wires);
+    for (var j = 0; j < 2; j++) {
+      out[i * 2 + j] <== ConstraintPush()(constraints[i * 2 + j], filter, GlExtSub()(wires[3 * 2 * i + 2 * 2 + j], GlExtMul()(m[i][j], constants[3])));
+    }
+  }
+  for (var i = 13 * 2; i < NUM_GATE_CONSTRAINTS(); i++) {
     out[i] <== constraints[i];
   }
 }
@@ -158,7 +386,7 @@ template Poseidon12() {
   signal output out[NUM_GATE_CONSTRAINTS()][2];
 
   signal filter[2];
-  filter <== GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[1]), GlExt(1, 0)());
+  filter <== GlExtMul()(GlExtSub()(GlExt(4294967295, 0)(), constants[2]), GlExt(1, 0)());
 
   var index = 0;
   out[index] <== ConstraintPush()(constraints[index], filter, GlExtMul()(wires[24], GlExtSub()(wires[24], GlExt(1, 0)())));

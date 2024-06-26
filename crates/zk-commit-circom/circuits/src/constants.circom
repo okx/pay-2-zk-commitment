@@ -11,9 +11,9 @@ function NUM_WIRES_CAP() { return 2; }
 function NUM_PLONK_ZS_PARTIAL_PRODUCTS_CAP() { return 2; }
 function NUM_QUOTIENT_POLYS_CAP() { return 2; }
 
-function NUM_OPENINGS_CONSTANTS() { return 4; }
+function NUM_OPENINGS_CONSTANTS() { return 5; }
 function NUM_OPENINGS_PLONK_SIGMAS() { return 80; }
-function NUM_OPENINGS_WIRES() { return 170; }
+function NUM_OPENINGS_WIRES() { return 135; }
 function NUM_OPENINGS_PLONK_ZS() { return 2; }
 function NUM_OPENINGS_PLONK_ZS_NEXT() { return 2; }
 function NUM_OPENINGS_PARTIAL_PRODUCTS() { return 18; }
@@ -21,40 +21,40 @@ function NUM_OPENINGS_QUOTIENT_POLYS() { return 16; }
 
 function NUM_FRI_COMMIT_ROUND() { return 2; }
 function FRI_COMMIT_MERKLE_CAP_HEIGHT() { return 2; }
-function NUM_FRI_QUERY_ROUND() { return 28; }
-function NUM_FRI_QUERY_INIT_CONSTANTS_SIGMAS_V() { return 84; }
-function NUM_FRI_QUERY_INIT_CONSTANTS_SIGMAS_P() { return 6; }
-function NUM_FRI_QUERY_INIT_WIRES_V() { return 170; }
-function NUM_FRI_QUERY_INIT_WIRES_P() { return 6; }
+function NUM_FRI_QUERY_ROUND() { return 12; }
+function NUM_FRI_QUERY_INIT_CONSTANTS_SIGMAS_V() { return 85; }
+function NUM_FRI_QUERY_INIT_CONSTANTS_SIGMAS_P() { return 18; }
+function NUM_FRI_QUERY_INIT_WIRES_V() { return 135; }
+function NUM_FRI_QUERY_INIT_WIRES_P() { return 18; }
 function NUM_FRI_QUERY_INIT_ZS_PARTIAL_V() { return 20; }
-function NUM_FRI_QUERY_INIT_ZS_PARTIAL_P() { return 6; }
+function NUM_FRI_QUERY_INIT_ZS_PARTIAL_P() { return 18; }
 function NUM_FRI_QUERY_INIT_QUOTIENT_V() { return 16; }
-function NUM_FRI_QUERY_INIT_QUOTIENT_P() { return 6; }
-function NUM_FRI_QUERY_STEP0_V() { return 4; }
-function NUM_FRI_QUERY_STEP0_P() { return 4; }
-function NUM_FRI_QUERY_STEP1_V() { return 4; }
-function NUM_FRI_QUERY_STEP1_P() { return 2; }
-function NUM_FRI_FINAL_POLY_EXT_V() { return 1; }
+function NUM_FRI_QUERY_INIT_QUOTIENT_P() { return 18; }
+function NUM_FRI_QUERY_STEP0_V() { return 16; }
+function NUM_FRI_QUERY_STEP0_P() { return 14; }
+function NUM_FRI_QUERY_STEP1_V() { return 16; }
+function NUM_FRI_QUERY_STEP1_P() { return 10; }
+function NUM_FRI_FINAL_POLY_EXT_V() { return 16; }
 
 function NUM_SIGMA_CAPS() { return 2; }
 function GET_SIGMA_CAP(i) {
   var sc[2][4];
-  sc[0][0] = 15941313345191079695;
-  sc[0][1] = 2354002661476664527;
-  sc[0][2] = 3973153152850321509;
-  sc[0][3] = 9536925483562001213;
-  sc[1][0] = 13427005769260732319;
-  sc[1][1] = 2303371592005811277;
-  sc[1][2] = 16492296542853232407;
-  sc[1][3] = 12809217650124469572;
+  sc[0][0] = 12811386711777471157;
+  sc[0][1] = 9995739574841661067;
+  sc[0][2] = 7127556076449397026;
+  sc[0][3] = 13003164570122383182;
+  sc[1][0] = 3969897552351457286;
+  sc[1][1] = 16487038492264934566;
+  sc[1][2] = 13016611146471180590;
+  sc[1][3] = 242064391295266207;
   return sc[i];
 }
 
 function NUM_REDUCTION_ARITY_BITS() { return 2; }
 function REDUCTION_ARITY_BITS() {
   var bits[2];
-  bits[0] = 2;
-  bits[1] = 2;
+  bits[0] = 4;
+  bits[1] = 4;
   return bits;
 }
 
@@ -69,29 +69,29 @@ function G_BY_ARITY_BITS(arity_bits) {
 
 function G_FROM_DEGREE_BITS() {
   var g[2];
-  g[0] = 17293822564807737345;
+  g[0] = 17492915097719143606;
   g[1] = 0;
   return g;
 }
 
 function MULTIPLICATIVE_GROUP_GENERATOR() { return 7; }
-function PRIMITIVE_ROOT_OF_UNITY_LDE() { return 17870292113338400769; }
-function LOG_SIZE_OF_LDE_DOMAIN() { return 7; }
+function PRIMITIVE_ROOT_OF_UNITY_LDE() { return 18146160046829613826; }
+function LOG_SIZE_OF_LDE_DOMAIN() { return 19; }
 function NUM_CHALLENGES() { return 2; }
 function MIN_FRI_POW_RESPONSE() { return 16; }
 function CIRCUIT_DIGEST() {
   var cd[4];
-  cd[0] = 17196292578881429380;
-  cd[1] = 6990302523526587462;
-  cd[2] = 2975626264912320053;
-  cd[3] = 13222437965868382071;
+  cd[0] = 1125573937404920333;
+  cd[1] = 4272661276066273180;
+  cd[2] = 6662159733421699752;
+  cd[3] = 14218901446535050728;
   return cd;
 }
 function SPONGE_RATE() { return 8; }
 function SPONGE_CAPACITY() { return 4; }
 function SPONGE_WIDTH() { return 12; }
-function DEGREE_BITS() { return 4; }
-function FRI_RATE_BITS() { return 3; }
+function DEGREE_BITS() { return 12; }
+function FRI_RATE_BITS() { return 7; }
 function NUM_GATE_CONSTRAINTS() { return 123; }
 function NUM_PARTIAL_PRODUCTS_TERMS() { return (NUM_OPENINGS_PLONK_SIGMAS() + QUOTIENT_DEGREE_FACTOR() - 1) \ QUOTIENT_DEGREE_FACTOR(); }
 function QUOTIENT_DEGREE_FACTOR() { return 8; }
@@ -179,4 +179,4 @@ function K_IS(i) {
   k_is[79] = 9767480182670369297;
   return k_is[i];
 }
-function NUM_PUBLIC_INPUTS() { return 9; }
+function NUM_PUBLIC_INPUTS() { return 13; }
