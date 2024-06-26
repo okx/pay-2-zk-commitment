@@ -243,7 +243,7 @@ mod test {
             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
         ];
 
-        let _commitment_tree = setup_commitment::<F, D>(distribution.clone());
+        let _commitment_tree = setup_commitment(distribution.clone());
 
         // let claim_proof = generate_proof_of_claim(
         //     distribution.get(0).unwrap().amount,

@@ -35,7 +35,7 @@ mod test {
 
     #[test]
     fn test_get_claim() {
-        let distribution: Vec<AmountSecretPairing<F>> = vec![
+        let distribution: Vec<AmountSecretPairing> = vec![
             AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
             AmountSecretPairing { amount: F::ONE, secret: F::ONE },
             AmountSecretPairing { amount: F::ONE, secret: F::TWO },
@@ -46,7 +46,7 @@ mod test {
             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
         ];
 
-        let commitment_tree = CommitmentTree::<F, D>::new_from_distribution(distribution.borrow());
+        let commitment_tree = CommitmentTree::new_from_distribution(distribution.borrow());
         let commitment = Commitment { commitment_tree, distribution: distribution.clone() };
 
         let claim = commitment.get_claim(0);

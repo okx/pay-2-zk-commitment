@@ -126,8 +126,8 @@ mod test {
                 AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
             ];
 
-            let commitment_tree = CommitmentTree::<F, D>::new_from_distribution(&distribution);
-            let claim = Claim::<F, D> {
+            let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
+            let claim = Claim {
                 pair: *distribution.get(0).unwrap(),
                 commitment: commitment_tree.get_root(),
                 commitment_merkle_proof: commitment_tree.get_siblings(0),

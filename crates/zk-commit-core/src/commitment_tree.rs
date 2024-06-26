@@ -144,7 +144,7 @@ mod test {
             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
         ];
 
-        let commitment_tree = CommitmentTree::<F, D>::new_from_distribution(&distribution);
+        let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
 
         let mut siblings_calculated: Vec<HashOut<F>> = Vec::new();
         siblings_calculated.push(*commitment_tree.get_from_index(0).unwrap());
