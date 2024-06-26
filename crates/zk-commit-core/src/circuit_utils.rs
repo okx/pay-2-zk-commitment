@@ -132,15 +132,15 @@ pub fn select_hash<F: RichField + Extendable<D>, const D: usize>(
 #[cfg(test)]
 mod test {
     use plonky2::{
-        hash::hash_types::{HashOut},
+        hash::hash_types::{HashOut, HashOutTarget},
         iop::witness::WitnessWrite,
     };
 
-    use crate::{types::F};
+    use crate::{commitment_tree::CommitmentTree, types::F, circuit_config::D, utils::AmountSecretPairing};
 
     use super::{
         get_hash_from_input_targets_circuit, hash_2_subhashes_circuit, run_circuit_test,
-        verify_hash,
+        verify_hash, verify_merkle_proof_circuit,
     };
     use plonky2::field::types::Field;
 
@@ -230,51 +230,51 @@ mod test {
         });
     }
 
-    // #[test]
-    // fn test_verify_merkle_proof_circuit() {
-    //     run_circuit_test(|builder, pw| {
-    //         let distribution = vec![
-    //             AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::ONE },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::TWO },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(4) },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(5) },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(6) },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
-    //         ];
+    #[test]
+    fn test_verify_merkle_proof_circuit() {
+        run_circuit_test(|builder, pw| {
+            let distribution = vec![
+                AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
+                AmountSecretPairing { amount: F::ONE, secret: F::ONE },
+                AmountSecretPairing { amount: F::ONE, secret: F::TWO },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(4) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(5) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(6) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
+            ];
 
-    //         let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
-    //         let merkle_proof = commitment_tree.get_siblings(6);
-    //         let leaf_hash = distribution.get(6).unwrap().get_own_hash();
-    //         let merkle_root = commitment_tree.get_root();
+            let commitment_tree = CommitmentTree::<F,D>::new_from_distribution(&distribution);
+            let merkle_proof = commitment_tree.get_siblings(6);
+            let leaf_hash = distribution.get(6).unwrap().get_own_hash();
+            let merkle_root = commitment_tree.get_root();
 
-    //         let mut merkle_proof_targets: Vec<HashOutTarget> = Vec::new();
-    //         for _ in 0..merkle_proof.len() {
-    //             let hash_target = builder.add_virtual_hash();
-    //             merkle_proof_targets.push(hash_target);
-    //         }
-    //         let merkle_root_target = builder.add_virtual_hash();
-    //         let leaf_hash_target = builder.add_virtual_hash();
+            let mut merkle_proof_targets: Vec<HashOutTarget> = Vec::new();
+            for _ in 0..merkle_proof.len() {
+                let hash_target = builder.add_virtual_hash();
+                merkle_proof_targets.push(hash_target);
+            }
+            let merkle_root_target = builder.add_virtual_hash();
+            let leaf_hash_target = builder.add_virtual_hash();
 
-    //         let index_target = builder.add_virtual_target();
-    //         let index_bits = builder.split_le(index_target, 3);
-    //         verify_merkle_proof_circuit(
-    //             builder,
-    //             merkle_root_target,
-    //             leaf_hash_target,
-    //             &index_bits,
-    //             &merkle_proof_targets,
-    //         );
+            let index_target = builder.add_virtual_target();
+            let index_bits = builder.split_le(index_target, 3);
+            verify_merkle_proof_circuit(
+                builder,
+                merkle_root_target,
+                leaf_hash_target,
+                &index_bits,
+                &merkle_proof_targets,
+            );
 
-    //         for i in 0..merkle_proof.len() {
-    //             let hash_target = merkle_proof_targets.get(i).unwrap();
-    //             pw.set_hash_target(*hash_target, *merkle_proof.get(i).unwrap());
-    //         }
+            for i in 0..merkle_proof.len() {
+                let hash_target = merkle_proof_targets.get(i).unwrap();
+                pw.set_hash_target(*hash_target, *merkle_proof.get(i).unwrap());
+            }
 
-    //         pw.set_hash_target(merkle_root_target, merkle_root);
-    //         pw.set_hash_target(leaf_hash_target, leaf_hash);
-    //         pw.set_target(index_target, F::from_canonical_u64(6));
-    //     });
-    // }
+            pw.set_hash_target(merkle_root_target, merkle_root);
+            pw.set_hash_target(leaf_hash_target, leaf_hash);
+            pw.set_target(index_target, F::from_canonical_u64(6));
+        });
+    }
 }
