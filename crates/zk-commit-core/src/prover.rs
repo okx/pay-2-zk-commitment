@@ -110,7 +110,6 @@ pub fn generate_proof_of_claim<
     // return Result::Ok(());
 }
 
-
 pub fn recursive_single_proof<
     F: RichField + Extendable<D>,
     C: GenericConfig<D, F = F>,
@@ -157,7 +156,6 @@ where
 
     println!("register circuit_digest: {:?}", inner_data.circuit_digest.elements.as_slice());
     builder.register_public_inputs(inner_data.circuit_digest.elements.as_slice());
-
 
     // if is_bn254 {
     //     let mut configs = vec![];

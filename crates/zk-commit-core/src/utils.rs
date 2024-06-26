@@ -1,9 +1,12 @@
-use plonky2::{
-    hash::{hash_types::{HashOut, RichField}, poseidon::PoseidonHash},
-    plonk::config::Hasher,
-};
-use plonky2::{field::types::Field, plonk::proof::ProofWithPublicInputs, field::extension::Extendable};
 use crate::types::F;
+use plonky2::{
+    field::{extension::Extendable, types::Field},
+    hash::{
+        hash_types::{HashOut, RichField},
+        poseidon::PoseidonHash,
+    },
+    plonk::{config::Hasher, proof::ProofWithPublicInputs},
+};
 
 /// A pair of amount and secret representing the amount of allocation of tokens to a specific amount
 #[derive(Debug, Clone, Copy)]
@@ -40,7 +43,10 @@ impl<F: RichField> AmountSecretPairing<F> {
     }
 }
 
-pub fn hash_2_subhashes<F: RichField + Extendable<D>, const D: usize>(hash_1: &HashOut<F>, hash_2: &HashOut<F>) -> HashOut<F> {
+pub fn hash_2_subhashes<F: RichField + Extendable<D>, const D: usize>(
+    hash_1: &HashOut<F>,
+    hash_2: &HashOut<F>,
+) -> HashOut<F> {
     let inputs = vec![hash_1.elements.to_vec(), hash_2.elements.to_vec()].concat();
     hash_inputs(inputs)
 }

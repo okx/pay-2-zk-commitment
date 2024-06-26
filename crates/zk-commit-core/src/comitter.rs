@@ -1,17 +1,16 @@
-use plonky2::hash::hash_types::RichField;
-use plonky2::field::extension::Extendable;
 use crate::{claim_execution::Claim, commitment_tree::CommitmentTree, utils::AmountSecretPairing};
+use plonky2::{field::extension::Extendable, hash::hash_types::RichField};
 
 #[derive(Debug, Clone)]
 pub struct Commitment<F: RichField + Extendable<D>, const D: usize> {
     pub distribution: Vec<AmountSecretPairing<F>>,
-    pub commitment_tree: CommitmentTree<F,D>,
+    pub commitment_tree: CommitmentTree<F, D>,
 }
 
-impl<F: RichField + Extendable<D>, const D: usize> Commitment<F,D> {
+impl<F: RichField + Extendable<D>, const D: usize> Commitment<F, D> {
     /// Get the claim for a given index within the committment tree. A claim includes the amount-secret pair, the commitment root and the merkle proof of inclusion of the
     /// specific index (siblings).
-    pub fn get_claim(&self, index: usize) -> Claim<F,D> {
+    pub fn get_claim(&self, index: usize) -> Claim<F, D> {
         assert!(index < self.distribution.len());
         Claim {
             pair: *self.distribution.get(index as usize).unwrap(),

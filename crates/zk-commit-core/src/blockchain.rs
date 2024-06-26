@@ -1,11 +1,13 @@
 use alloy::{
     node_bindings::Anvil,
-    primitives::{address, b128, b256, b512, b64, bytes, fixed_bytes, Address, Bytes, FixedBytes},
+    primitives::{
+        address, b128, b256, b512, b64, bytes, fixed_bytes, utils::format_units, Address, Bytes,
+        FixedBytes, U256,
+    },
     providers::{ProviderBuilder, RootProvider},
     sol,
     transports::http::{Client, Http},
 };
-use alloy::primitives::{utils::format_units, U256};
 use eyre::Result;
 use PayCommitment::PayCommitmentInstance;
 use TestERC20::TestERC20Instance;
@@ -95,7 +97,8 @@ impl Blockchain {
                 ],
                 pub_signals_array,
             )
-            .calldata().to_owned();
+            .calldata()
+            .to_owned();
         calldata
     }
 }

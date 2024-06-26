@@ -500,7 +500,6 @@ pub fn generate_proof_base64<
         public_inputs[i] = pwpi.public_inputs[i].to_canonical_u64().to_string();
     }
 
-
     // proof_size += vd_proof.merkle_proof.siblings.len() * 4 * conf.field_size;
 
     let circom_proof = ProofForCircom {
@@ -529,7 +528,7 @@ pub fn generate_proof_base64<
         fri_query_step1_p,
         fri_final_poly_ext_v,
         fri_pow_witness: pwpi.proof.opening_proof.pow_witness.to_canonical_u64().to_string(),
-        public_inputs
+        public_inputs,
     };
 
     let proof_bytes = pwpi.to_bytes();
@@ -538,7 +537,6 @@ pub fn generate_proof_base64<
 
     Ok(serde_json::to_string(&circom_proof).unwrap())
 }
-
 
 pub fn generate_circom_verifier<
     F: RichField + Extendable<D>,

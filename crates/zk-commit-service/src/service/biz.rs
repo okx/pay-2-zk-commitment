@@ -1,12 +1,12 @@
 use std::{fs::File, io::Read};
 
 use crate::{
-    integration::rapidsnark::{ RapidSnark},
+    integration::rapidsnark::RapidSnark,
     types::{C, D, F},
     AppState,
 };
 
-use actix_web::web::{Data};
+use actix_web::web::Data;
 use plonky2::plonk::proof::ProofWithPublicInputs;
 use zk_commit_core::groth16::Groth16ProofWithPublicData;
 

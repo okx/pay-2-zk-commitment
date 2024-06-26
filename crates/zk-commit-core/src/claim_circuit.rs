@@ -93,7 +93,7 @@ pub fn generate_claim_circuit<F: RichField + Extendable<D>, const D: usize>(
 /// the public inputs and the secret,
 pub fn set_claim_circuit<F: RichField + Extendable<D>, const D: usize>(
     claim_targets: ClaimTargets,
-    claim_proving_inputs: ClaimProvingInputs<F,D>,
+    claim_proving_inputs: ClaimProvingInputs<F, D>,
     pw: &mut PartialWitness<F>,
 ) {
     pw.set_target(claim_targets.amount, claim_proving_inputs.pair.get_amount());

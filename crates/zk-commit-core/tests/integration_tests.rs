@@ -1,6 +1,5 @@
 use plonky2::{
-    field::types::Field,
-    field::goldilocks_field::GoldilocksField,
+    field::{goldilocks_field::GoldilocksField, types::Field},
     plonk::{
         circuit_data::VerifierOnlyCircuitData,
         config::{GenericConfig, GenericHashOut},
@@ -45,11 +44,26 @@ fn test_full_proof() {
         AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::ZERO },
         AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::ONE },
         AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::TWO },
-        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::from_canonical_u64(3) },
-        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::from_canonical_u64(4) },
-        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::from_canonical_u64(5) },
-        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::from_canonical_u64(6) },
-        AmountSecretPairing { amount: GoldilocksField::ONE, secret: GoldilocksField::from_canonical_u64(7) },
+        AmountSecretPairing {
+            amount: GoldilocksField::ONE,
+            secret: GoldilocksField::from_canonical_u64(3),
+        },
+        AmountSecretPairing {
+            amount: GoldilocksField::ONE,
+            secret: GoldilocksField::from_canonical_u64(4),
+        },
+        AmountSecretPairing {
+            amount: GoldilocksField::ONE,
+            secret: GoldilocksField::from_canonical_u64(5),
+        },
+        AmountSecretPairing {
+            amount: GoldilocksField::ONE,
+            secret: GoldilocksField::from_canonical_u64(6),
+        },
+        AmountSecretPairing {
+            amount: GoldilocksField::ONE,
+            secret: GoldilocksField::from_canonical_u64(7),
+        },
     ];
 
     let commitment_tree = setup_commitment(distribution.clone());
@@ -60,17 +74,24 @@ fn test_full_proof() {
         index,
         commitment_tree,
         "test.bin",
-    ).unwrap();
+    )
+    .unwrap();
 
     let (pi, vd, cd) = &claim_proof;
 
-    let layer_final_recursive_proofs =recursive_single_proof::<GoldilocksField, Cbn128, C, D>(pi, vd, cd, &HIGH_RATE_CONFIG, None, true, true);
+    let layer_final_recursive_proofs = recursive_single_proof::<GoldilocksField, Cbn128, C, D>(
+        pi,
+        vd,
+        cd,
+        &HIGH_RATE_CONFIG,
+        None,
+        true,
+        true,
+    );
     let (pi, vd, cd) = &layer_final_recursive_proofs.unwrap();
 
-    let conf =
-        generate_verifier_config(&pi).unwrap();
-    let (circom_constants, circom_gates) =
-        generate_circom_verifier(&conf, &cd, &vd).unwrap();
+    let conf = generate_verifier_config(&pi).unwrap();
+    let (circom_constants, circom_gates) = generate_circom_verifier(&conf, &cd, &vd).unwrap();
 
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not set");
     let circom_path = PathBuf::from(manifest_dir).parent().unwrap().join("zk-commit-circom");

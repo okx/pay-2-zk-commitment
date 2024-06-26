@@ -1,8 +1,7 @@
-use plonky2::plonk::config::{PoseidonGoldilocksConfig};
 use plonky2::{
     field::{extension::quadratic::QuadraticExtension, goldilocks_field::GoldilocksField},
     hash::poseidon_bn128::PoseidonBN128Hash,
-    plonk::config::GenericConfig,
+    plonk::config::{GenericConfig, PoseidonGoldilocksConfig},
 };
 
 use crate::circuit_config::D;
@@ -17,7 +16,6 @@ impl GenericConfig<2> for PoseidonBN128GoldilocksConfig {
     type Hasher = PoseidonBN128Hash;
     type InnerHasher = PoseidonBN128Hash;
 }
-
 
 pub type Cbn128 = PoseidonBN128GoldilocksConfig;
 pub type C = PoseidonGoldilocksConfig;

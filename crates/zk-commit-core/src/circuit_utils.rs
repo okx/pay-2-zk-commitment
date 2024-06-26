@@ -70,10 +70,7 @@ pub fn verify_merkle_proof_circuit<F: RichField + Extendable<D>, const D: usize>
 
 /// Verify a hash is calculated correctly by hashing the inputs and connecting the output hash wire with the input hash. This
 /// function only verifies poseidon hashes.
-pub fn verify_hash<
-F: RichField + Extendable<D>,
-const D: usize,
->(
+pub fn verify_hash<F: RichField + Extendable<D>, const D: usize>(
     builder: &mut CircuitBuilder<F, D>,
     inputs: Vec<Target>,
     hash_to_verify: HashOutTarget,

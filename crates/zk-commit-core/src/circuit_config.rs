@@ -26,7 +26,6 @@ pub const STANDARD_CONFIG: CircuitConfig = CircuitConfig {
     },
 };
 
-
 // A high-rate recursive proof, designed to be verifiable with fewer routed wires.
 pub const HIGH_RATE_CONFIG: CircuitConfig = CircuitConfig {
     num_wires: 135,

@@ -1,8 +1,8 @@
-use plonky2::hash::hash_types::{HashOut, RichField};
-use plonky2::{
-    field::{extension::Extendable, types::Field}};
 use crate::{types::F, utils::AmountSecretPairing};
-
+use plonky2::{
+    field::{extension::Extendable, types::Field},
+    hash::hash_types::{HashOut, RichField},
+};
 
 pub struct ClaimProvingInputs<F: RichField + Extendable<D>, const D: usize> {
     pub pair: AmountSecretPairing<F>,
@@ -19,7 +19,7 @@ pub struct Claim<F: RichField + Extendable<D>, const D: usize> {
     pub index: usize,
 }
 
-impl<F: RichField + Extendable<D>, const D: usize> Claim<F,D> {
+impl<F: RichField + Extendable<D>, const D: usize> Claim<F, D> {
     pub fn get_nullifier_hash(&self) -> HashOut<F> {
         self.pair.get_nullifier_hash()
     }
@@ -29,7 +29,9 @@ impl<F: RichField + Extendable<D>, const D: usize> Claim<F,D> {
     }
 }
 /// Executes a claim by transforming a claim into its proving inputs.
-pub fn get_claim_proving_inputs<F: RichField + Extendable<D>, const D: usize>(claim: Claim<F,D>) -> ClaimProvingInputs<F,D> {
+pub fn get_claim_proving_inputs<F: RichField + Extendable<D>, const D: usize>(
+    claim: Claim<F, D>,
+) -> ClaimProvingInputs<F, D> {
     let nullifier_hash = claim.get_nullifier_hash();
     ClaimProvingInputs {
         pair: claim.pair,
