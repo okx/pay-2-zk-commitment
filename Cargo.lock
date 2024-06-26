@@ -5106,6 +5106,7 @@ dependencies = [
  "criterion",
  "env_logger",
  "eyre",
+ "hex",
  "jemallocator",
  "log",
  "plonky2",
