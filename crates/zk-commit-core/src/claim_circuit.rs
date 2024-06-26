@@ -104,39 +104,40 @@ pub struct ClaimProofResponse {}
 
 #[cfg(test)]
 mod test {
-    
+    use crate::{circuit_config::D, circuit_utils::run_circuit_test, claim_execution::{get_claim_proving_inputs, Claim}, commitment_tree::CommitmentTree, types::F, utils::AmountSecretPairing};
+    use plonky2::{field::types::Field};
 
-    
+    use super::{generate_claim_circuit, set_claim_circuit};
 
-    
 
-    // #[test]
-    // fn test_claim_circuit() {
-    //     run_circuit_test(|builder, pw| {
-    //         let distribution = vec![
-    //             AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::ONE },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::TWO },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(4) },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(5) },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(6) },
-    //             AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
-    //         ];
 
-    //         let commitment_tree = CommitmentTree::new_from_distribution(&distribution);
-    //         let claim = Claim {
-    //             pair: *distribution.get(0).unwrap(),
-    //             commitment: commitment_tree.get_root(),
-    //             commitment_merkle_proof: commitment_tree.get_siblings(0),
-    //             index: 0,
-    //         };
+    #[test]
+    fn test_claim_circuit() {
+        run_circuit_test(|builder, pw| {
+            let distribution = vec![
+                AmountSecretPairing { amount: F::ONE, secret: F::ZERO },
+                AmountSecretPairing { amount: F::ONE, secret: F::ONE },
+                AmountSecretPairing { amount: F::ONE, secret: F::TWO },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(3) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(4) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(5) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(6) },
+                AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(7) },
+            ];
 
-    //         let claim_proving_inputs = get_claim_proving_inputs(claim);
+            let commitment_tree = CommitmentTree::<F,D>::new_from_distribution(&distribution);
+            let claim = Claim::<F,D> {
+                pair: *distribution.get(0).unwrap(),
+                commitment: commitment_tree.get_root(),
+                commitment_merkle_proof: commitment_tree.get_siblings(0),
+                index: 0,
+            };
 
-    //         let claim_targets = generate_claim_circuit(builder, commitment_tree.depth);
-    //         // println!("{:?}", commitment_tree.depth);
-    //         set_claim_circuit(claim_targets, claim_proving_inputs, pw);
-    //     });
-    // }
+            let claim_proving_inputs = get_claim_proving_inputs(claim);
+
+            let claim_targets = generate_claim_circuit(builder, commitment_tree.depth);
+            // println!("{:?}", commitment_tree.depth);
+            set_claim_circuit(claim_targets, claim_proving_inputs, pw);
+        });
+    }
 }
