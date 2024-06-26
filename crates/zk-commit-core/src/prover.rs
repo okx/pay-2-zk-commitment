@@ -142,6 +142,8 @@ where
         circuit_digest: builder.add_virtual_hash(),
     };
     pw.set_cap_target(&inner_data.constants_sigmas_cap, &inner_vd.constants_sigmas_cap);
+    println!("set circuit digest {:?}", inner_vd.circuit_digest);
+    pw.set_hash_target(inner_data.circuit_digest, inner_vd.circuit_digest);
 
     // Register all public inputs
     println!(
