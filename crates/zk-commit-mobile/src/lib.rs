@@ -2,10 +2,12 @@ use std::{
     io,
     time::{Duration, Instant},
 };
-use uniffi::deps::anyhow::Error;
+
+use uniffi::deps::anyhow;
 
 use zk_commit_core::fibonacci::fibonacci as core_fibonacci;
 
+pub mod blockchain;
 pub mod commitment_tree;
 pub mod prover;
 pub mod utils;
@@ -18,6 +20,8 @@ pub enum ZkCommitmentMobileError {
     Io(String),
     #[error("Anyhow: {0}")]
     Anyhow(String),
+    #[error("Serde_json: {0}")]
+    SerdeJson(String),
 }
 
 impl From<io::Error> for ZkCommitmentMobileError {
@@ -26,9 +30,15 @@ impl From<io::Error> for ZkCommitmentMobileError {
     }
 }
 
-impl From<Error> for ZkCommitmentMobileError {
-    fn from(value: Error) -> Self {
+impl From<anyhow::Error> for ZkCommitmentMobileError {
+    fn from(value: anyhow::Error) -> Self {
         ZkCommitmentMobileError::Anyhow(value.to_string())
+    }
+}
+
+impl From<serde_json::Error> for ZkCommitmentMobileError {
+    fn from(value: serde_json::Error) -> Self {
+        ZkCommitmentMobileError::SerdeJson(value.to_string())
     }
 }
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.okx.zkcommitmobile.DepositViewModel
 import com.okx.zkcommitmobile.WalletConnectManager
+import com.okx.zkcommitmobile.network.ZkCommitService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import retrofit2.create
 import timber.log.Timber
 
 interface DIComponent {
@@ -26,6 +28,7 @@ interface DIComponent {
     val retrofit: Retrofit
     val okHttpClient: OkHttpClient
     val walletConnectManager: WalletConnectManager
+    val zkCommitService: ZkCommitService
 
     val viewModelFactory: ViewModelProvider.Factory
 
@@ -67,10 +70,11 @@ class DIComponentImpl(context: Context) : DIComponent {
             ioDispatcher = Dispatchers.IO.limitedParallelism(64)
         )
     }
+    override val zkCommitService by lazy { retrofit.create<ZkCommitService>() }
 
     override val viewModelFactory by lazy {
         viewModelFactory {
-            initializer { DepositViewModel(walletConnectManager) }
+            initializer { DepositViewModel(walletConnectManager, zkCommitService) }
         }
     }
 }
