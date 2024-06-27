@@ -1,13 +1,8 @@
 use alloy::{
     primitives::{Address, FixedBytes, U256},
-    providers::RootProvider,
     sol,
     sol_types::SolCall,
-    transports::http::{Client, Http},
 };
-
-use PayCommitment::PayCommitmentInstance;
-use TestERC20::TestERC20Instance;
 
 sol!(
     #[allow(missing_docs)]
@@ -29,10 +24,7 @@ use std::str::FromStr;
 
 const PUB_LENGTH: usize = 9;
 
-pub struct Blockchain {
-    pub token: TestERC20Instance<Http<Client>, RootProvider<Http<Client>>>,
-    pub pay_commitment: PayCommitmentInstance<Http<Client>, RootProvider<Http<Client>>>,
-}
+pub struct Blockchain {}
 
 impl Blockchain {
     // get token approval contract call data; to be signed by mobile wallet
