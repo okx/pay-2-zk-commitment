@@ -1,19 +1,18 @@
-use plonky2::{
-    hash::hash_types::HashOutTarget,
-    iop::{
-        target::Target,
-        witness::{PartialWitness, WitnessWrite},
-    },
-    plonk::circuit_builder::CircuitBuilder,
-};
-
 use crate::{
-    circuit_config::D,
     circuit_utils::{
         get_hash_from_input_targets_circuit, verify_hash, verify_merkle_proof_circuit,
     },
     claim_execution::ClaimProvingInputs,
     types::F,
+};
+use plonky2::{
+    field::extension::Extendable,
+    hash::hash_types::{HashOutTarget, RichField},
+    iop::{
+        target::Target,
+        witness::{PartialWitness, WitnessWrite},
+    },
+    plonk::{circuit_builder::CircuitBuilder, config::GenericHashOut},
 };
 
 pub struct ClaimTargets {
@@ -34,7 +33,7 @@ pub struct ClaimTargets {
 /// - Verifies that the commitment is calculated with the claimaints own leaf hash (leaf hash is calculated correctly) given their index in the tree
 ///
 /// The public inputs are the nullifier hash, the commitment and the claimed amount
-pub fn generate_claim_circuit(
+pub fn generate_claim_circuit<F: RichField + Extendable<D>, const D: usize>(
     builder: &mut CircuitBuilder<F, D>,
     merkle_tree_depth: usize,
 ) -> ClaimTargets {
@@ -54,7 +53,7 @@ pub fn generate_claim_circuit(
     // Create the commitment hash target
     let commitment: HashOutTarget = builder.add_virtual_hash_public_input();
 
-    // Calculate my own leaf hash 
+    // Calculate my own leaf hash
     let inputs = vec![vec![amount], nullifier_hash.elements.to_vec(), vec![secret]].concat();
     let own_leaf_hash = get_hash_from_input_targets_circuit(builder, inputs);
 
@@ -72,14 +71,7 @@ pub fn generate_claim_circuit(
     // Verify merkle proof in the circuit
     verify_merkle_proof_circuit(builder, commitment, own_leaf_hash, &index_bits, &siblings);
 
-    ClaimTargets {
-        amount,
-        secret,
-        nullifier_hash,
-        commitment,
-        siblings,
-        index_target,
-    }
+    ClaimTargets { amount, secret, nullifier_hash, commitment, siblings, index_target }
 }
 
 /// Set the partial witness targets for the claim circuit. This includes the public inputs. For a claim, we set the amount, nullifier_hash and the commitment tree root as
@@ -115,7 +107,6 @@ mod test {
         types::F,
         utils::AmountSecretPairing,
     };
-
     use plonky2::field::types::Field;
 
     use super::{generate_claim_circuit, set_claim_circuit};

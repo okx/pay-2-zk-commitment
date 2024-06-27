@@ -1,26 +1,19 @@
 use std::time::Duration;
 
 use reqwest::{blocking::Client, header};
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
 pub struct RapidSnark {
     prover_url: String,
     client: Client,
 }
 
-#[derive(Deserialize, Serialize, Debug)]
-pub struct Groth16Proof {
-    pub pi_a: [String; 3],
-    pub pi_b: [[String; 2]; 3],
-    pub pi_c: [String; 3],
-    pub protocol: String,
-}
-
-#[derive(Deserialize, Serialize, Debug)]
-
-pub struct Groth16ProofWithPublicData {
-    pub proof: Groth16Proof,
-    pub public_data: Vec<String>,
+#[allow(non_snake_case)]
+#[derive(Deserialize, Debug)]
+pub struct StatusResponse {
+    pub proof: Option<String>,
+    pub pubData: Option<String>,
+    pub status: String,
 }
 
 impl From<StatusResponse> for Groth16ProofWithPublicData {
@@ -35,14 +28,6 @@ impl From<StatusResponse> for Groth16ProofWithPublicData {
             public_data: parsed_pub_data.unwrap(),
         }
     }
-}
-
-#[allow(non_snake_case)]
-#[derive(Deserialize, Debug)]
-pub struct StatusResponse {
-    pub proof: Option<String>,
-    pub pubData: Option<String>,
-    pub status: String,
 }
 
 impl RapidSnark {
@@ -82,6 +67,7 @@ impl RapidSnark {
 }
 
 use num_bigint::BigInt;
+use zk_commit_core::groth16::{Groth16Proof, Groth16ProofWithPublicData};
 // use num_traits::One;
 use std::str::FromStr;
 pub fn num_str_to_hex_str_u256(input: &str) -> String {

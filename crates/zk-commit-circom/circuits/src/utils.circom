@@ -2,6 +2,8 @@ pragma circom 2.0.6;
 include "../../node_modules/circomlib/circuits/comparators.circom";
 include "./goldilocks_ext.circom";
 
+// for example in = [c0,c1,c2]
+// it computes c0+c1*alpha+c2*alpha^2 + old_eval*alpha^3; old_eval usually is set to 0
 template Reduce(N) {
   signal input in[N][2];
   signal input alpha[2];
@@ -69,68 +71,3 @@ template RandomAccess2(N, M) {
   }
 }
 
-// convert a 128 bits number to 2 gl number
-// out[0] holds the most significant number
-// out[1] holds the least significant number
-template Num128ToGl() {
-    signal input in;
-    signal output out[2];
-
-     var acc=0;
-
-    out[1] <-- (in) & ((1<<64) -1);
-    acc += out[1];
-
-    out[0] <-- (in >> 64) & ((1<<64) -1);
-    acc += (out[0] * (1<<64));
-
-  acc === in;
-}
-
-// TODO: need to add constraint to ensure it is indeed endian reversed
-template ReverseEndian() {
-  signal input in;
-  signal output out;
-
-  var mask = ((1<<8) -1);
-  var tmp = (in ) & mask;
-  tmp = tmp * (1<<8) + ((in >> (8*1) ) & mask);
-  tmp = tmp * (1<<8) + ((in >> (8*2) ) & mask);
-  tmp = tmp * (1<<8) + ((in >> (8*3) ) & mask);
-  tmp = tmp * (1<<8) + ((in >> (8*4) ) & mask);
-  tmp = tmp * (1<<8) + ((in >> (8*5) ) & mask);
-  tmp = tmp * (1<<8) + ((in >> (8*6) ) & mask);
-  tmp = tmp * (1<<8) + ((in >> (8*7) ) & mask);
-
-  out <--tmp;
-
-
-}
-
-
-template Slot2Gls(n) {
-  signal input in[n];
-  signal output out[n*2];
- component spliters[n];
- component reverse_endians[n*2];
-
-     for (var i = 0; i < n; i++) {
-        spliters[i] = Num128ToGl();
-        reverse_endians[i*2] =ReverseEndian();
-        reverse_endians[i*2+1] =ReverseEndian();
-    }
-
-  for(var i=0;i<n;i++){
-
-    spliters[i].in <== in[i];
-
-
-    reverse_endians[i*2].in <== spliters[i].out[0];
-    out[i*2] <== reverse_endians[i*2].out;
-
-
-    reverse_endians[i*2+1].in <== spliters[i].out[1];
-    out[i*2+1] <== reverse_endians[i*2+1].out;
-
-  }
-}

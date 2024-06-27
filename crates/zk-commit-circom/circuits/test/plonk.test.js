@@ -1,6 +1,4 @@
 const path = require("path");
-const proof = require("./data/pwoi_proof.json");
-
 const wasm_tester = require("circom_tester").wasm;
 
 describe("Plonk eval_l1 Circuit Test", function () {

@@ -36,12 +36,9 @@ template VerifyPlonky2Proof() {
   signal input fri_pow_witness;
   signal input public_inputs[NUM_PUBLIC_INPUTS()];
 
-  component converter = Slot2Gls(NUM_PUBLIC_INPUTS());
-  converter.in <== public_inputs;
+  component public_input_hasher = HashNoPad_GL(NUM_PUBLIC_INPUTS(), 4);
 
-  component public_input_hasher = HashNoPad_GL(NUM_PUBLIC_INPUTS()*2, 4);
-
-  public_input_hasher.in <== converter.out;
+  public_input_hasher.in <== public_inputs;
   public_input_hasher.capacity[0] <== 0;
   public_input_hasher.capacity[1] <== 0;
   public_input_hasher.capacity[2] <== 0;

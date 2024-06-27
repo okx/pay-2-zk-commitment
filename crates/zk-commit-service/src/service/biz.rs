@@ -1,11 +1,14 @@
 use std::{fs::File, io::Read};
 
 use crate::{
-    integration::rapidsnark::{Groth16ProofWithPublicData, RapidSnark}, types::{C, D, F}, AppState
+    integration::rapidsnark::RapidSnark,
+    types::{C, D, F},
+    AppState,
 };
-use actix_multipart::form::MultipartForm;
-use actix_web::web::{self, Data};
+
+use actix_web::web::Data;
 use plonky2::plonk::proof::ProofWithPublicInputs;
+use zk_commit_core::groth16::Groth16ProofWithPublicData;
 
 use crate::controllers::wrap::UploadForm;
 
@@ -26,10 +29,10 @@ pub(crate) fn wrap_groth16(
     file.read_to_end(&mut buffer).expect("Cannot read file");
 
     // Deserialize the binary data to a struct
-    let proof_with_pis: ProofWithPublicInputs<F,C,D> = bincode::deserialize(&buffer).unwrap();
+    let proof_with_pis: ProofWithPublicInputs<F, C, D> = bincode::deserialize(&buffer).unwrap();
 
     let proof_with_pis_json_string = serde_json::to_string(&proof_with_pis).unwrap();
-    
+
     let rapidsnark = RapidSnark::new("http://localhost:3000");
     let rapidsnark_proof = rapidsnark.request_proof_sync(proof_with_pis_json_string);
     let pwi: Groth16ProofWithPublicData = rapidsnark_proof.into();

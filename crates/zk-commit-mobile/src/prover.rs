@@ -1,11 +1,12 @@
 use plonky2::field::types::Field;
 
 use zk_commit_core::{
+    circuit_config::D,
     prover::{
         generate_proof_of_claim as core_generate_proof_of_claim,
         setup_commitment as core_setup_commitment,
     },
-    types::F,
+    types::{C, F},
 };
 
 use crate::{commitment_tree::CommitmentTree, utils::AmountSecretPairing, ZkCommitmentMobileError};
@@ -30,18 +31,16 @@ pub fn generate_proof_of_claim(
     secret: u64,
     index: i32,
     commitment_tree: CommitmentTree,
-) -> Result<GenerateProofOfClaimResult, ZkCommitmentMobileError> {
-    match core_generate_proof_of_claim(
+    path: &str,
+) -> Result<(), ZkCommitmentMobileError> {
+    match core_generate_proof_of_claim::<F, C, C, D>(
         F::from_canonical_u64(amount),
         F::from_canonical_u64(secret),
         index as usize,
         commitment_tree.to_core(),
+        path,
     ) {
-        Ok(proof) => Ok(GenerateProofOfClaimResult {
-            proof: proof.0.to_bytes(),
-            public_inputs: proof.0.public_inputs.iter().map(|x| x.0).collect(),
-            amount: proof.1 .0,
-        }),
+        Ok(_) => Ok(()),
         Err(_) => Err(ZkCommitmentMobileError::GenerateProofOfClaimError),
     }
 }
