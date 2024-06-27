@@ -1,5 +1,5 @@
 use crate::{
-    circuit_utils::{
+    circuits::circuit_utils::{
         get_hash_from_input_targets_circuit, verify_hash, verify_merkle_proof_circuit,
     },
     claim_execution::ClaimProvingInputs,
@@ -12,7 +12,7 @@ use plonky2::{
         target::Target,
         witness::{PartialWitness, WitnessWrite},
     },
-    plonk::{circuit_builder::CircuitBuilder, config::GenericHashOut},
+    plonk::circuit_builder::CircuitBuilder,
 };
 
 pub struct ClaimTargets {
@@ -96,12 +96,10 @@ pub fn set_claim_circuit(
     }
 }
 
-pub struct ClaimProofResponse {}
-
 #[cfg(test)]
 mod test {
     use crate::{
-        circuit_utils::run_circuit_test,
+        circuits::circuit_utils::run_circuit_test,
         claim_execution::{get_claim_proving_inputs, Claim},
         commitment_tree::CommitmentTree,
         types::F,

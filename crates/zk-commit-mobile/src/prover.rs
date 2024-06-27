@@ -1,7 +1,6 @@
 use plonky2::field::types::Field;
 
 use zk_commit_core::{
-    circuit_config::D,
     prover::{
         generate_proof_of_claim as core_generate_proof_of_claim,
         setup_commitment as core_setup_commitment,
@@ -33,7 +32,7 @@ pub fn generate_proof_of_claim(
     commitment_tree: CommitmentTree,
     path: &str,
 ) -> Result<(), ZkCommitmentMobileError> {
-    match core_generate_proof_of_claim::<F, C, C, D>(
+    match core_generate_proof_of_claim(
         F::from_canonical_u64(amount),
         F::from_canonical_u64(secret),
         index as usize,

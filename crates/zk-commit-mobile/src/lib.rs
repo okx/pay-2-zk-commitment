@@ -1,6 +1,6 @@
 use std::time::{Duration, Instant};
 
-use zk_commit_core::fibonacci::fibonacci as core_fibonacci;
+use zk_commit_core::examples::fibonacci::fibonacci as core_fibonacci;
 
 pub mod commitment_tree;
 pub mod prover;

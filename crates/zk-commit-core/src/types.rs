@@ -4,7 +4,7 @@ use plonky2::{
     plonk::config::{GenericConfig, PoseidonGoldilocksConfig},
 };
 
-use crate::circuit_config::D;
+use crate::circuits::circuit_config::D;
 
 /// Configuration using Poseidon over the Goldilocks field.
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]

@@ -1,5 +1,5 @@
 use crate::{
-    circuit_config::D,
+    circuits::circuit_config::D,
     types::F,
     utils::{hash_2_subhashes, AmountSecretPairing},
 };
@@ -80,7 +80,7 @@ mod test {
     use plonky2::{field::types::Field, hash::hash_types::HashOut};
 
     use crate::{
-        circuit_config::D,
+        circuits::circuit_config::D,
         types::F,
         utils::{hash_2_subhashes, AmountSecretPairing},
     };

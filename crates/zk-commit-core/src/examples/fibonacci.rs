@@ -1,5 +1,5 @@
 use crate::{
-    circuit_config::D,
+    circuits::circuit_config::D,
     types::{C, F},
 };
 use anyhow::Result;
