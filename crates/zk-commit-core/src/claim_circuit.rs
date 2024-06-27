@@ -83,7 +83,7 @@ pub fn generate_claim_circuit(
 }
 
 /// Set the partial witness targets for the claim circuit. This includes the public inputs. For a claim, we set the amount, nullifier_hash and the commitment tree root as
-/// the public inputs and the secret, 
+/// the public inputs and the secret, merkle proof siblings and index as the private inputs.
 pub fn set_claim_circuit(
     claim_targets: ClaimTargets,
     claim_proving_inputs: ClaimProvingInputs,
