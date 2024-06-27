@@ -11,14 +11,14 @@ import com.okx.zkcommitmobile.uniffi.AmountSecretPairing
 import com.okx.zkcommitmobile.uniffi.generateProofOfClaim
 import com.okx.zkcommitmobile.uniffi.setupCommitment
 import com.walletconnect.web3.modal.client.Web3Modal
+import java.io.File
+import kotlin.time.measureTimedValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.io.File
-import kotlin.time.measureTimedValue
 
 class DepositViewModel(private val walletConnectManager: WalletConnectManager) : ViewModel() {
     companion object {

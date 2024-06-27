@@ -7,11 +7,11 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.okx.zkcommitmobile.uniffi.AmountSecretPairing
 import com.okx.zkcommitmobile.uniffi.generateProofOfClaim
 import com.okx.zkcommitmobile.uniffi.setupCommitment
+import java.io.File
+import java.security.SecureRandom
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.File
-import java.security.SecureRandom
 
 /**
  * Benchmark, which will execute on an Android device.

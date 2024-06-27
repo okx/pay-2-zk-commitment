@@ -26,11 +26,12 @@ pub fn generate_proof_of_claim(
     commitment_tree: &CommitmentTree,
     path: &str,
 ) -> Result<(), ZkCommitmentMobileError> {
-    Ok(core_generate_proof_of_claim::<F, C, C, D>(
+    let _result = core_generate_proof_of_claim::<F, C, C, D>(
         F::from_canonical_u64(amount),
         F::from_canonical_u64(secret),
         index as usize,
         commitment_tree.to_core(),
         path,
-    )?)
+    )?;
+    Ok(())
 }
