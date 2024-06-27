@@ -23,7 +23,7 @@ class ZkCommitMobileApp : Application() {
 
         val connectionType = ConnectionType.AUTOMATIC
         val projectId =
-            "a69b818a7043b77cf9edf14b5af4faf7" // Get Project ID at https://cloud.walletconnect.com/
+            BuildConfig.walletconnectprojectId // Get Project ID at https://cloud.walletconnect.com/
         val relayUrl = "relay.walletconnect.com"
         val serverUrl = "wss://$relayUrl?projectId=$projectId"
         val appMetaData = Core.Model.AppMetaData(
