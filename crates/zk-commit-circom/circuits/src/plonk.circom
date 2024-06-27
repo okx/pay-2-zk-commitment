@@ -3,6 +3,8 @@ include "./goldilocks_ext.circom";
 include "./utils.circom";
 include "./gates.circom";
 
+// the naming is wrong; it is actually eval_l0. the lagrange basis 0
+// \frac_{x^n-1}{n(x-1)}
 template EvalL1() {
   signal input n;
   signal input x[2];

@@ -21,6 +21,11 @@ template ConstraintPush() {
   out <== GlExtAdd()(constraint, GlExtMul()(value, filter));
 }
 
+/// Evaluates all gate constraints.
+///
+/// `num_gate_constraints` is the largest number of constraints imposed by any gate. It is not
+/// strictly necessary, but it helps performance by ensuring that we allocate a vector with exactly
+/// the capacity that we need.
 template EvalGateConstraints() {
   signal input constants[NUM_OPENINGS_CONSTANTS()][2];
   signal input wires[NUM_OPENINGS_WIRES()][2];
