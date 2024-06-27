@@ -1,12 +1,7 @@
-#![feature(generic_const_exprs)]
-
 use anyhow::{anyhow, Result};
 use log::Level;
 use plonky2::{
-    field::{
-        extension::Extendable,
-        types::{Field, PrimeField64},
-    },
+    field::{extension::Extendable, types::Field},
     gates::noop::NoopGate,
     hash::hash_types::RichField,
     iop::witness::{PartialWitness, WitnessWrite},
