@@ -13,40 +13,44 @@ struct ContentView: View {
     @State var testPerfDuration: Double = 0
     
     var body: some View {
-        NavigationView {
-            VStack {
-                
-                HStack {
-                    Button(action: {
-                        let date = Date().timeIntervalSince1970
-                        testPerformance()
-                        testPerfDuration = Date().timeIntervalSince1970 - date
-                        Web3Modal.present()
-                    }, label: {
-                        Text("Trigger test perf")
-                    })
+        if #available(iOS 16.0, *) {
+            NavigationView {
+                VStack {
+                    
+                    HStack {
+                        Button(action: {
+                            let date = Date().timeIntervalSince1970
+                            testPerformance()
+                            testPerfDuration = Date().timeIntervalSince1970 - date
+                            Web3Modal.present()
+                        }, label: {
+                            Text("Trigger test perf")
+                        })
+                        
+                        Spacer()
+                        
+                        if testPerfDuration != 0 {
+                            Text("Taking \(testPerfDuration)")
+                        }
+                    }
+                    
+                    List(viewModel.depositList, id: \.id) { item in
+                        buildDepositItem(item)
+                    }
                     
                     Spacer()
-                    
-                    if testPerfDuration != 0 {
-                        Text("Taking \(testPerfDuration)")
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: CreateDepositorView(viewModel: .init(creator: viewModel))) {
+                            Image(systemName: "plus.circle")
+                        }
                     }
                 }
-                
-                List(viewModel.depositList, id: \.id) { item in
-                    buildDepositItem(item)
-                }
-                
-                Spacer()
+                .navigationTitle("Deposit")
             }
-            .toolbar {
-               ToolbarItem(placement: .navigationBarTrailing) {
-                   NavigationLink(destination: CreateDepositorView(viewModel: .init(creator: viewModel))) {
-                       Image(systemName: "plus.circle")
-                   }
-               }
-           }
-            .navigationTitle("Deposit")
+        } else {
+            VStack {}
         }
     }
     

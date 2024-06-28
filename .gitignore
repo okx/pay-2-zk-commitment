@@ -9,3 +9,4 @@ ios_build/
 /ios/
 build_ios/
 xcuserdata/
+xcshareddata/xcbaselines/

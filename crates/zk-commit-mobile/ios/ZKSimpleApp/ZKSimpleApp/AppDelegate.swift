@@ -33,7 +33,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             icons: ["https://avatars.githubusercontent.com/u/37784886"],
             redirect: try! .init(native: "zksimpleapp://", universal: "https://lab.web3modal.com/web3modal_example", linkMode: true)
         )
-        
+//        54ec6a69aa545565161408be85eaff18
+//        let projectId =  "c6a69aa545565161408be85eaff18"
         let projectId = "54ec6a69aa545565161408be85eaff18"
         
         Networking.configure(

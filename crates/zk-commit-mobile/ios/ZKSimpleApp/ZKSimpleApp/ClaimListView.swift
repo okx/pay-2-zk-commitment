@@ -12,17 +12,22 @@ struct ClaimListView: View {
     @StateObject var viewModel: ClaimListViewModel
     
     var body: some View {
-        VStack {
-            List(viewModel.claimants, id: \.item.index) { item in
-                builItem(item)
-                    .listRowInsets(EdgeInsets())
+        if #available(iOS 16.0, *) {
+            VStack {
+                List(viewModel.claimants, id: \.item.index) { item in
+                    builItem(item)
+                        .listRowInsets(EdgeInsets())
+                }
+                .listStyle(PlainListStyle())
+                .frame(maxWidth: .infinity)
+                .scrollContentBackground(.hidden)
             }
-            .listStyle(PlainListStyle())
-            .frame(maxWidth: .infinity)
-            .scrollContentBackground(.hidden)
+            .padding()
+            .navigationTitle("Claim list")
+        } else {
+            HStack { }
         }
-        .padding()
-        .navigationTitle("Claim list")
+        
     }
     
     func builItem(_ info: ClaimListViewModel.ClaimInfo) -> some View {
