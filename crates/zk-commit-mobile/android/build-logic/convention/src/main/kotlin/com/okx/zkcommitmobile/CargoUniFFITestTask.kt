@@ -27,6 +27,10 @@ internal abstract class CargoUniFFITestTask @Inject constructor(
     @get:OutputDirectory
     abstract val testJniLibsDir: DirectoryProperty
 
+    init {
+        outputs.upToDateWhen { false }
+    }
+
     @TaskAction
     fun copyTestJniLibs() {
         fs.delete { delete(testJniLibsDir) }

@@ -6,7 +6,7 @@ GIT_ROOT=$(git rev-parse --show-toplevel 2> /dev/null)
 echo "Installing git pre-commit hook"
 echo
 mkdir -p "${GIT_DIR}/hooks/"
-cp "${GIT_ROOT}/tools/pre-commit" "${GIT_DIR}/hooks/pre-commit" \
+cp "./tools/pre-commit" "${GIT_DIR}/hooks/pre-commit" \
   && chmod +x "${GIT_DIR}/hooks/pre-commit"
 
 cat <<-EOF

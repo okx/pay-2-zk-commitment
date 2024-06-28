@@ -1,10 +1,3 @@
-use crate::{
-    circuit_utils::{
-        get_hash_from_input_targets_circuit, verify_hash, verify_merkle_proof_circuit,
-    },
-    claim_execution::ClaimProvingInputs,
-    types::F,
-};
 use plonky2::{
     field::extension::Extendable,
     hash::hash_types::{HashOutTarget, RichField},
@@ -12,7 +5,15 @@ use plonky2::{
         target::Target,
         witness::{PartialWitness, WitnessWrite},
     },
-    plonk::{circuit_builder::CircuitBuilder, config::GenericHashOut},
+    plonk::circuit_builder::CircuitBuilder,
+};
+
+use crate::{
+    circuit_utils::{
+        get_hash_from_input_targets_circuit, verify_hash, verify_merkle_proof_circuit,
+    },
+    claim_execution::ClaimProvingInputs,
+    types::F,
 };
 
 pub struct ClaimTargets {
@@ -100,6 +101,8 @@ pub struct ClaimProofResponse {}
 
 #[cfg(test)]
 mod test {
+    use plonky2::field::types::Field;
+
     use crate::{
         circuit_utils::run_circuit_test,
         claim_execution::{get_claim_proving_inputs, Claim},
@@ -107,7 +110,6 @@ mod test {
         types::F,
         utils::AmountSecretPairing,
     };
-    use plonky2::field::types::Field;
 
     use super::{generate_claim_circuit, set_claim_circuit};
 

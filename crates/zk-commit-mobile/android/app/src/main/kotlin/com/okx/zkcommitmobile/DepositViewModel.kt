@@ -2,7 +2,6 @@
 
 package com.okx.zkcommitmobile
 
-import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,21 +10,25 @@ import com.okx.zkcommitmobile.data.DepositWithCommitment
 import com.okx.zkcommitmobile.uniffi.AmountSecretPairing
 import com.okx.zkcommitmobile.uniffi.generateProofOfClaim
 import com.okx.zkcommitmobile.uniffi.setupCommitment
+import com.walletconnect.web3.modal.client.Web3Modal
+import java.io.File
+import kotlin.time.measureTimedValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import kotlin.time.measureTimedValue
 
-class DepositViewModel(private val okxWalletConnectManager: OKXWalletConnectManager) : ViewModel() {
+class DepositViewModel(private val walletConnectManager: WalletConnectManager) : ViewModel() {
     companion object {
-        private const val TAG = "DepositViewModel"
+        private val Log = Timber.tag("DepositViewModel")
     }
 
     private val _deposits = mutableStateListOf<DepositWithCommitment>()
     val deposits: List<DepositWithCommitment> get() = _deposits
+
+    val getAccountState get() = walletConnectManager.getAccountState
 
     private val _messages = Channel<String>(capacity = Channel.UNLIMITED)
     val messages get() = _messages.receiveAsFlow()
@@ -41,15 +44,14 @@ class DepositViewModel(private val okxWalletConnectManager: OKXWalletConnectMana
                     )
                 }
             }
-            val logger = Timber.tag(TAG)
-            logger.i("Setup commitment duration=$duration")
-            logger.i("Commitment Tree: depth=${commitmentTree.depth}")
-            logger.i("Commitment Tree: root=${commitmentTree.commitmentRoot.toHexString()}")
+            Log.i("Setup commitment duration=$duration")
+            Log.i("Commitment Tree: depth=${commitmentTree.depth}")
+            Log.i("Commitment Tree: root=${commitmentTree.commitmentRoot.toHexString()}")
             if (commitmentTree.commitmentTree.size < 10) {
                 val treeInHex = commitmentTree.commitmentTree.map { it.toHexString() }
-                logger.i("Commitment Tree: tree=$treeInHex")
+                Log.i("Commitment Tree: tree=$treeInHex")
             } else {
-                logger.i("Commitment Tree: tree size=${commitmentTree.commitmentTree.size}")
+                Log.i("Commitment Tree: tree size=${commitmentTree.commitmentTree.size}")
             }
             _deposits += DepositWithCommitment(deposit, commitmentTree)
             _messages.send(
@@ -58,11 +60,10 @@ class DepositViewModel(private val okxWalletConnectManager: OKXWalletConnectMana
         }
     }
 
-    fun claim(id: String, index: Int) {
+    fun claim(id: String, index: Int, proofFile: File) {
         viewModelScope.launch {
             val depositIndex = _deposits.indexOfFirst { it.deposit.id == id }
             val (deposit, commitmentTree) = _deposits[depositIndex]
-            val logger = Timber.tag(TAG)
             withContext(Dispatchers.Default) {
                 runCatching {
                     measureTimedValue {
@@ -70,15 +71,14 @@ class DepositViewModel(private val okxWalletConnectManager: OKXWalletConnectMana
                             amount = deposit.distributions[index].amount,
                             secret = deposit.distributions[index].secret,
                             index = index,
-                            commitmentTree = commitmentTree
+                            commitmentTree = commitmentTree,
+                            path = proofFile.absolutePath
                         )
                     }
                 }
             }.onSuccess { (proof, duration) ->
-                logger.i("Generate proof of claim duration=$duration")
-                logger.i("Proof: amount=${proof.amount}")
-                logger.i("Proof: proof size=${proof.proof.size}")
-                logger.i("Proof: publicInputs=${proof.publicInputs}")
+                Log.i("Generate proof of claim duration=$duration")
+                Log.i("Proof: proof size=${proofFile.length()}")
                 _deposits[depositIndex] = DepositWithCommitment(
                     deposit = deposit.copy(
                         distributions = deposit.distributions.mapIndexed { i, distribution ->
@@ -88,23 +88,27 @@ class DepositViewModel(private val okxWalletConnectManager: OKXWalletConnectMana
                     commitmentTree = commitmentTree
                 )
                 _messages.send(
-                    "Claimed: duration=$duration, amount=${proof.amount}, proof size=${proof.proof.size}"
+                    "Claimed: duration=$duration, proof size=${proofFile.length()}"
                 )
             }.onFailure {
-                logger.e(it, "Failed to generate proof of claim")
+                Log.e(it, "Failed to generate proof of claim")
                 _messages.send("Failed to generate proof of claim: ${it.message}")
             }
         }
     }
 
-    fun requestAccounts(context: Context) {
-        viewModelScope.launch {
-            val account = okxWalletConnectManager.getAccount(context)
-            if (account != null) {
-                _messages.send("Got account: $account")
-            } else {
-                _messages.send("Failed to get account")
+    fun getAccount() = walletConnectManager.getAccount()
+
+    fun disconnect() {
+        Web3Modal.disconnect(
+            onSuccess = {
+                _messages.trySend("Disconnected")
+                getAccount()
+            },
+            onError = { throwable: Throwable ->
+                Log.e(throwable, "Failed to disconnect")
+                _messages.trySend("Failed to disconnect: ${throwable.message}")
             }
-        }
+        )
     }
 }
