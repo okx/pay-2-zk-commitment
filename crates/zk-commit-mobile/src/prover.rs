@@ -5,7 +5,7 @@ use zk_commit_core::{
         generate_proof_of_claim as core_generate_proof_of_claim,
         setup_commitment as core_setup_commitment,
     },
-    types::{C, F},
+    types::F,
 };
 
 use crate::{commitment_tree::CommitmentTree, utils::AmountSecretPairing, ZkCommitmentMobileError};

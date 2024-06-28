@@ -16,7 +16,8 @@ pub async fn wrap_groth16(
     app_state: web::Data<AppState>,
 ) -> Result<impl Responder, ServiceError> {
     println!("receive wrap request");
-    let ret = biz::wrap_groth16(file, app_state);
+    let proof_file = file.file;
+    let ret = biz::wrap_groth16(proof_file, app_state);
     match ret {
         Ok(r) => Ok(web::Json(r)),
         Err(e) => Err(e),

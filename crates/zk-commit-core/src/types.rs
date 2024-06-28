@@ -10,7 +10,7 @@ use crate::circuits::circuit_config::D;
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub struct PoseidonBN128GoldilocksConfig;
 
-impl GenericConfig<2> for PoseidonBN128GoldilocksConfig {
+impl GenericConfig<D> for PoseidonBN128GoldilocksConfig {
     type F = GoldilocksField;
     type FE = QuadraticExtension<F>;
     type Hasher = PoseidonBN128Hash;

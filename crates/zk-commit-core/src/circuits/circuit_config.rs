@@ -19,7 +19,7 @@ pub const STANDARD_CONFIG: CircuitConfig = CircuitConfig {
         rate_bits: 3,
         cap_height: 1,
         proof_of_work_bits: 16,
-        reduction_strategy: FriReductionStrategy::ConstantArityBits(4, 5),
+        reduction_strategy: FriReductionStrategy::ConstantArityBits(1, 2),
         num_query_rounds: 28,
     },
 };
@@ -38,7 +38,7 @@ pub const HIGH_RATE_CONFIG: CircuitConfig = CircuitConfig {
         rate_bits: 7,
         cap_height: 1,
         proof_of_work_bits: 16,
-        reduction_strategy: FriReductionStrategy::ConstantArityBits(4, 5),
+        reduction_strategy: FriReductionStrategy::ConstantArityBits(1, 2),
         num_query_rounds: 12,
     },
 };
