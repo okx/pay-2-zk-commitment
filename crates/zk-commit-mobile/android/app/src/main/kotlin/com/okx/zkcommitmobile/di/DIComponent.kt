@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.okx.zkcommitmobile.DepositViewModel
 import com.okx.zkcommitmobile.WalletConnectManager
 import com.okx.zkcommitmobile.network.ZkCommitService
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,9 @@ interface DIComponent {
     val zkCommitService: ZkCommitService
 
     val viewModelFactory: ViewModelProvider.Factory
+
+    val defaultDispatcher: CoroutineDispatcher
+    val ioDispatcher: CoroutineDispatcher
 
     companion object {
         @Volatile
@@ -67,14 +71,18 @@ class DIComponentImpl(context: Context) : DIComponent {
                         Timber.e(throwable)
                     }
             ),
-            ioDispatcher = Dispatchers.IO.limitedParallelism(64)
+            ioDispatcher = ioDispatcher
         )
     }
     override val zkCommitService by lazy { retrofit.create<ZkCommitService>() }
+    override val defaultDispatcher get() = Dispatchers.Default
+    override val ioDispatcher get() = Dispatchers.IO
 
     override val viewModelFactory by lazy {
         viewModelFactory {
-            initializer { DepositViewModel(walletConnectManager, zkCommitService) }
+            initializer {
+                DepositViewModel(walletConnectManager, zkCommitService, json, defaultDispatcher)
+            }
         }
     }
 }

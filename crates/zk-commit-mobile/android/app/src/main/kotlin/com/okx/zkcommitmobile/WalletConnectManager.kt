@@ -8,6 +8,8 @@ import com.walletconnect.web3.modal.client.Modal
 import com.walletconnect.web3.modal.client.Web3Modal
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -22,6 +24,10 @@ class WalletConnectManager(
 
     private var _getAccountState by mutableStateOf<GetAccountState>(GetAccountState.Loading)
     val getAccountState get() = _getAccountState
+
+    private val _sessionRequestResponse =
+        MutableSharedFlow<Modal.Model.SessionRequestResponse>(replay = Int.MAX_VALUE)
+    val sessionRequestResponse = _sessionRequestResponse.asSharedFlow()
 
     fun getAccount() {
         applicationScope.launch {
@@ -84,6 +90,7 @@ class WalletConnectManager(
 
     override fun onSessionRequestResponse(response: Modal.Model.SessionRequestResponse) {
         Log.i("Session request response: $response")
+        _sessionRequestResponse.tryEmit(response)
     }
 
     override fun onSessionUpdate(updatedSession: Modal.Model.UpdatedSession) {
