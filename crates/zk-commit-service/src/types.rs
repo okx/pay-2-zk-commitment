@@ -15,6 +15,7 @@ pub type Cbn128 = PoseidonBN128GoldilocksConfig;
 // Extension of size 2
 pub const D: usize = 2;
 
+
 pub const STANDARD_CONFIG: CircuitConfig = CircuitConfig {
     num_wires: 135,
     num_routed_wires: 80,
@@ -28,7 +29,7 @@ pub const STANDARD_CONFIG: CircuitConfig = CircuitConfig {
         rate_bits: 3,
         cap_height: 1,
         proof_of_work_bits: 16,
-        reduction_strategy: FriReductionStrategy::ConstantArityBits(1, 2),
+        reduction_strategy: FriReductionStrategy::ConstantArityBits(4, 5),
         num_query_rounds: 28,
     },
 };
@@ -47,7 +48,8 @@ pub const HIGH_RATE_CONFIG: CircuitConfig = CircuitConfig {
         rate_bits: 7,
         cap_height: 1,
         proof_of_work_bits: 16,
-        reduction_strategy: FriReductionStrategy::ConstantArityBits(1, 2),
+        reduction_strategy: FriReductionStrategy::ConstantArityBits(4, 5),
         num_query_rounds: 12,
     },
 };
+

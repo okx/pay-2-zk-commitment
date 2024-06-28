@@ -100,6 +100,8 @@ pub fn generate_proof_of_claim(
         common_circuit_data: common.clone()
     });
 
+    println!("Common:{:?}", common);
+
     if write_res.is_err(){
         return Err(anyhow!("Unable to write to file"));
     }
@@ -119,7 +121,7 @@ pub fn write_to_file(path: &str, proof: MobileProofData) -> std::io::Result<()> 
     Ok(())
 }
 
-fn to_any(pw: &PartialWitness<GoldilocksField>) -> &dyn std::any::Any {
+pub fn to_any(pw: &PartialWitness<GoldilocksField>) -> &dyn std::any::Any {
     pw
 }
 
@@ -138,7 +140,7 @@ mod test {
     fn test_generate_proof_of_claim() {
         let mut distribution = Vec::new();
 
-        for i in 0..16{
+        for i in 0..8{
             let pair = AmountSecretPairing{
                 amount: F::ONE,
                 secret: F::from_canonical_u64(i)
@@ -157,6 +159,8 @@ mod test {
             "test.bin",
         );
 
+    
+
         assert!(claim_proof.is_ok());
 
         let mut file = File::open("test.bin").expect("Cannot read file");
@@ -165,6 +169,5 @@ mod test {
 
         // Deserialize the binary data to a struct
         let decoded: MobileProofData = bincode::deserialize(&buffer).unwrap();
-        println!("Decoded common:{:?}", decoded.common_circuit_data);
     }
 }

@@ -3,6 +3,7 @@ use anyhow::Result;
 use plonky2::{field::extension::Extendable, gates::noop::NoopGate, hash::hash_types::RichField, iop::witness::{PartialWitness, WitnessWrite}, plonk::{circuit_builder::CircuitBuilder, circuit_data::{CircuitConfig, CommonCircuitData, VerifierCircuitTarget, VerifierOnlyCircuitData}, config::{AlgebraicHasher, GenericConfig, GenericHashOut}, proof::{ProofWithPublicInputs, ProofWithPublicInputsTarget}, prover::prove}};
 use plonky2::util::timing::TimingTree;
 use plonky2::plonk::config::Hasher;
+use anyhow::anyhow;
 
 
 pub fn bn128_proof<
@@ -77,35 +78,76 @@ mod test {
 
     use std::{fs::File, io::Read};
     
-    use plonky2::field::goldilocks_field::GoldilocksField;
+    use log::Level;
+    use plonky2::{field::goldilocks_field::GoldilocksField, iop::witness::PartialWitness, plonk::{circuit_builder::CircuitBuilder, circuit_data::CircuitData, prover::prove}, util::timing::TimingTree};
+    use plonky2_field::types::{Field, PrimeField64};
 
-    use crate::{service::biz::MobileProofData, types::{Cbn128, C, D, F, HIGH_RATE_CONFIG, STANDARD_CONFIG}};
+    use crate::{circuits::{circuit_config::{D, HIGH_RATE_CONFIG, STANDARD_CONFIG}, claim_circuit::{generate_claim_circuit, set_claim_circuit}}, claim_execution::{get_claim_proving_inputs, Claim}, commitment_tree, prover::{setup_commitment, to_any, write_to_file, MobileProofData}, types::{Cbn128, C, F}, utils::AmountSecretPairing};
 
     use super::bn128_proof;
 
     #[test]
     fn test_bn128_proof() {
 
-        let mut file = File::open("test.bin").expect("Cannot read file");
-        let mut buffer = Vec::new();
-        file.read_to_end(&mut buffer).expect("Cannot read file");
+        let mut distribution = Vec::new();
 
-        // Deserialize the binary data to a struct
-        let decoded: MobileProofData = bincode::deserialize(&buffer).unwrap();
+        for i in 0..8{
+            let pair = AmountSecretPairing{
+                amount: F::ONE,
+                secret: F::from_canonical_u64(i)
+            };
 
-        println!("decoded common: {:?}", decoded.common_circuit_data);
+            distribution.push(pair);
+        }
+
+        let commitment_tree = setup_commitment(distribution.clone());
+
+        let amount = distribution.get(0).unwrap().amount;
+        let secret = distribution.get(0).unwrap().secret;
+        let index = 0;
+
+        let claim = Claim {
+            pair: AmountSecretPairing {
+                amount: GoldilocksField::from_canonical_u64(amount.to_canonical_u64()),
+                secret: GoldilocksField::from_canonical_u64(secret.to_canonical_u64()),
+            },
+            commitment: commitment_tree.get_root(),
+            commitment_merkle_proof: commitment_tree.get_siblings(index),
+            index,
+        };
+    
+        // Execute claim to get the PIs
+        let claim_proving_inputs = get_claim_proving_inputs(claim);
+    
+        // Create claim circuit and set the PIs
+        let mut builder = CircuitBuilder::<F, D>::new(STANDARD_CONFIG);
+        let mut pw = PartialWitness::<GoldilocksField>::new();
+    
+        let claim_targets = generate_claim_circuit(&mut builder, commitment_tree.depth);
+        set_claim_circuit(claim_targets, claim_proving_inputs, &mut pw);
+    
+        // Build circuit from data and prove
+        builder.print_gate_counts(0);
+        let mut timing = TimingTree::new("prove", Level::Debug);
+        let data = builder.build::<C>();
+        let CircuitData { prover_only, common, verifier_only } = &data;
+        let pw = to_any(&pw);
+        let pw = pw.downcast_ref::<PartialWitness<F>>().unwrap();
+        let proof_res = prove(&prover_only, &common, pw.clone(), &mut timing);
+    
+        let proof = proof_res.expect("Proof failed");
+        // Verify proof
+        let proof_verification_res = data.verify(proof.clone());
+    
+
 
         let bn_128_proof = bn128_proof::<GoldilocksField, Cbn128, C, D>(
-            &decoded.proof_with_pis, 
-            &decoded.verifier_only_data, 
-            &decoded.common_circuit_data, 
+            &proof, 
+            &verifier_only, 
+            &common, 
             &HIGH_RATE_CONFIG, 
             None, true
         );
     }
 }
-
-
-
-
 
