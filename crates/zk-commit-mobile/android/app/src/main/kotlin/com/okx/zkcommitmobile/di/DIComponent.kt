@@ -53,7 +53,8 @@ class DIComponentImpl(context: Context) : DIComponent {
     override val json by lazy { Json { ignoreUnknownKeys = true } }
     override val retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("https://www.example.com/")
+//            .baseUrl("https://www.example.com/")
+            .baseUrl("http://10.20.88.157:8080/")
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()

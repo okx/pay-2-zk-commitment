@@ -143,7 +143,6 @@ class DepositViewModel(
                 val request = Request("eth_sendTransaction", params)
                 val sentRequestResult =
                     request(request) as? SentRequestResult.WalletConnect ?: return@launch
-                // TODO: Check sessionRequestResponse
                 walletConnectManager.sessionRequestResponse.first {
                     it.result.id == sentRequestResult.requestId &&
                         it.topic == sentRequestResult.sessionTopic &&
