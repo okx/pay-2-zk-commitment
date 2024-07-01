@@ -1,8 +1,12 @@
+use std::str::FromStr;
+
 use alloy::{
     primitives::{Address, FixedBytes, U256},
     sol,
     sol_types::SolCall,
 };
+
+use crate::groth16::Groth16ProofWithPublicData;
 
 sol!(
     #[allow(missing_docs)]
@@ -18,13 +22,9 @@ sol!(
     "static/abis/PayCommitment.json"
 );
 
-use crate::groth16::Groth16ProofWithPublicData;
-
-use std::str::FromStr;
-
 const PUB_LENGTH: usize = 13;
 
-pub struct Blockchain {}
+pub struct Blockchain;
 
 impl Blockchain {
     // get token approval contract call data; to be signed by mobile wallet
@@ -84,7 +84,6 @@ impl Blockchain {
 
 #[cfg(test)]
 mod test {
-
     use super::*;
 
     #[test]

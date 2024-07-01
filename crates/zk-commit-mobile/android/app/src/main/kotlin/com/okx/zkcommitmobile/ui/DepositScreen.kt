@@ -15,6 +15,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.LinkOff
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Wallet
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -63,7 +64,8 @@ fun DepositScreen(
     modifier: Modifier = Modifier,
     disconnect: () -> Unit = {},
     onCreateDeposit: () -> Unit = {},
-    onClaim: (deposit: Deposit) -> Unit = {}
+    onClaim: (deposit: Deposit) -> Unit = {},
+    onNavigateToSettings: () -> Unit = {}
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(Unit) { messages.collect { message -> snackbarHostState.showSnackbar(message) } }
@@ -83,7 +85,8 @@ fun DepositScreen(
                         showBottomSheet = { showBottomSheet = true },
                         showSnackbar = { message ->
                             coroutineScope.launch { snackbarHostState.showSnackbar(message) }
-                        }
+                        },
+                        onNavigateToSettings = onNavigateToSettings
                     )
                 },
                 scrollBehavior = scrollBehavior
@@ -133,7 +136,8 @@ private fun ActionsContent(
     state: GetAccountState,
     disconnect: () -> Unit = {},
     showBottomSheet: () -> Unit = {},
-    showSnackbar: (message: String) -> Unit = {}
+    showSnackbar: (message: String) -> Unit = {},
+    onNavigateToSettings: () -> Unit = {}
 ) {
     AnimatedContent(state, label = "getAccountState") { getAccountState ->
         when (getAccountState) {
@@ -150,10 +154,18 @@ private fun ActionsContent(
                         }) {
                             Icon(Icons.Default.Wallet, contentDescription = null)
                         }
+                        IconButton(onClick = onNavigateToSettings) {
+                            Icon(Icons.Default.Settings, contentDescription = null)
+                        }
                     }
                 } else {
-                    IconButton(onClick = showBottomSheet) {
-                        Icon(Icons.Default.Link, contentDescription = null)
+                    Row {
+                        IconButton(onClick = showBottomSheet) {
+                            Icon(Icons.Default.Link, contentDescription = null)
+                        }
+                        IconButton(onClick = onNavigateToSettings) {
+                            Icon(Icons.Default.Settings, contentDescription = null)
+                        }
                     }
                 }
             }

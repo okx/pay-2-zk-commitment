@@ -13,6 +13,7 @@ uniffi = { version = "0.28.0", features = ["cli"] }
 thiserror = { workspace = true }
 zk-commit-core = { path = "../zk-commit-core" }
 plonky2 = { workspace = true }
+serde_json = { workspace = true }
 
 [lib]
 crate-type = ["cdylib"]
