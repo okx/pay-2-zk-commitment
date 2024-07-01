@@ -25,7 +25,7 @@ pub fn generate_proof_of_claim(
     commitment_tree: &CommitmentTree,
     path: &str,
 ) -> Result<(), ZkCommitmentMobileError> {
-    match core_generate_proof_of_claim(
+    let _result = core_generate_proof_of_claim(
         F::from_canonical_u64(amount),
         F::from_canonical_u64(secret),
         index as usize,
