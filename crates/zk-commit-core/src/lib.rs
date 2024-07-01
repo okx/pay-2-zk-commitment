@@ -1,5 +1,3 @@
-#![feature(generic_const_exprs)]
-
 pub mod blockchain;
 pub mod circuits;
 pub mod claim_execution;
@@ -11,4 +9,3 @@ pub mod prover;
 pub mod types;
 pub mod utils;
 pub mod verifier;
-pub mod recursive;

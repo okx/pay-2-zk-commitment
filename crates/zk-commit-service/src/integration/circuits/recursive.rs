@@ -1,10 +1,37 @@
-use log::Level;
 use anyhow::Result;
-use plonky2::{field::extension::Extendable, gates::noop::NoopGate, hash::hash_types::RichField, iop::witness::{PartialWitness, WitnessWrite}, plonk::{circuit_builder::CircuitBuilder, circuit_data::{CircuitConfig, CommonCircuitData, VerifierCircuitTarget, VerifierOnlyCircuitData}, config::{AlgebraicHasher, GenericConfig, GenericHashOut}, proof::{ProofWithPublicInputs, ProofWithPublicInputsTarget}, prover::prove}};
-use plonky2::util::timing::TimingTree;
-use plonky2::plonk::config::Hasher;
+use log::Level;
+use plonky2::{
+    field::extension::Extendable,
+    gates::noop::NoopGate,
+    hash::hash_types::RichField,
+    iop::witness::{PartialWitness, WitnessWrite},
+    plonk::{
+        circuit_builder::CircuitBuilder,
+        circuit_data::{
+            CircuitConfig, CircuitData, CommonCircuitData, VerifierCircuitTarget,
+            VerifierOnlyCircuitData,
+        },
+        config::{AlgebraicHasher, GenericConfig, Hasher},
+        proof::{ProofWithPublicInputs, ProofWithPublicInputsTarget},
+        prover::prove,
+    },
+    util::timing::TimingTree,
+};
+use zk_commit_core::circuits::claim_circuit::generate_claim_circuit;
 
+use crate::types::{C, D, F};
 
+use super::circuit_config::STANDARD_CONFIG;
+
+/// Gets the circuit data of the mobile proving circuit for the claimant
+pub fn get_circuit_data(merkle_tree_depth: usize) -> CircuitData<F, C, D> {
+    let mut builder: CircuitBuilder<F, D> = CircuitBuilder::new(STANDARD_CONFIG);
+    let _claim_targets = generate_claim_circuit(&mut builder, merkle_tree_depth);
+    let data = builder.build::<C>();
+    data
+}
+
+/// A plonky2 proof in the bn128 field.
 pub fn bn128_proof<
     F: RichField + Extendable<D>,
     C: GenericConfig<D, F = F>,
@@ -45,9 +72,9 @@ where
 
     builder.verify_proof::<InnerC>(&pt, &inner_data, &inner_cd);
 
-    // if print_gate_counts {
-    //     builder.print_gate_counts(0);
-    // }
+    if print_gate_counts {
+        builder.print_gate_counts(0);
+    }
 
     if let Some(min_degree_bits) = min_degree_bits {
         // We don't want to pad all the way up to 2^min_degree_bits, as the builder will add a
@@ -76,15 +103,40 @@ where
 mod test {
 
     use std::{fs::File, io::Read};
-    
-    use plonky2::field::goldilocks_field::GoldilocksField;
 
-    use crate::{service::biz::MobileProofData, types::{Cbn128, C, D, F, HIGH_RATE_CONFIG, STANDARD_CONFIG}};
+    use plonky2::{field::goldilocks_field::GoldilocksField, plonk::circuit_data::CircuitData};
+    use zk_commit_core::{
+        prover::{generate_proof_of_claim, setup_commitment, MobileProofData},
+        utils::AmountSecretPairing,
+    };
+
+    use crate::{
+        integration::circuits::{circuit_config::HIGH_RATE_CONFIG, recursive::get_circuit_data},
+        types::{Cbn128, C, D, F},
+    };
+    use plonky2::field::types::Field;
 
     use super::bn128_proof;
 
     #[test]
     fn test_bn128_proof() {
+        let mut distribution = Vec::new();
+
+        for i in 0..32 {
+            let pair = AmountSecretPairing { amount: F::ONE, secret: F::from_canonical_u64(i) };
+
+            distribution.push(pair);
+        }
+
+        let commitment_tree = setup_commitment(distribution.clone());
+
+        let _ = generate_proof_of_claim(
+            distribution.get(0).unwrap().amount,
+            distribution.get(0).unwrap().secret,
+            0,
+            commitment_tree,
+            "test.bin",
+        );
 
         let mut file = File::open("test.bin").expect("Cannot read file");
         let mut buffer = Vec::new();
@@ -93,19 +145,18 @@ mod test {
         // Deserialize the binary data to a struct
         let decoded: MobileProofData = bincode::deserialize(&buffer).unwrap();
 
-        println!("decoded common: {:?}", decoded.common_circuit_data);
+        let data = get_circuit_data(decoded.merkle_depth);
+        let CircuitData { prover_only: _, common, verifier_only } = &data;
 
-        let bn_128_proof = bn128_proof::<GoldilocksField, Cbn128, C, D>(
-            &decoded.proof_with_pis, 
-            &decoded.verifier_only_data, 
-            &decoded.common_circuit_data, 
-            &HIGH_RATE_CONFIG, 
-            None, true
+        println!("decoded proof: {:?}", decoded.proof_with_pis);
+
+        let _ = bn128_proof::<GoldilocksField, Cbn128, C, D>(
+            &decoded.proof_with_pis,
+            verifier_only,
+            common,
+            &HIGH_RATE_CONFIG,
+            None,
+            true,
         );
     }
 }
-
-
-
-
-

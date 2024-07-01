@@ -17,6 +17,5 @@ impl GenericConfig<D> for PoseidonBN128GoldilocksConfig {
     type InnerHasher = PoseidonBN128Hash;
 }
 
-pub type Cbn128 = PoseidonBN128GoldilocksConfig;
 pub type C = PoseidonGoldilocksConfig;
 pub type F = <C as GenericConfig<D>>::F;

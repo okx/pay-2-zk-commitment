@@ -7,9 +7,7 @@ use plonky2::{
     iop::witness::PartialWitness,
     plonk::{
         circuit_builder::CircuitBuilder,
-        circuit_data::{
-            CircuitData, CommonCircuitData, VerifierOnlyCircuitData
-        },
+        circuit_data::CircuitData,
         proof::ProofWithPublicInputs,
         prover::prove,
     },
@@ -29,8 +27,7 @@ use crate::{
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MobileProofData{
     pub proof_with_pis: ProofWithPublicInputs<F, C, D>,
-    pub verifier_only_data: VerifierOnlyCircuitData<C, D>,
-    pub common_circuit_data: CommonCircuitData<F, D>
+    pub merkle_depth: usize
 }
 
 /// Given a distribution, builds the commitment tree and returns the commitment tree.
@@ -95,12 +92,11 @@ pub fn generate_proof_of_claim(
     }
 
     let write_res = write_to_file(path, MobileProofData{
-        proof_with_pis: proof,
-        verifier_only_data: verifier_only.clone(),
-        common_circuit_data: common.clone()
+        proof_with_pis: proof.clone(),
+        merkle_depth: commitment_tree.depth
     });
 
-    println!("Common:{:?}", common);
+    println!("Proof:{:?}", proof);
 
     if write_res.is_err(){
         return Err(anyhow!("Unable to write to file"));
@@ -130,9 +126,8 @@ mod test {
 
     use std::{fs::File, io::Read};
 
-    use crate::{circuits::circuit_config::D, prover::{generate_proof_of_claim, MobileProofData}, types::{C, F}, utils::AmountSecretPairing};
-    use bincode::de;
-    use plonky2::{field::types::Field, plonk::proof::ProofWithPublicInputs};
+    use crate::{ prover::{generate_proof_of_claim, MobileProofData}, types::F, utils::AmountSecretPairing};
+    use plonky2::field::types::Field;
 
     use super::setup_commitment;
 
@@ -140,7 +135,7 @@ mod test {
     fn test_generate_proof_of_claim() {
         let mut distribution = Vec::new();
 
-        for i in 0..8{
+        for i in 0..32{
             let pair = AmountSecretPairing{
                 amount: F::ONE,
                 secret: F::from_canonical_u64(i)
@@ -168,6 +163,6 @@ mod test {
         file.read_to_end(&mut buffer).expect("Cannot read file");
 
         // Deserialize the binary data to a struct
-        let decoded: MobileProofData = bincode::deserialize(&buffer).unwrap();
+        let _decoded: MobileProofData = bincode::deserialize(&buffer).unwrap();
     }
 }

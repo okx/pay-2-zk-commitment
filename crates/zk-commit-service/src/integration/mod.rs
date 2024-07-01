@@ -1,2 +1,2 @@
+pub mod circuits;
 pub mod rapidsnark;
-pub mod recursive;
