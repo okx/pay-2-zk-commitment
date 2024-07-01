@@ -48,7 +48,8 @@ fun DepositApp(modifier: Modifier = Modifier) {
                 getAccountState = viewModel.getAccountState,
                 disconnect = viewModel::disconnect,
                 onCreateDeposit = { navController.navigate(CreateDepositScreen) },
-                onClaim = { navController.navigate(ClaimListScreen(id = it.id)) }
+                onClaim = { navController.navigate(ClaimListScreen(id = it.id)) },
+                onNavigateToSettings = { navController.navigate(SettingsScreen) }
             )
         }
 
@@ -91,6 +92,10 @@ fun DepositApp(modifier: Modifier = Modifier) {
                     )
                 }
             )
+        }
+
+        composable<SettingsScreen> {
+            SettingsScreen(onNavigateUp = { navController.navigateUp() })
         }
     }
 }

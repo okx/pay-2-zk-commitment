@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package com.okx.zkcommitmobile.di
 
 import android.content.Context
@@ -8,12 +6,12 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.okx.zkcommitmobile.DepositViewModel
 import com.okx.zkcommitmobile.WalletConnectManager
+import com.okx.zkcommitmobile.data.DEFAULT_BASE_URL
 import com.okx.zkcommitmobile.network.ZkCommitService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -54,7 +52,7 @@ class DIComponentImpl(context: Context) : DIComponent {
     override val retrofit by lazy {
         Retrofit.Builder()
 //            .baseUrl("https://www.example.com/")
-            .baseUrl("http://10.20.88.157:8080/")
+            .baseUrl(DEFAULT_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
