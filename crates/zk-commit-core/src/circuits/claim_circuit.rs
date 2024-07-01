@@ -98,6 +98,8 @@ pub fn set_claim_circuit(
 
 #[cfg(test)]
 mod test {
+    use plonky2::field::types::Field;
+
     use crate::{
         circuits::circuit_utils::run_circuit_test,
         claim_execution::{get_claim_proving_inputs, Claim},
@@ -105,7 +107,6 @@ mod test {
         types::F,
         utils::AmountSecretPairing,
     };
-    use plonky2::field::types::Field;
 
     use super::{generate_claim_circuit, set_claim_circuit};
 

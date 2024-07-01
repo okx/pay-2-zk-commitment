@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.secrets)
 }
 
 android {
@@ -40,6 +41,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     packaging {
         resources {
@@ -73,7 +75,6 @@ dependencies {
     implementation(platform(libs.walletconnect.bom))
     implementation(libs.walletconnect.core)
     implementation(libs.walletconnect.web3modal)
-    implementation(libs.wcmobilesdk)
 
     implementation(libs.material.motion.compose.core)
 
@@ -91,4 +92,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+secrets {
+    defaultPropertiesFileName = "secrets.defaults.properties"
 }

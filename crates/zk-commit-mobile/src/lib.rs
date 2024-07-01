@@ -1,4 +1,8 @@
-use std::time::{Duration, Instant};
+use std::{
+    io,
+    time::{Duration, Instant},
+};
+use uniffi::deps::anyhow::Error;
 
 use zk_commit_core::examples::fibonacci::fibonacci as core_fibonacci;
 
@@ -10,10 +14,22 @@ uniffi::setup_scaffolding!();
 
 #[derive(uniffi::Error, Debug, thiserror::Error)]
 pub enum ZkCommitmentMobileError {
-    #[error("Failed to execute Fibonacci Proof")]
-    FibonacciError,
-    #[error("Failed to generate proof of claim")]
-    GenerateProofOfClaimError,
+    #[error("Io: {0}")]
+    Io(String),
+    #[error("Anyhow: {0}")]
+    Anyhow(String),
+}
+
+impl From<io::Error> for ZkCommitmentMobileError {
+    fn from(value: io::Error) -> Self {
+        ZkCommitmentMobileError::Io(value.to_string())
+    }
+}
+
+impl From<Error> for ZkCommitmentMobileError {
+    fn from(value: Error) -> Self {
+        ZkCommitmentMobileError::Anyhow(value.to_string())
+    }
 }
 
 #[derive(uniffi::Record)]
@@ -27,15 +43,13 @@ pub struct ProofResult {
 #[uniffi::export]
 pub fn fibonacci() -> Result<ProofResult, ZkCommitmentMobileError> {
     let start = Instant::now();
-    match core_fibonacci() {
-        Ok(result) => Ok(ProofResult {
-            first_input: result.input.0 .0,
-            second_input: result.input.1 .0,
-            output: result.output.0,
-            duration: start.elapsed(),
-        }),
-        Err(_) => Err(ZkCommitmentMobileError::FibonacciError),
-    }
+    let result = core_fibonacci()?;
+    Ok(ProofResult {
+        first_input: result.input.0 .0,
+        second_input: result.input.1 .0,
+        output: result.output.0,
+        duration: start.elapsed(),
+    })
 }
 
 #[uniffi::export]

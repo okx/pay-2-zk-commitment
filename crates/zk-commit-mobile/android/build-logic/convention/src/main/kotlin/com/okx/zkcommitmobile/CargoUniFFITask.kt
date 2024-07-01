@@ -31,11 +31,16 @@ internal abstract class CargoUniFFITask @Inject constructor(
     @get:OutputDirectory
     abstract val generatedSourcesDir: DirectoryProperty
 
+    init {
+        outputs.upToDateWhen { false }
+    }
+
     @TaskAction
     fun buildUniFFI() {
         fs.delete { delete(jniLibsDir, generatedSourcesDir) }
         exec.exec {
             workingDir(rustCrateDir)
+            environment("RUST_BACKTRACE", "1")
             val cargoNdkBuild = buildList {
                 add("cargo")
                 add("ndk")
@@ -44,6 +49,9 @@ internal abstract class CargoUniFFITask @Inject constructor(
                 for (target in Target.values()) {
                     add("-t")
                     add(target.android)
+                }
+                if (!release.get()) {
+                    add("--no-strip")
                 }
                 add("build")
                 if (release.get()) {
