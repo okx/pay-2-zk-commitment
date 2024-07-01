@@ -78,7 +78,7 @@ class DIComponentImpl(context: Context) : DIComponent {
             ioDispatcher = ioDispatcher
         )
     }
-    override val zkCommitService by lazy { retrofit.create<ZkCommitService>() }
+    override val zkCommitService: ZkCommitService by lazy { retrofit.create<ZkCommitService>() }
     override val preferences by lazy { applicationContext.preferences }
 
     override val defaultDispatcher get() = Dispatchers.Default

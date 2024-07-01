@@ -40,7 +40,7 @@ internal abstract class CargoUniFFITask @Inject constructor(
         fs.delete { delete(jniLibsDir, generatedSourcesDir) }
         exec.exec {
             workingDir(rustCrateDir)
-            environment("RUST_BACKTRACE", "1")
+            environment("RUSTFLAGS", "-C target-feature=+neon")
             val cargoNdkBuild = buildList {
                 add("cargo")
                 add("ndk")
@@ -58,6 +58,7 @@ internal abstract class CargoUniFFITask @Inject constructor(
                     add("--release")
                 }
             }
+            println("Running: ${cargoNdkBuild.joinToString(" ")}")
             commandLine(cargoNdkBuild)
         }
         exec.exec {
