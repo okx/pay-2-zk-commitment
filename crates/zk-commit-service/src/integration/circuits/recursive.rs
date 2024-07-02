@@ -135,10 +135,10 @@ mod test {
             distribution.get(0).unwrap().secret,
             0,
             commitment_tree,
-            "test.bin",
+            "tmp/test.bin",
         );
 
-        let mut file = File::open("test.bin").expect("Cannot read file");
+        let mut file = File::open("tmp/test.bin").expect("Cannot read file");
         let mut buffer = Vec::new();
         file.read_to_end(&mut buffer).expect("Cannot read file");
 
@@ -147,8 +147,6 @@ mod test {
 
         let data = get_circuit_data(decoded.merkle_depth);
         let CircuitData { prover_only: _, common, verifier_only } = &data;
-
-        println!("decoded proof: {:?}", decoded.proof_with_pis);
 
         let _ = bn128_proof::<GoldilocksField, Cbn128, C, D>(
             &decoded.proof_with_pis,

@@ -17,3 +17,5 @@ plonky2/
 **/zk-commit-circom/scripts/*.r1cs
 **/zk-commit-circom/scripts/*.wtns
 **/zk-commit-circom/scripts/*.sol
+**/zk-commit-core/tmp/*.bin
+**/zk-commit-service/tmp/*.bin

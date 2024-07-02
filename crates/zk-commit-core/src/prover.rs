@@ -11,7 +11,7 @@ use plonky2::{
         proof::ProofWithPublicInputs,
         prover::prove,
     },
-    util::timing::TimingTree,
+    util::{serialization::IoError, timing::TimingTree},
 };
 use plonky2_field::goldilocks_field::GoldilocksField;
 use plonky2_field::types::PrimeField64;
@@ -23,6 +23,22 @@ use crate::{
         claim_circuit::{generate_claim_circuit, set_claim_circuit},
     }, claim_execution::{get_claim_proving_inputs, Claim}, commitment_tree::CommitmentTree, types::{C, F}, utils::AmountSecretPairing
 };
+use thiserror::Error;
+
+#[derive(Debug, Error)]
+pub enum ProofError {
+    #[error("Proof is not valid")]
+    InvalidProof,
+
+    #[error("Unable to read file")]
+    FileReadError,
+    
+    #[error("IO error occurred: {0}")]
+    Io(#[from] std::io::Error),
+    
+    #[error("Unknown error")]
+    Unknown,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MobileProofData{
@@ -44,7 +60,7 @@ pub fn generate_proof_of_claim(
     index: usize,
     commitment_tree: CommitmentTree,
     path: &str,
-) -> Result<()>
+) -> Result<(), ProofError>
 {
     // Create claim from inputs
     let claim = Claim {
@@ -71,14 +87,14 @@ pub fn generate_proof_of_claim(
     builder.print_gate_counts(0);
     let mut timing = TimingTree::new("prove", Level::Debug);
     let data = builder.build::<C>();
-    let CircuitData { prover_only, common, verifier_only } = &data;
+    let CircuitData { prover_only, common, verifier_only:_ } = &data;
     let pw = to_any(&pw);
     let pw = pw.downcast_ref::<PartialWitness<F>>().unwrap();
     let proof_res = prove(&prover_only, &common, pw.clone(), &mut timing);
 
     // If proof failed then return error
     if proof_res.is_err() {
-        return Err(anyhow!("Proof failed"));
+        return Err(ProofError::InvalidProof);
     }
 
     let proof = proof_res.expect("Proof failed");
@@ -88,7 +104,7 @@ pub fn generate_proof_of_claim(
 
     // If proof verification failed then return error
     if proof_verification_res.is_err() {
-        return Err(anyhow!("Proof verification failed"));
+        return Err(ProofError::InvalidProof);
     }
 
     let write_res = write_to_file(path, MobileProofData{
@@ -96,10 +112,8 @@ pub fn generate_proof_of_claim(
         merkle_depth: commitment_tree.depth
     });
 
-    println!("Proof:{:?}", proof);
-
     if write_res.is_err(){
-        return Err(anyhow!("Unable to write to file"));
+        return Err(ProofError::FileReadError);
     }
 
     return Result::Ok(());
@@ -107,12 +121,11 @@ pub fn generate_proof_of_claim(
 
 /// Writes the proof of a claim to a specified path as a binary file
 pub fn write_to_file(path: &str, proof: MobileProofData) -> std::io::Result<()> {
-    // Serialize the struct to a binary format
-    let encoded: Vec<u8> = bincode::serialize(&proof).unwrap();
-
     // Write the binary data to a file
-    let mut file = File::create(path).expect("File create error");
-    file.write_all(&encoded).expect("Error writing to file");
+    let file = File::create(path).expect("File create error");
+
+    // Serialize the struct to a binary format
+    let _ = bincode::serialize_into(&file,&proof).expect("File write error");
 
     Ok(())
 }
@@ -135,7 +148,7 @@ mod test {
     fn test_generate_proof_of_claim() {
         let mut distribution = Vec::new();
 
-        for i in 0..32{
+        for i in 0..64{
             let pair = AmountSecretPairing{
                 amount: F::ONE,
                 secret: F::from_canonical_u64(i)
@@ -151,18 +164,14 @@ mod test {
             distribution.get(0).unwrap().secret,
             0,
             commitment_tree,
-            "test.bin",
+            "tmp/test.bin",
         );
-
-    
 
         assert!(claim_proof.is_ok());
 
-        let mut file = File::open("test.bin").expect("Cannot read file");
-        let mut buffer = Vec::new();
-        file.read_to_end(&mut buffer).expect("Cannot read file");
+        let file = File::open("tmp/test.bin").expect("Cannot read file");
 
         // Deserialize the binary data to a struct
-        let _decoded: MobileProofData = bincode::deserialize(&buffer).unwrap();
+        let _decoded: MobileProofData = bincode::deserialize_from(&file).expect("File read error");
     }
 }

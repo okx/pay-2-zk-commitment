@@ -1,4 +1,4 @@
-use std::{fs::File, io::Read};
+use std::{env, fs::File, io::Read};
 
 use crate::{
     integration::{circuits::{circuit_config::HIGH_RATE_CONFIG, recursive::{bn128_proof, get_circuit_data}}, rapidsnark::RapidSnark}, types::{Cbn128, C, D}, AppState
@@ -18,6 +18,11 @@ pub(crate) fn wrap_groth16(
     _app_state: Data<AppState>,
 ) -> Result<Groth16ProofWithPublicData, ServiceError> {
     println!("receive  wrap_groth16 request with file");
+
+    match env::current_dir() {
+        Ok(path) => log::info!("Current directory: {}", path.display()),
+        Err(e) => log::info!("Error getting current directory: {}", e),
+    }
 
     let path = format!("./tmp/{}", proof_file.file_name.unwrap());
     log::info!("saving to {path}");
@@ -45,7 +50,7 @@ pub(crate) fn wrap_groth16(
 
     let proof_with_pis_json_string = serde_json::to_string(&bn128_proof.0).unwrap();
 
-    let rapidsnark = RapidSnark::new("http://localhost:3000");
+    let rapidsnark = RapidSnark::new("http://127.0.0.1:3000");
     let rapidsnark_proof = rapidsnark.request_proof_sync(proof_with_pis_json_string);
     let pwi: Groth16ProofWithPublicData = rapidsnark_proof.into();
 
