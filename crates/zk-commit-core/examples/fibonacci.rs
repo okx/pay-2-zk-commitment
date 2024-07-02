@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use zk_commit_core::fibonacci::fibonacci;
+use zk_commit_core::examples::fibonacci::fibonacci;
 
 fn main() -> Result<()> {
     let result = fibonacci()?;

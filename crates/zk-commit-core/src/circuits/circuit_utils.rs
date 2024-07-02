@@ -15,7 +15,7 @@ use plonky2::{
 };
 
 use crate::{
-    circuit_config::{D, STANDARD_CONFIG},
+    circuits::circuit_config::{D, STANDARD_CONFIG},
     types::{C, F},
 };
 use log::Level;

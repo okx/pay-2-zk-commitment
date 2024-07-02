@@ -4,7 +4,7 @@ use std::{
 };
 use uniffi::deps::anyhow::Error;
 
-use zk_commit_core::fibonacci::fibonacci as core_fibonacci;
+use zk_commit_core::{examples::fibonacci::fibonacci as core_fibonacci, prover::ProofError};
 
 pub mod commitment_tree;
 pub mod prover;
@@ -28,6 +28,12 @@ impl From<io::Error> for ZkCommitmentMobileError {
 
 impl From<Error> for ZkCommitmentMobileError {
     fn from(value: Error) -> Self {
+        ZkCommitmentMobileError::Anyhow(value.to_string())
+    }
+}
+
+impl From<ProofError> for ZkCommitmentMobileError {
+    fn from(value: ProofError) -> Self {
         ZkCommitmentMobileError::Anyhow(value.to_string())
     }
 }

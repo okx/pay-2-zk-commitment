@@ -58,7 +58,7 @@ pub fn hash_inputs<F: RichField>(inputs: Vec<F>) -> HashOut<F> {
 #[cfg(test)]
 mod test {
     use crate::{
-        circuit_config::D,
+        circuits::circuit_config::D,
         types::F,
         utils::{hash_2_subhashes, AmountSecretPairing},
     };

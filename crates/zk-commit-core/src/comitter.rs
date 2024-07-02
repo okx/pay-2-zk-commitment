@@ -1,5 +1,6 @@
 use crate::{claim_execution::Claim, commitment_tree::CommitmentTree, utils::AmountSecretPairing};
 
+/// A commitment to the distribution of tokens in the form of a commitment tree (merkle tree)
 #[derive(Debug, Clone)]
 pub struct Commitment {
     pub distribution: Vec<AmountSecretPairing>,

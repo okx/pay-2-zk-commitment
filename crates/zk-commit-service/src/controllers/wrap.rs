@@ -1,7 +1,7 @@
 use actix_multipart::form::{tempfile::TempFile, MultipartForm};
 use actix_web::{post, web, Responder};
 
-use crate::{error::ServiceError, service::biz, AppState};
+use crate::{error::ServiceError, service::groth16, AppState};
 
 #[derive(Debug, MultipartForm)]
 pub struct UploadForm {
@@ -16,7 +16,8 @@ pub async fn wrap_groth16(
     app_state: web::Data<AppState>,
 ) -> Result<impl Responder, ServiceError> {
     println!("receive wrap request");
-    let ret = biz::wrap_groth16(file, app_state);
+    let proof_file = file.file;
+    let ret = groth16::wrap_groth16(proof_file, app_state);
     match ret {
         Ok(r) => Ok(web::Json(r)),
         Err(e) => Err(e),

@@ -1,3 +1,5 @@
+#![feature(generic_const_exprs)]
+
 pub mod controllers;
 pub mod error;
 pub mod integration;

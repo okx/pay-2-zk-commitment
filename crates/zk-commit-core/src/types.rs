@@ -4,19 +4,18 @@ use plonky2::{
     plonk::config::{GenericConfig, PoseidonGoldilocksConfig},
 };
 
-use crate::circuit_config::D;
+use crate::circuits::circuit_config::D;
 
 /// Configuration using Poseidon over the Goldilocks field.
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub struct PoseidonBN128GoldilocksConfig;
 
-impl GenericConfig<2> for PoseidonBN128GoldilocksConfig {
+impl GenericConfig<D> for PoseidonBN128GoldilocksConfig {
     type F = GoldilocksField;
     type FE = QuadraticExtension<F>;
     type Hasher = PoseidonBN128Hash;
     type InnerHasher = PoseidonBN128Hash;
 }
 
-pub type Cbn128 = PoseidonBN128GoldilocksConfig;
 pub type C = PoseidonGoldilocksConfig;
 pub type F = <C as GenericConfig<D>>::F;

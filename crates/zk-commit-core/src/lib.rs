@@ -1,11 +1,9 @@
 pub mod blockchain;
-pub mod circuit_config;
-pub mod circuit_utils;
-pub mod claim_circuit;
+pub mod circuits;
 pub mod claim_execution;
 pub mod comitter;
 pub mod commitment_tree;
-pub mod fibonacci;
+pub mod examples;
 pub mod groth16;
 pub mod prover;
 pub mod types;

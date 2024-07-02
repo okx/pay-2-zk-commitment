@@ -9,6 +9,7 @@ pub struct ClaimProvingInputs {
     pub index: F,
 }
 
+/// A claim for a specific amount secret pair as a leaf of the merkle tree, contains the information needed for verifying the proof
 pub struct Claim {
     pub pair: AmountSecretPairing,
     pub commitment: HashOut<F>,

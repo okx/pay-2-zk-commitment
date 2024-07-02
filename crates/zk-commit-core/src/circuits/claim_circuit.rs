@@ -1,3 +1,10 @@
+use crate::{
+    circuits::circuit_utils::{
+        get_hash_from_input_targets_circuit, verify_hash, verify_merkle_proof_circuit,
+    },
+    claim_execution::ClaimProvingInputs,
+    types::F,
+};
 use plonky2::{
     field::extension::Extendable,
     hash::hash_types::{HashOutTarget, RichField},
@@ -6,14 +13,6 @@ use plonky2::{
         witness::{PartialWitness, WitnessWrite},
     },
     plonk::circuit_builder::CircuitBuilder,
-};
-
-use crate::{
-    circuit_utils::{
-        get_hash_from_input_targets_circuit, verify_hash, verify_merkle_proof_circuit,
-    },
-    claim_execution::ClaimProvingInputs,
-    types::F,
 };
 
 pub struct ClaimTargets {
@@ -76,7 +75,7 @@ pub fn generate_claim_circuit<F: RichField + Extendable<D>, const D: usize>(
 }
 
 /// Set the partial witness targets for the claim circuit. This includes the public inputs. For a claim, we set the amount, nullifier_hash and the commitment tree root as
-/// the public inputs and the secret,
+/// the public inputs and the secret, merkle proof siblings and index as the private inputs.
 pub fn set_claim_circuit(
     claim_targets: ClaimTargets,
     claim_proving_inputs: ClaimProvingInputs,
@@ -97,14 +96,12 @@ pub fn set_claim_circuit(
     }
 }
 
-pub struct ClaimProofResponse {}
-
 #[cfg(test)]
 mod test {
     use plonky2::field::types::Field;
 
     use crate::{
-        circuit_utils::run_circuit_test,
+        circuits::circuit_utils::run_circuit_test,
         claim_execution::{get_claim_proving_inputs, Claim},
         commitment_tree::CommitmentTree,
         types::F,
